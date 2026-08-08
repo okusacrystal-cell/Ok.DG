@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>Recipes &amp; Usage — Kienyeji Vegetables, Ready in Minutes | Dero Greens</title>
+<meta name="description" content="How to use Dero Greens' dried, pre-cooked Kenyan leafy vegetables — managu, terere, saga, mrenda and more — plus our signature kienyeji blends. Ready in minutes, no cooking experience required.">
+<link rel="stylesheet" href="_ds/classical-949ca446-5998-4163-a741-b6718b8fa03e/styles.css">
+<script src="_ds/classical-949ca446-5998-4163-a741-b6718b8fa03e/_ds_bundle.js"></script>
+<script src="./image-slot.js"></script>
+</helmet>
+<div style="background:var(--color-bg);color:var(--color-text);font-family:var(--font-body);min-height:100vh">
+
+  <header style="position:sticky;top:0;z-index:10;background:var(--color-bg)">
+    <nav class="nav">
+      <a href="index.dc.html" class="nav-brand" style="display:flex;align-items:center;gap:var(--space-2);text-decoration:none;color:inherit">
+        <img src="assets/dero-greens-logo.jpeg" alt="Dero Greens logo" style="height:38px;width:38px;object-fit:contain">
+        <span>Dero Greens</span>
+      </a>
+      <a href="index.dc.html">Home</a>
+      <a href="shop.dc.html">Shop</a>
+      <a href="distributors.dc.html">Distributors</a>
+      <a href="recipes-usage.dc.html" aria-current="page">Recipes &amp; Usage</a>
+      <a href="about.dc.html">About &amp; Trust</a>
+      <a href="about.dc.html#contact">Contact</a>
+      <a href="shop.dc.html" class="btn btn-primary">Shop the range</a>
+    </nav>
+  </header>
+
+  <section style="max-width:1180px;margin:0 auto;padding:var(--space-8) var(--space-6) var(--space-4)">
+    <span class="tag tag-outline">Recipes &amp; usage</span>
+    <h1 style="margin-top:var(--space-2)">Ready in minutes, however you serve it</h1>
+    <p style="max-width:60ch;opacity:0.85;font-size:15px">Every Dero Greens vegetable is pre-cooked before it's dried — kienyeji vegetables the traditional way, without the traditional prep time. Rehydrate, warm through, and it's ready: alongside ugali, rice, a stew, or folded into a stir-fry.</p>
+  </section>
+
+  <hr class="hr" style="max-width:1180px;margin:0 auto">
+
+  <section style="max-width:1180px;margin:0 auto;padding:var(--space-8) var(--space-6)">
+    <span class="tag tag-outline">The eight singles</span>
+    <h2 style="margin-top:var(--space-2)">One method, eight vegetables</h2>
+    <p style="max-width:60ch;opacity:0.85;font-size:15px">Managu, terere, saga, mrenda, kunde, malenge, kanzira and mitoo are each dried the same pre-cooked way, so they all prepare the same way too — no need for a different method for each.</p>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:var(--space-4);margin-top:var(--space-4)">
+      <sc-for list="{{ vegetables }}" as="veg" hint-placeholder-count="8">
+        <div class="card">
+          <span class="card-kicker">{{ veg.local }}</span>
+          <h4 class="card-title" style="font-size:16px">{{ veg.english }}</h4>
+        </div>
+      </sc-for>
+    </div>
+    <a href="shop.dc.html" class="btn btn-ghost" style="margin-top:var(--space-4)">Shop the singles →</a>
+  </section>
+
+  <section style="background:var(--color-surface);padding:var(--space-8) 0">
+    <div style="max-width:1180px;margin:0 auto;padding:0 var(--space-6)">
+      <span class="tag tag-outline">New to these vegetables?</span>
+      <h2 style="margin-top:var(--space-2)">Plated, not just dried</h2>
+      <p style="max-width:60ch;opacity:0.85;font-size:15px">If managu or terere aren't yet part of your kitchen, here's what they become — plant-based, nutrient-dense plates ready in minutes, no different from any other superfood green once cooked.</p>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:var(--space-4);margin-top:var(--space-4)">
+        <sc-for list="{{ platedDishes }}" as="dish" hint-placeholder-count="4">
+          <div>
+            <div class="plate" style="aspect-ratio:1;margin-bottom:var(--space-2)">
+              <image-slot id="{{ dish.slotId }}" placeholder="{{ dish.caption }}" style="width:100%;height:100%"></image-slot>
+            </div>
+            <p style="font-size:13px;opacity:0.75;margin:0">{{ dish.caption }}</p>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <section style="max-width:1180px;margin:0 auto;padding:var(--space-8) var(--space-6)">
+    <span class="tag tag-outline">Signature blends</span>
+    <h2 style="margin-top:var(--space-2)">Five ways to mix it up</h2>
+    <p style="max-width:60ch;opacity:0.85;font-size:15px">Beyond the eight singles, Dero Greens packs five signature blends — pre-mixed for variety and balance in every pack.</p>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:var(--space-4);margin-top:var(--space-4)">
+      <sc-for list="{{ blends }}" as="b" hint-placeholder-count="5">
+        <div class="card">
+          <span class="card-kicker">Signature blend</span>
+          <h4 class="card-title" style="font-size:16px">{{ b.name }}</h4>
+          <p class="card-body" style="font-size:13px">{{ b.composition }}</p>
+        </div>
+      </sc-for>
+    </div>
+    <p style="font-size:13px;font-family:monospace;opacity:0.6;border:1px dashed var(--color-divider);padding:var(--space-2);margin-top:var(--space-4);max-width:64ch">[Placeholder — dedicated usage ideas and photography for the five signature blends are still being finalized; the singles are covered above in the meantime]</p>
+    <a href="shop.dc.html" class="btn btn-ghost" style="margin-top:var(--space-3)">Shop the blends →</a>
+  </section>
+
+  <section style="max-width:1180px;margin:0 auto;padding:var(--space-8) var(--space-6);display:grid;grid-template-columns:1fr 1fr;gap:var(--space-6)">
+    <div class="card elev-sm" style="padding:var(--space-6)">
+      <span class="card-kicker">For your kitchen</span>
+      <h3 class="card-title" style="font-size:22px">Order for home</h3>
+      <p class="card-body" style="font-size:14px;opacity:0.85">Single vegetables and signature blends, shipped internationally via DHL Express.</p>
+      <a href="shop.dc.html" class="btn btn-ghost">Browse the shop →</a>
+    </div>
+    <div class="card elev-sm" style="padding:var(--space-6)">
+      <span class="card-kicker">For your business</span>
+      <h3 class="card-title" style="font-size:22px">Evaluating market fit</h3>
+      <p class="card-body" style="font-size:14px;opacity:0.85">See how these vegetables plate for wellness-focused buyers who don't yet know them by name.</p>
+      <a href="distributors.dc.html" class="btn btn-ghost">Distributor &amp; export info →</a>
+    </div>
+  </section>
+
+  <footer style="border-top:1px solid var(--color-divider);margin-top:var(--space-8)">
+    <div style="max-width:1180px;margin:0 auto;padding:var(--space-6) var(--space-6);display:flex;justify-content:space-between;flex-wrap:wrap;gap:var(--space-4);font-size:13px;opacity:0.7">
+      <span>© Dero Greens — Kito Kubuni, trading as Dero Greens. [Placeholder — exact legal wording pending]</span>
+      <div style="display:flex;gap:var(--space-4)">
+        <a href="mailto:derogreens@gmail.com">derogreens@gmail.com</a>
+        <a href="tel:+254704767017">+254 704 767 017</a>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    const vegetables = [
+      { local: "Managu", english: "African Nightshade" },
+      { local: "Terere", english: "Amaranth Leaves" },
+      { local: "Saga", english: "Spider Plant" },
+      { local: "Mrenda", english: "Jute Mallow" },
+      { local: "Kunde", english: "Cowpea Leaves" },
+      { local: "Malenge", english: "Pumpkin Leaves" },
+      { local: "Kanzira", english: "Ethiopian Kale" },
+      { local: "Mitoo", english: "Slenderleaf" }
+    ];
+    const platedDishes = [
+      { caption: "Managu, plated as a sautéed side", slotId: "recipe-plate-managu" },
+      { caption: "Terere with ugali", slotId: "recipe-plate-terere" },
+      { caption: "Mixed Kienyeji stir-fry bowl", slotId: "recipe-plate-kienyeji" },
+      { caption: "Malenge Spinach blend, plant-based plate", slotId: "recipe-plate-blend" }
+    ];
+    const blends = [
+      { name: "Malenge Spinach", composition: "Pumpkin leaves blended with spinach." },
+      { name: "Mitoo Mrenda", composition: "Slenderleaf blended with jute mallow." },
+      { name: "Malenge Mitoo", composition: "Pumpkin leaves blended with slenderleaf." },
+      { name: "Kunde Mrenda", composition: "Cowpea leaves blended with jute mallow." },
+      { name: "Mixed Kienyeji", composition: "Managu, terere, kanzira and spinach." }
+    ];
+    return { vegetables, platedDishes, blends };
+  }
+}
+
+</script>
+</body>
+</html>

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>Shop — Dero Greens | Dried Kenyan Leafy Vegetables</title>
+<meta name="description" content="Shop dried, pre-cooked kienyeji vegetables and signature blends from Dero Greens. Managu, terere, saga, mrenda and more, packed 60g to 5kg and shipped worldwide via DHL Express.">
+<link rel="stylesheet" href="_ds/classical-949ca446-5998-4163-a741-b6718b8fa03e/styles.css">
+<script src="_ds/classical-949ca446-5998-4163-a741-b6718b8fa03e/_ds_bundle.js"></script>
+<script src="./image-slot.js"></script>
+</helmet>
+<div style="background:var(--color-bg);color:var(--color-text);font-family:var(--font-body);min-height:100vh">
+
+  <header style="position:sticky;top:0;z-index:10;background:var(--color-bg)">
+    <nav class="nav">
+      <a href="index.dc.html" class="nav-brand" style="display:flex;align-items:center;gap:var(--space-2);text-decoration:none;color:inherit">
+        <img src="assets/dero-greens-logo.jpeg" alt="Dero Greens logo" style="height:38px;width:38px;object-fit:contain">
+        <span>Dero Greens</span>
+      </a>
+      <a href="index.dc.html">Home</a>
+      <a href="shop.dc.html" aria-current="page">Shop</a>
+      <a href="distributors.dc.html">Distributors</a>
+      <a href="recipes-usage.dc.html">Recipes &amp; Usage</a>
+      <a href="about.dc.html">About &amp; Trust</a>
+      <a href="about.dc.html#contact">Contact</a>
+      <button class="btn btn-secondary" onclick="{{ toggleCart }}" style="cursor:pointer">Cart ({{ cartCount }})</button>
+    </nav>
+  </header>
+
+  <section style="max-width:1180px;margin:0 auto;padding:var(--space-8) var(--space-6) var(--space-4)">
+    <span class="tag tag-outline">Shop</span>
+    <h1 style="margin-top:var(--space-2)">Order a taste of home</h1>
+    <p style="max-width:60ch;opacity:0.85;font-size:15px">Pre-cooked, dried traditional Kenyan leafy vegetables — single varieties or signature blends — packed retail-size and shipped internationally via DHL Express. Shipping cost and timing are calculated at checkout.</p>
+  </section>
+
+  <section style="max-width:1180px;margin:0 auto;padding:0 var(--space-6)">
+    <div class="seg" role="tablist" aria-label="Filter products">
+      <sc-for list="{{ filters }}" as="f" hint-placeholder-count="4">
+        <label class="seg-opt">
+          <input type="radio" name="filter" checked="{{ f.checked }}" onChange="{{ f.onSelect }}">
+          <span>{{ f.label }}</span>
+        </label>
+      </sc-for>
+    </div>
+  </section>
+
+  <section style="max-width:1180px;margin:0 auto;padding:var(--space-6)">
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:var(--space-4)">
+      <sc-for list="{{ visibleProducts }}" as="p" hint-placeholder-count="8">
+        <div class="card elev-sm">
+          <div class="plate" style="aspect-ratio:1;margin-bottom:var(--space-2)">
+            <image-slot id="{{ p.slotId }}" placeholder="{{ p.name }} — product shot" style="width:100%;height:100%"></image-slot>
+          </div>
+          <span class="card-kicker">{{ p.kicker }}</span>
+          <h4 class="card-title" style="font-size:16px">{{ p.name }}</h4>
+          <p class="card-body" style="font-size:12px">{{ p.sizes }}</p>
+          <button class="btn btn-primary btn-block" onclick="{{ p.addToCart }}" style="cursor:pointer">Add to cart</button>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <hr class="hr" style="max-width:1180px;margin:var(--space-6) auto">
+
+  <section style="max-width:1180px;margin:0 auto;padding:var(--space-6);display:grid;grid-template-columns:1fr 1fr;gap:var(--space-8)">
+    <div>
+      <h2 style="font-size:26px">Sizes &amp; packaging</h2>
+      <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:var(--space-3)">
+        <sc-for list="{{ sizes }}" as="s" hint-placeholder-count="6">
+          <span class="tag tag-neutral">{{ s }}</span>
+        </sc-for>
+      </div>
+      <p style="font-size:13px;opacity:0.7;margin-top:var(--space-3)">Bulk packs, vacuum packs, private labeling and custom packaging are available for larger orders — see <a href="distributors.dc.html">Distributors</a>.</p>
+    </div>
+    <div>
+      <h2 style="font-size:26px">Shipping &amp; delivery</h2>
+      <p style="font-size:14px;opacity:0.85">Orders ship via DHL Express. Cost and delivery time are calculated automatically at checkout based on your destination. Currently reaching customers in the Middle East (Dubai, Kuwait), the United States, and Europe (Spain, Sweden).</p>
+    </div>
+  </section>
+
+  <section style="background:var(--color-surface);padding:var(--space-8) 0">
+    <div style="max-width:1180px;margin:0 auto;padding:0 var(--space-6);display:grid;grid-template-columns:1fr 1fr;gap:var(--space-8);align-items:center">
+      <div>
+        <span class="tag tag-outline">Local delivery only</span>
+        <h2 style="margin-top:var(--space-2)">Frozen blocks</h2>
+        <p style="font-size:14px;opacity:0.85;max-width:48ch">Every vegetable and blend is also available as a 500g frozen block. These are for local Nairobi delivery or personal carry only — for example, travelers taking them home in their luggage. Frozen blocks are not part of international DHL shipping.</p>
+      </div>
+      <div class="plate" style="aspect-ratio:4/3">
+        <image-slot id="shop-frozen" placeholder="500g frozen block — product shot" style="width:100%;height:100%"></image-slot>
+      </div>
+    </div>
+  </section>
+
+  <section style="max-width:1180px;margin:0 auto;padding:var(--space-8) var(--space-6)">
+    <span class="tag tag-outline">New to kienyeji vegetables?</span>
+    <h2 style="margin-top:var(--space-2)">See how they're served</h2>
+    <p style="max-width:60ch;opacity:0.85;font-size:15px">Pre-cooked and dried, ready in minutes — see the full recipes &amp; usage guide for how each vegetable and blend comes together on a plate.</p>
+    <a href="recipes-usage.dc.html" class="btn btn-ghost" style="margin-top:var(--space-2)">Recipes &amp; usage guide →</a>
+  </section>
+
+  <sc-if value="{{ cartOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;inset:0;background:color-mix(in srgb, var(--color-neutral-900) 50%, transparent);display:flex;justify-content:flex-end;z-index:20">
+      <div style="width:min(360px,100%);height:100%;background:var(--color-bg);padding:var(--space-6);overflow-y:auto;box-shadow:var(--shadow-lg)">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <h3 style="margin:0">Your cart</h3>
+          <button class="btn btn-ghost" onclick="{{ toggleCart }}" style="cursor:pointer">Close</button>
+        </div>
+        <sc-if value="{{ hasItems }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:var(--space-2);margin-top:var(--space-4)">
+            <sc-for list="{{ cartLines }}" as="line" hint-placeholder-count="2">
+              <div style="display:flex;justify-content:space-between;font-size:14px;border-bottom:1px solid var(--color-divider);padding-bottom:var(--space-1)">
+                <span>{{ line.name }}</span>
+                <span>× {{ line.qty }}</span>
+              </div>
+            </sc-for>
+          </div>
+          <p style="font-size:12px;opacity:0.7;margin-top:var(--space-4)">Shipping cost is calculated at checkout based on destination and weight.</p>
+          <button class="btn btn-primary btn-block" disabled>Checkout — coming soon</button>
+        </sc-if>
+        <sc-if value="{{ hasNoItems }}" hint-placeholder-val="{{ true }}">
+          <p style="font-size:14px;opacity:0.7;margin-top:var(--space-4)">Your cart is empty. Add a vegetable or blend to get started.</p>
+        </sc-if>
+      </div>
+    </div>
+  </sc-if>
+
+  <footer style="border-top:1px solid var(--color-divider);margin-top:var(--space-8)">
+    <div style="max-width:1180px;margin:0 auto;padding:var(--space-6) var(--space-6);display:flex;justify-content:space-between;flex-wrap:wrap;gap:var(--space-4);font-size:13px;opacity:0.7">
+      <span>© Dero Greens — Kito Kubuni, trading as Dero Greens. [Placeholder — exact legal wording pending]</span>
+      <div style="display:flex;gap:var(--space-4)">
+        <a href="mailto:derogreens@gmail.com">derogreens@gmail.com</a>
+        <a href="tel:+254704767017">+254 704 767 017</a>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { filter: "all", cart: {}, cartOpen: false };
+
+  allProducts = [
+    { id: "managu", name: "Managu", kicker: "African Nightshade", type: "single", sizes: "60g · 100g · 250g · 500g · 1kg", slotId: "shop-managu" },
+    { id: "terere", name: "Terere", kicker: "Amaranth Leaves", type: "single", sizes: "60g · 100g · 250g · 500g · 1kg", slotId: "shop-terere" },
+    { id: "saga", name: "Saga", kicker: "Spider Plant", type: "single", sizes: "60g · 100g · 250g · 500g · 1kg", slotId: "shop-saga" },
+    { id: "mrenda", name: "Mrenda", kicker: "Jute Mallow", type: "single", sizes: "60g · 100g · 250g · 500g · 1kg", slotId: "shop-mrenda" },
+    { id: "kunde", name: "Kunde", kicker: "Cowpea Leaves", type: "single", sizes: "60g · 100g · 250g · 500g · 1kg", slotId: "shop-kunde" },
+    { id: "malenge", name: "Malenge", kicker: "Pumpkin Leaves", type: "single", sizes: "60g · 100g · 250g · 500g · 1kg", slotId: "shop-malenge" },
+    { id: "kanzira", name: "Kanzira", kicker: "Ethiopian Kale", type: "single", sizes: "60g · 100g · 250g · 500g · 1kg", slotId: "shop-kanzira" },
+    { id: "mitoo", name: "Mitoo", kicker: "Slenderleaf", type: "single", sizes: "60g · 100g · 250g · 500g · 1kg", slotId: "shop-mitoo" },
+    { id: "blend-malenge-spinach", name: "Malenge Spinach", kicker: "Signature blend", type: "blend", sizes: "100g · 250g · 500g", slotId: "shop-blend-1" },
+    { id: "blend-mitoo-mrenda", name: "Mitoo Mrenda", kicker: "Signature blend", type: "blend", sizes: "100g · 250g · 500g", slotId: "shop-blend-2" },
+    { id: "blend-malenge-mitoo", name: "Malenge Mitoo", kicker: "Signature blend", type: "blend", sizes: "100g · 250g · 500g", slotId: "shop-blend-3" },
+    { id: "blend-kunde-mrenda", name: "Kunde Mrenda", kicker: "Signature blend", type: "blend", sizes: "100g · 250g · 500g", slotId: "shop-blend-4" },
+    { id: "blend-mixed-kienyeji", name: "Mixed Kienyeji", kicker: "Managu, Terere, Kanzira, Spinach", type: "blend", sizes: "100g · 250g · 500g", slotId: "shop-blend-5" }
+  ];
+
+  setFilter(v) { this.setState({ filter: v }); }
+  addToCart(id) {
+    this.setState(s => ({ cart: { ...s.cart, [id]: (s.cart[id] || 0) + 1 } }));
+  }
+  toggleCart() { this.setState(s => ({ cartOpen: !s.cartOpen })); }
+
+  renderVals() {
+    const { filter, cart, cartOpen } = this.state;
+    const filterDefs = [
+      { key: "all", label: "All" },
+      { key: "single", label: "Single vegetables" },
+      { key: "blend", label: "Blends" }
+    ];
+    const filters = filterDefs.map(f => ({
+      label: f.label,
+      checked: filter === f.key,
+      onSelect: () => this.setFilter(f.key)
+    }));
+    const visibleProducts = this.allProducts
+      .filter(p => filter === "all" || p.type === filter)
+      .map(p => ({ ...p, addToCart: () => this.addToCart(p.id) }));
+    const cartCount = Object.values(cart).reduce((a, b) => a + b, 0);
+    const cartLines = Object.entries(cart).map(([id, qty]) => {
+      const prod = this.allProducts.find(p => p.id === id);
+      return { name: prod ? prod.name : id, qty };
+    });
+    return {
+      filters, visibleProducts, cartCount, cartOpen,
+      toggleCart: () => this.toggleCart(),
+      cartLines, hasItems: cartLines.length > 0, hasNoItems: cartLines.length === 0,
+      sizes: ["60g", "100g", "250g", "500g", "1kg", "5kg", "Bulk packs", "Vacuum packs"]
+    };
+  }
+}
+
+</script>
+</body>
+</html>
