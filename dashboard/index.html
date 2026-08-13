@@ -1,0 +1,2088 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DERO GREENS | CRM Dashboard</title>
+
+<!-- ============================================================
+     DERO GREENS — CRM DASHBOARD (Front-end only, dummy data)
+     Built with Bootstrap 5, Font Awesome, custom CSS & vanilla JS
+     ============================================================ -->
+
+<!-- Bootstrap 5 -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* =========================================================
+   1. DESIGN TOKENS
+   ========================================================= */
+:root{
+  --forest-950:#0e2b20;
+  --forest-900:#123b2b;
+  --forest-800:#1b4332;
+  --forest-700:#245a41;
+  --green-600:#2d6a4f;
+  --green-500:#40916c;
+  --green-400:#52b788;
+  --green-300:#74c69d;
+  --mint-100:#d8f3dc;
+  --mint-50:#f1faf3;
+  --earth-600:#8a5a34;
+  --earth-500:#a9744f;
+  --earth-400:#c08552;
+  --earth-300:#d9a06b;
+  --sand-100:#f3e3cf;
+  --cream:#fbf8f2;
+  --white:#ffffff;
+  --ink:#1e2b24;
+  --muted:#6b7a71;
+  --line:#e7e2d6;
+  --gold:#d4a373;
+  --danger:#d9534f;
+  --warning:#e0a339;
+  --info:#3f8fd1;
+  --radius-lg:20px;
+  --radius-md:14px;
+  --radius-sm:10px;
+  --shadow-soft:0 10px 30px -12px rgba(27,67,50,.15);
+  --shadow-card:0 4px 16px rgba(27,67,50,.08);
+  --sidebar-w:264px;
+  --sidebar-w-collapsed:82px;
+  --topbar-h:72px;
+}
+
+body.dark{
+  --cream:#0f1a15;
+  --white:#16241d;
+  --ink:#eef3ee;
+  --muted:#9bb0a3;
+  --line:#243830;
+  --mint-100:#1c3a2c;
+  --mint-50:#152a20;
+  --shadow-card:0 4px 18px rgba(0,0,0,.35);
+}
+
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Inter',sans-serif;
+  background:var(--cream);
+  color:var(--ink);
+  margin:0;
+  transition:background .35s ease, color .35s ease;
+  overflow-x:hidden;
+}
+h1,h2,h3,h4,h5,h6,.font-display{font-family:'Poppins',sans-serif;}
+a{text-decoration:none;}
+::-webkit-scrollbar{width:8px;height:8px;}
+::-webkit-scrollbar-thumb{background:var(--green-300);border-radius:10px;}
+::-webkit-scrollbar-track{background:transparent;}
+
+/* =========================================================
+   2. APP SHELL
+   ========================================================= */
+.app-wrapper{display:flex;min-height:100vh;}
+
+/* ---------- Sidebar ---------- */
+.sidebar{
+  width:var(--sidebar-w);
+  background:linear-gradient(190deg, var(--forest-900) 0%, var(--forest-800) 55%, var(--forest-700) 100%);
+  color:#eaf3ec;
+  position:fixed;
+  top:0;left:0;bottom:0;
+  z-index:1040;
+  display:flex;
+  flex-direction:column;
+  transition:width .3s ease, transform .3s ease;
+  box-shadow:4px 0 24px rgba(0,0,0,.12);
+}
+.sidebar.collapsed{width:var(--sidebar-w-collapsed);}
+.sidebar-brand{
+  display:flex;align-items:center;gap:12px;
+  padding:22px 20px;
+  border-bottom:1px solid rgba(255,255,255,.08);
+  min-height:var(--topbar-h);
+}
+.sidebar-brand .logo-mark{
+  width:42px;height:42px;border-radius:12px;
+  background:linear-gradient(135deg,var(--green-400),var(--gold));
+  display:flex;align-items:center;justify-content:center;
+  font-size:20px;color:var(--forest-900);flex:none;
+  box-shadow:0 4px 12px rgba(212,163,115,.4);
+}
+.sidebar-brand .brand-text{overflow:hidden;white-space:nowrap;}
+.sidebar-brand .brand-text .name{font-weight:800;font-size:1.05rem;letter-spacing:.5px;line-height:1.1;}
+.sidebar-brand .brand-text .tag{font-size:.72rem;color:var(--green-300);font-style:italic;}
+.sidebar.collapsed .brand-text{display:none;}
+
+.sidebar-nav{flex:1;overflow-y:auto;padding:14px 12px;}
+.sidebar-nav::-webkit-scrollbar{width:4px;}
+.nav-section-label{
+  font-size:.68rem;text-transform:uppercase;letter-spacing:1.2px;
+  color:rgba(234,243,236,.4);padding:14px 12px 6px;font-weight:600;
+}
+.sidebar.collapsed .nav-section-label{opacity:0;height:8px;padding:0;overflow:hidden;}
+
+.nav-item-btn{
+  display:flex;align-items:center;gap:13px;
+  padding:10.5px 14px;margin:2px 0;border-radius:11px;
+  color:rgba(234,243,236,.82);font-size:.89rem;font-weight:500;
+  cursor:pointer;position:relative;white-space:nowrap;
+  transition:background .2s ease, color .2s ease, transform .15s ease;
+}
+.nav-item-btn i{width:19px;text-align:center;font-size:.95rem;flex:none;}
+.nav-item-btn:hover{background:rgba(255,255,255,.08);color:#fff;transform:translateX(2px);}
+.nav-item-btn.active{
+  background:linear-gradient(90deg, rgba(82,183,136,.28), rgba(82,183,136,.06));
+  color:#fff;font-weight:600;
+  box-shadow:inset 3px 0 0 var(--green-300);
+}
+.sidebar.collapsed .nav-item-btn span{display:none;}
+.sidebar.collapsed .nav-item-btn{justify-content:center;}
+
+.sidebar-foot{padding:16px;border-top:1px solid rgba(255,255,255,.08);}
+.sidebar-collapse-btn{
+  width:100%;background:rgba(255,255,255,.06);border:none;color:#eaf3ec;
+  padding:9px;border-radius:10px;font-size:.8rem;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  transition:background .2s;
+}
+.sidebar-collapse-btn:hover{background:rgba(255,255,255,.14);}
+
+/* ---------- Main area ---------- */
+.main-wrapper{
+  margin-left:var(--sidebar-w);
+  flex:1;min-width:0;
+  transition:margin-left .3s ease;
+  display:flex;flex-direction:column;
+}
+.sidebar.collapsed ~ .main-wrapper{margin-left:var(--sidebar-w-collapsed);}
+
+/* ---------- Topbar ---------- */
+.topbar{
+  height:var(--topbar-h);
+  position:sticky;top:0;z-index:1030;
+  background:rgba(251,248,242,.85);
+  backdrop-filter:blur(14px) saturate(160%);
+  -webkit-backdrop-filter:blur(14px) saturate(160%);
+  border-bottom:1px solid var(--line);
+  display:flex;align-items:center;gap:16px;
+  padding:0 26px;
+}
+body.dark .topbar{background:rgba(22,36,29,.85);}
+.topbar-toggle{
+  background:var(--mint-100);border:none;color:var(--forest-800);
+  width:40px;height:40px;border-radius:11px;font-size:1rem;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;flex:none;
+  transition:background .2s;
+}
+.topbar-toggle:hover{background:var(--green-300);color:#fff;}
+.page-heading{display:flex;flex-direction:column;line-height:1.1;margin-right:auto;min-width:0;}
+.page-heading .crumb{font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;}
+.page-heading .title{font-family:'Poppins';font-weight:700;font-size:1.15rem;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+
+.search-box{
+  position:relative;width:320px;max-width:34vw;
+}
+.search-box input{
+  width:100%;border:1px solid var(--line);background:var(--white);
+  border-radius:12px;padding:9px 14px 9px 38px;font-size:.86rem;color:var(--ink);
+  transition:box-shadow .2s, border-color .2s;
+}
+.search-box input:focus{outline:none;border-color:var(--green-400);box-shadow:0 0 0 3px rgba(82,183,136,.18);}
+.search-box i{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted);}
+
+.icon-btn{
+  width:40px;height:40px;border-radius:11px;border:1px solid var(--line);
+  background:var(--white);color:var(--forest-800);display:flex;align-items:center;justify-content:center;
+  cursor:pointer;position:relative;transition:all .2s;flex:none;font-size:.95rem;
+}
+.icon-btn:hover{background:var(--mint-100);border-color:var(--green-300);}
+.icon-btn .dot{
+  position:absolute;top:6px;right:7px;width:8px;height:8px;border-radius:50%;
+  background:var(--danger);border:2px solid var(--white);
+}
+.profile-chip{display:flex;align-items:center;gap:10px;cursor:pointer;padding:5px 8px 5px 5px;border-radius:12px;transition:background .2s;}
+.profile-chip:hover{background:var(--mint-100);}
+.avatar{
+  width:38px;height:38px;border-radius:50%;
+  background:linear-gradient(135deg,var(--gold),var(--earth-500));
+  display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:.85rem;
+  flex:none;box-shadow:0 2px 8px rgba(169,116,79,.4);
+}
+.profile-chip .who{line-height:1.1;}
+.profile-chip .who .nm{font-size:.83rem;font-weight:700;color:var(--ink);}
+.profile-chip .who .rl{font-size:.7rem;color:var(--muted);}
+
+/* dropdown panels (notifications / profile) */
+.float-panel{
+  position:absolute;top:56px;right:0;width:340px;background:var(--white);
+  border:1px solid var(--line);border-radius:var(--radius-md);box-shadow:var(--shadow-soft);
+  padding:8px;display:none;z-index:1050;max-height:420px;overflow-y:auto;
+}
+.float-panel.show{display:block;animation:fadeSlide .18s ease;}
+@keyframes fadeSlide{from{opacity:0;transform:translateY(-6px);}to{opacity:1;transform:translateY(0);}}
+.float-panel .fp-title{font-weight:700;font-size:.85rem;padding:8px 10px;color:var(--forest-800);}
+.notif-item{display:flex;gap:10px;padding:9px 10px;border-radius:10px;cursor:pointer;}
+.notif-item:hover{background:var(--mint-50);}
+.notif-item .ni-icon{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex:none;font-size:.8rem;}
+.notif-item .ni-body .t{font-size:.8rem;font-weight:600;color:var(--ink);}
+.notif-item .ni-body .d{font-size:.72rem;color:var(--muted);}
+
+.content-area{padding:26px 26px 60px;flex:1;min-width:0;}
+
+/* =========================================================
+   3. GENERIC COMPONENTS
+   ========================================================= */
+.page{display:none;animation:pageIn .35s ease;}
+.page.active{display:block;}
+@keyframes pageIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+
+.card-soft{
+  background:var(--white);border:1px solid var(--line);border-radius:var(--radius-lg);
+  box-shadow:var(--shadow-card);
+}
+.section-title{font-family:'Poppins';font-weight:700;font-size:1.05rem;color:var(--ink);margin-bottom:2px;}
+.section-sub{font-size:.8rem;color:var(--muted);}
+
+/* Hero */
+.hero-banner{
+  border-radius:26px;padding:34px 38px;position:relative;overflow:hidden;color:#fff;
+  background:linear-gradient(120deg, var(--forest-900) 0%, var(--forest-800) 45%, var(--green-600) 100%);
+  box-shadow:var(--shadow-soft);
+  margin-bottom:24px;
+}
+.hero-banner::before{
+  content:"";position:absolute;inset:0;
+  background:radial-gradient(circle at 85% 20%, rgba(212,163,115,.35), transparent 45%),
+             radial-gradient(circle at 15% 90%, rgba(116,198,157,.28), transparent 50%);
+  pointer-events:none;
+}
+.hero-banner .eyebrow{
+  display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.14);
+  padding:5px 13px;border-radius:30px;font-size:.72rem;letter-spacing:.6px;text-transform:uppercase;margin-bottom:14px;
+}
+.hero-banner h1{font-size:1.9rem;font-weight:800;max-width:640px;line-height:1.25;margin-bottom:8px;}
+.hero-banner p{max-width:560px;color:rgba(255,255,255,.82);font-size:.94rem;margin-bottom:0;}
+.hero-leaf{position:absolute;right:36px;bottom:-14px;font-size:9rem;opacity:.10;transform:rotate(-12deg);}
+
+/* Stat cards */
+.stat-card{
+  background:var(--white);border:1px solid var(--line);border-radius:var(--radius-lg);
+  padding:20px;position:relative;overflow:hidden;transition:transform .25s ease, box-shadow .25s ease;
+  box-shadow:var(--shadow-card);height:100%;
+}
+.stat-card:hover{transform:translateY(-5px);box-shadow:var(--shadow-soft);}
+.stat-card .si-icon{
+  width:44px;height:44px;border-radius:13px;display:flex;align-items:center;justify-content:center;
+  font-size:1.05rem;margin-bottom:14px;color:#fff;
+}
+.stat-card .si-val{font-family:'Poppins';font-weight:800;font-size:1.5rem;color:var(--ink);line-height:1;}
+.stat-card .si-label{font-size:.78rem;color:var(--muted);margin-top:6px;}
+.stat-card .si-trend{font-size:.72rem;font-weight:700;margin-top:10px;display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:20px;}
+.si-trend.up{color:#1b7a4d;background:#e4f6ea;}
+.si-trend.down{color:#b8433d;background:#fbe8e7;}
+.stat-card .si-glow{position:absolute;width:120px;height:120px;border-radius:50%;filter:blur(30px);opacity:.18;top:-30px;right:-30px;}
+
+/* Buttons */
+.btn-dero{
+  background:linear-gradient(135deg,var(--green-500),var(--forest-800));border:none;color:#fff;
+  border-radius:11px;padding:9px 18px;font-weight:600;font-size:.85rem;transition:all .2s;
+  box-shadow:0 4px 14px rgba(45,106,79,.3);
+}
+.btn-dero:hover{filter:brightness(1.08);color:#fff;transform:translateY(-1px);}
+.btn-outline-dero{
+  border:1.5px solid var(--green-400);color:var(--forest-800);background:transparent;border-radius:11px;
+  padding:8px 17px;font-weight:600;font-size:.85rem;transition:all .2s;
+}
+.btn-outline-dero:hover{background:var(--mint-100);}
+.btn-ghost-sm{border:1px solid var(--line);background:var(--white);color:var(--ink);border-radius:9px;padding:5px 11px;font-size:.76rem;font-weight:600;transition:.2s;}
+.btn-ghost-sm:hover{background:var(--mint-100);border-color:var(--green-300);}
+
+/* Badges */
+.badge-dero{padding:5px 12px;border-radius:20px;font-size:.72rem;font-weight:700;letter-spacing:.2px;display:inline-flex;align-items:center;gap:5px;}
+.bd-green{background:#e4f6ea;color:#1b7a4d;}
+.bd-gold{background:#fbf0dd;color:#a97112;}
+.bd-red{background:#fbe8e7;color:#b8433d;}
+.bd-blue{background:#e6f1fb;color:#2266a3;}
+.bd-gray{background:#eef0ee;color:#6b7a71;}
+.bd-forest{background:var(--forest-800);color:#fff;}
+
+/* Tables */
+.table-modern{width:100%;border-collapse:separate;border-spacing:0;font-size:.85rem;}
+.table-modern thead th{
+  background:var(--mint-50);color:var(--forest-800);font-weight:700;font-size:.72rem;
+  text-transform:uppercase;letter-spacing:.5px;padding:12px 14px;border-bottom:1px solid var(--line);white-space:nowrap;
+}
+.table-modern thead th:first-child{border-top-left-radius:12px;}
+.table-modern thead th:last-child{border-top-right-radius:12px;}
+.table-modern tbody td{padding:12px 14px;border-bottom:1px solid var(--line);color:var(--ink);vertical-align:middle;}
+.table-modern tbody tr{transition:background .15s;}
+.table-modern tbody tr:hover{background:var(--mint-50);}
+.table-scroll{overflow-x:auto;border-radius:14px;border:1px solid var(--line);}
+.row-avatar{width:32px;height:32px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;color:#fff;flex:none;}
+
+.filter-select{border:1px solid var(--line);border-radius:10px;padding:7px 12px;font-size:.8rem;background:var(--white);color:var(--ink);}
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:16px;}
+.toolbar .search-box{width:260px;}
+
+/* Progress bars */
+.progress-dero{height:8px;border-radius:20px;background:var(--mint-100);overflow:hidden;}
+.progress-dero .bar{height:100%;border-radius:20px;background:linear-gradient(90deg,var(--green-400),var(--forest-800));}
+
+/* Kanban / Pipeline */
+.kanban-scroll{display:flex;gap:16px;overflow-x:auto;padding-bottom:14px;}
+.kanban-col{
+  min-width:270px;max-width:270px;background:var(--mint-50);border:1px solid var(--line);
+  border-radius:16px;padding:14px;flex:none;
+}
+.kanban-col-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;}
+.kanban-col-head .kt{font-weight:700;font-size:.83rem;color:var(--forest-800);}
+.kanban-count{background:var(--white);border-radius:20px;padding:2px 9px;font-size:.72rem;font-weight:700;color:var(--muted);}
+.kanban-card{
+  background:var(--white);border:1px solid var(--line);border-radius:13px;padding:12px;margin-bottom:10px;
+  cursor:grab;transition:box-shadow .2s, transform .2s;box-shadow:0 1px 4px rgba(0,0,0,.04);
+}
+.kanban-card:hover{box-shadow:0 6px 16px rgba(27,67,50,.12);transform:translateY(-2px);}
+.kanban-card.dragging{opacity:.4;}
+.kanban-col.drag-over{background:var(--mint-100);}
+.kanban-card .kc-title{font-weight:700;font-size:.83rem;margin-bottom:4px;}
+.kanban-card .kc-meta{font-size:.72rem;color:var(--muted);display:flex;align-items:center;gap:6px;margin-top:6px;}
+
+/* Product cards */
+.product-card{background:var(--white);border:1px solid var(--line);border-radius:18px;overflow:hidden;transition:.25s;height:100%;box-shadow:var(--shadow-card);}
+.product-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-soft);}
+.product-photo{
+  height:130px;display:flex;align-items:center;justify-content:center;font-size:2.6rem;position:relative;
+  background:linear-gradient(135deg,var(--mint-100),var(--sand-100));color:var(--forest-700);
+}
+.product-photo .export-badge{position:absolute;top:10px;right:10px;}
+.product-body{padding:15px;}
+.product-body h6{font-weight:700;margin-bottom:2px;}
+.product-body .scientific{font-size:.72rem;color:var(--muted);font-style:italic;margin-bottom:10px;}
+.pspecs{display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:.76rem;margin-bottom:10px;}
+.pspecs div span{display:block;color:var(--muted);font-size:.68rem;text-transform:uppercase;letter-spacing:.4px;}
+.pspecs div b{color:var(--ink);}
+
+/* Export leads pipeline card */
+.lead-card{background:var(--white);border:1px solid var(--line);border-radius:13px;padding:12px;margin-bottom:10px;cursor:grab;box-shadow:0 1px 4px rgba(0,0,0,.04);transition:.2s;}
+.lead-card:hover{box-shadow:0 6px 16px rgba(27,67,50,.12);transform:translateY(-2px);}
+.lead-card .flag{font-size:1.3rem;margin-right:6px;}
+.lead-card .company{font-weight:700;font-size:.84rem;}
+.lead-card .contact{font-size:.72rem;color:var(--muted);margin-bottom:8px;}
+.lead-card .rev{font-weight:700;color:var(--forest-800);font-size:.86rem;}
+.lead-card .prob-wrap{margin-top:8px;}
+
+/* Charts */
+.chart-card{background:var(--white);border:1px solid var(--line);border-radius:var(--radius-lg);padding:20px;box-shadow:var(--shadow-card);}
+canvas{max-width:100%;}
+.legend-dot{width:9px;height:9px;border-radius:50%;display:inline-block;margin-right:6px;}
+
+/* World / export map */
+.world-hub{position:relative;height:340px;display:flex;align-items:center;justify-content:center;}
+.world-center{
+  width:96px;height:96px;border-radius:50%;background:linear-gradient(135deg,var(--forest-800),var(--green-500));
+  display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;z-index:3;box-shadow:0 8px 26px rgba(27,67,50,.4);
+}
+.world-center i{font-size:1.3rem;}
+.world-center span{font-size:.62rem;font-weight:700;margin-top:2px;}
+.dest-node{
+  position:absolute;background:var(--white);border:1px solid var(--line);border-radius:13px;padding:8px 12px;
+  box-shadow:var(--shadow-card);font-size:.76rem;font-weight:600;display:flex;align-items:center;gap:7px;
+  transition:transform .2s;white-space:nowrap;
+}
+.dest-node:hover{transform:scale(1.08);z-index:5;}
+.world-svg{position:absolute;inset:0;width:100%;height:100%;z-index:1;}
+.world-svg line{stroke:var(--green-300);stroke-width:1.6;stroke-dasharray:4 4;opacity:.7;}
+
+/* Sustainability card */
+.sustain-card{border-radius:var(--radius-lg);padding:22px;color:#fff;background:linear-gradient(135deg,var(--forest-900),var(--earth-600) 130%);position:relative;overflow:hidden;height:100%;}
+.sustain-item{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.14);}
+.sustain-item:last-child{border-bottom:none;}
+.sustain-item .si-ic{width:38px;height:38px;border-radius:11px;background:rgba(255,255,255,.14);display:flex;align-items:center;justify-content:center;flex:none;}
+.sustain-item .si-num{font-family:'Poppins';font-weight:800;font-size:1.15rem;}
+.sustain-item .si-lbl{font-size:.72rem;color:rgba(255,255,255,.75);}
+
+/* Calendar */
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;}
+.cal-dow{text-align:center;font-size:.7rem;font-weight:700;color:var(--muted);text-transform:uppercase;padding:6px 0;}
+.cal-cell{
+  min-height:78px;border:1px solid var(--line);border-radius:11px;padding:6px 8px;font-size:.78rem;color:var(--ink);
+  background:var(--white);transition:.2s;
+}
+.cal-cell.muted{opacity:.35;}
+.cal-cell.today{border-color:var(--green-400);box-shadow:0 0 0 2px rgba(82,183,136,.25) inset;}
+.cal-cell .ev{margin-top:4px;font-size:.66rem;background:var(--mint-100);color:var(--forest-800);border-radius:6px;padding:1px 6px;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+
+/* Settings tabs */
+.settings-tabs .nav-link{color:var(--muted);font-weight:600;font-size:.85rem;border:none;border-radius:11px;padding:9px 16px;}
+.settings-tabs .nav-link.active{background:var(--forest-800);color:#fff;}
+.form-control-dero, .form-select-dero{border:1px solid var(--line);border-radius:10px;padding:9px 12px;font-size:.85rem;background:var(--white);color:var(--ink);}
+
+/* Reports */
+.report-card{border:1px solid var(--line);border-radius:18px;padding:22px;background:var(--white);transition:.25s;height:100%;box-shadow:var(--shadow-card);}
+.report-card:hover{transform:translateY(-5px);box-shadow:var(--shadow-soft);}
+.report-icon{width:50px;height:50px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;color:#fff;margin-bottom:14px;}
+
+/* Toast */
+.toast-dero{position:fixed;bottom:24px;right:24px;background:var(--forest-800);color:#fff;padding:13px 20px;border-radius:13px;box-shadow:var(--shadow-soft);z-index:2000;font-size:.85rem;display:flex;align-items:center;gap:10px;transform:translateY(20px);opacity:0;transition:.3s;pointer-events:none;}
+.toast-dero.show{transform:translateY(0);opacity:1;}
+
+/* Utility */
+.text-muted-soft{color:var(--muted);}
+.divider-soft{border-top:1px solid var(--line);margin:20px 0;}
+.chip-flag{font-size:1.1rem;}
+@media (max-width: 991px){
+  .sidebar{transform:translateX(-100%);}
+  .sidebar.mobile-open{transform:translateX(0);}
+  .main-wrapper{margin-left:0 !important;}
+  .search-box{display:none;}
+}
+</style>
+</head>
+<body>
+
+<div class="app-wrapper">
+
+  <!-- ============================= SIDEBAR ============================= -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div class="logo-mark"><i class="fa-solid fa-seedling"></i></div>
+      <div class="brand-text">
+        <div class="name">DERO GREENS</div>
+        <div class="tag">A Taste of Home</div>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav" id="sidebarNav">
+      <div class="nav-section-label">Overview</div>
+      <div class="nav-item-btn active" data-page="dashboard"><i class="fa-solid fa-grid-2"></i><span>Dashboard</span></div>
+
+      <div class="nav-section-label">Relationships</div>
+      <div class="nav-item-btn" data-page="customers"><i class="fa-solid fa-users"></i><span>Customers</span></div>
+      <div class="nav-item-btn" data-page="distributors"><i class="fa-solid fa-truck-field"></i><span>Distributors</span></div>
+      <div class="nav-item-btn" data-page="exportleads"><i class="fa-solid fa-earth-africa"></i><span>Export Leads</span></div>
+
+      <div class="nav-section-label">Operations</div>
+      <div class="nav-item-btn" data-page="orders"><i class="fa-solid fa-cart-shopping"></i><span>Orders</span></div>
+      <div class="nav-item-btn" data-page="inventory"><i class="fa-solid fa-warehouse"></i><span>Inventory</span></div>
+      <div class="nav-item-btn" data-page="farmers"><i class="fa-solid fa-tractor"></i><span>Farmers</span></div>
+      <div class="nav-item-btn" data-page="production"><i class="fa-solid fa-industry"></i><span>Production</span></div>
+      <div class="nav-item-btn" data-page="products"><i class="fa-solid fa-leaf"></i><span>Products</span></div>
+
+      <div class="nav-section-label">Finance</div>
+      <div class="nav-item-btn" data-page="sales"><i class="fa-solid fa-chart-line"></i><span>Sales</span></div>
+      <div class="nav-item-btn" data-page="invoices"><i class="fa-solid fa-file-invoice"></i><span>Invoices</span></div>
+      <div class="nav-item-btn" data-page="payments"><i class="fa-solid fa-money-check-dollar"></i><span>Payments</span></div>
+      <div class="nav-item-btn" data-page="deliveries"><i class="fa-solid fa-truck-fast"></i><span>Deliveries</span></div>
+
+      <div class="nav-section-label">Compliance</div>
+      <div class="nav-item-btn" data-page="exportdocs"><i class="fa-solid fa-stamp"></i><span>Export Documentation</span></div>
+      <div class="nav-item-btn" data-page="qa"><i class="fa-solid fa-magnifying-glass-chart"></i><span>Quality Assurance</span></div>
+      <div class="nav-item-btn" data-page="compliance"><i class="fa-solid fa-shield-halved"></i><span>Compliance</span></div>
+
+      <div class="nav-section-label">Growth</div>
+      <div class="nav-item-btn" data-page="marketing"><i class="fa-solid fa-bullhorn"></i><span>Marketing</span></div>
+      <div class="nav-item-btn" data-page="tasks"><i class="fa-solid fa-list-check"></i><span>Tasks</span></div>
+      <div class="nav-item-btn" data-page="calendar"><i class="fa-solid fa-calendar-days"></i><span>Calendar</span></div>
+      <div class="nav-item-btn" data-page="reports"><i class="fa-solid fa-file-lines"></i><span>Reports</span></div>
+      <div class="nav-item-btn" data-page="analytics"><i class="fa-solid fa-chart-pie"></i><span>Analytics</span></div>
+
+      <div class="nav-section-label">System</div>
+      <div class="nav-item-btn" data-page="settings"><i class="fa-solid fa-gear"></i><span>Settings</span></div>
+    </nav>
+
+    <div class="sidebar-foot">
+      <button class="sidebar-collapse-btn" id="collapseBtn"><i class="fa-solid fa-angles-left"></i><span id="collapseLbl">Collapse</span></button>
+    </div>
+  </aside>
+
+  <!-- ============================= MAIN ============================= -->
+  <div class="main-wrapper">
+
+    <!-- Topbar -->
+    <nav class="topbar">
+      <button class="topbar-toggle" id="mobileToggle"><i class="fa-solid fa-bars"></i></button>
+      <div class="page-heading">
+        <span class="crumb">DERO GREENS / CRM</span>
+        <span class="title" id="pageTitle">Dashboard</span>
+      </div>
+
+      <div class="search-box">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" id="globalSearch" placeholder="Search customers, orders, farmers...">
+      </div>
+
+      <button class="icon-btn" id="darkToggle" title="Toggle dark mode"><i class="fa-solid fa-moon"></i></button>
+
+      <div style="position:relative;">
+        <button class="icon-btn" id="notifBtn"><i class="fa-solid fa-bell"></i><span class="dot"></span></button>
+        <div class="float-panel" id="notifPanel">
+          <div class="fp-title">Notifications</div>
+          <div class="notif-item">
+            <div class="ni-icon bd-green"><i class="fa-solid fa-box"></i></div>
+            <div class="ni-body"><div class="t">Order #DG-3021 ready to ship</div><div class="d">Rotterdam, Netherlands · 12m ago</div></div>
+          </div>
+          <div class="notif-item">
+            <div class="ni-icon bd-gold"><i class="fa-solid fa-triangle-exclamation"></i></div>
+            <div class="ni-body"><div class="t">Low stock: Amaranth (Terere)</div><div class="d">Nairobi Warehouse · 40m ago</div></div>
+          </div>
+          <div class="notif-item">
+            <div class="ni-icon bd-blue"><i class="fa-solid fa-file-signature"></i></div>
+            <div class="ni-body"><div class="t">Phytosanitary certificate approved</div><div class="d">Batch DG-2207 · 1h ago</div></div>
+          </div>
+          <div class="notif-item">
+            <div class="ni-icon bd-red"><i class="fa-solid fa-clock"></i></div>
+            <div class="ni-body"><div class="t">Invoice INV-1042 overdue</div><div class="d">Fresh Earth Distributors · 3h ago</div></div>
+          </div>
+          <div class="notif-item">
+            <div class="ni-icon bd-green"><i class="fa-solid fa-seedling"></i></div>
+            <div class="ni-body"><div class="t">New farmer onboarded: Wanjiru Kamau</div><div class="d">Kiambu County · Today</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div style="position:relative;">
+        <div class="profile-chip" id="profileBtn">
+          <div class="avatar">CN</div>
+          <div class="who d-none d-md-block">
+            <div class="nm">Crystal Njoroge</div>
+            <div class="rl">Founder & CEO</div>
+          </div>
+          <i class="fa-solid fa-chevron-down" style="font-size:.7rem;color:var(--muted);"></i>
+        </div>
+        <div class="float-panel" id="profilePanel" style="width:220px;">
+          <div class="notif-item"><div class="ni-icon bd-forest"><i class="fa-solid fa-user"></i></div><div class="ni-body"><div class="t">My Profile</div></div></div>
+          <div class="notif-item"><div class="ni-icon bd-gray"><i class="fa-solid fa-gear"></i></div><div class="ni-body"><div class="t">Account Settings</div></div></div>
+          <div class="notif-item"><div class="ni-icon bd-gray"><i class="fa-solid fa-circle-question"></i></div><div class="ni-body"><div class="t">Help Center</div></div></div>
+          <div class="divider-soft" style="margin:6px 0;"></div>
+          <div class="notif-item"><div class="ni-icon bd-red"><i class="fa-solid fa-right-from-bracket"></i></div><div class="ni-body"><div class="t">Sign Out</div></div></div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Content -->
+    <main class="content-area" id="contentArea">
+
+      <!-- ======================================================= DASHBOARD ======================================================= -->
+      <section class="page active" id="page-dashboard">
+
+        <div class="hero-banner">
+          <span class="eyebrow"><i class="fa-solid fa-earth-africa"></i> Nairobi HQ · Sat, Independence Day 2026</span>
+          <h1>Welcome back, Crystal.<br>Together we're preserving African heritage, empowering women and feeding the world.</h1>
+          <p>Here's how DERO GREENS is performing across farms, factory floor, and export markets today.</p>
+          <i class="fa-solid fa-leaf hero-leaf"></i>
+        </div>
+
+        <div class="row g-3" id="statCardsRow"><!-- injected by JS --></div>
+
+        <div class="row g-3 mt-1">
+          <div class="col-xl-7">
+            <div class="chart-card h-100">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <div>
+                  <div class="section-title">Revenue &amp; Export Volume</div>
+                  <div class="section-sub">Last 12 months, KES millions</div>
+                </div>
+                <div class="d-flex gap-3">
+                  <span style="font-size:.74rem;"><span class="legend-dot" style="background:var(--green-500);"></span>Domestic Revenue</span>
+                  <span style="font-size:.74rem;"><span class="legend-dot" style="background:var(--gold);"></span>Export Revenue</span>
+                </div>
+              </div>
+              <canvas id="chartRevenue" height="230"></canvas>
+            </div>
+          </div>
+          <div class="col-xl-5">
+            <div class="chart-card h-100">
+              <div class="section-title mb-1">Product Mix — Volume Share</div>
+              <div class="section-sub mb-2">Current quarter</div>
+              <div class="d-flex align-items-center gap-4">
+                <canvas id="chartMix" width="180" height="180"></canvas>
+                <div id="mixLegend" style="font-size:.78rem;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row g-3 mt-1">
+          <div class="col-xl-7">
+            <div class="chart-card">
+              <div class="section-title mb-1"><i class="fa-solid fa-earth-africa me-1"></i> Export Destinations</div>
+              <div class="section-sub mb-2">Active markets receiving DERO GREENS products</div>
+              <div class="world-hub" id="worldHub"><!-- injected --></div>
+            </div>
+          </div>
+          <div class="col-xl-5">
+            <div class="sustain-card h-100">
+              <div class="d-flex align-items-center gap-2 mb-2">
+                <i class="fa-solid fa-hand-holding-heart"></i>
+                <div class="font-display" style="font-weight:700;">Sustainability &amp; Impact</div>
+              </div>
+              <div class="sustain-item">
+                <div class="si-ic"><i class="fa-solid fa-recycle"></i></div>
+                <div><div class="si-num">184,200 kg</div><div class="si-lbl">Food Loss Prevented</div></div>
+              </div>
+              <div class="sustain-item">
+                <div class="si-ic"><i class="fa-solid fa-venus"></i></div>
+                <div><div class="si-num">312</div><div class="si-lbl">Women Employed</div></div>
+              </div>
+              <div class="sustain-item">
+                <div class="si-ic"><i class="fa-solid fa-tractor"></i></div>
+                <div><div class="si-num">1,540</div><div class="si-lbl">Farmers Supported</div></div>
+              </div>
+              <div class="sustain-item">
+                <div class="si-ic"><i class="fa-solid fa-cloud"></i></div>
+                <div><div class="si-num">96 tCO₂e</div><div class="si-lbl">Carbon Savings (YTD)</div></div>
+              </div>
+              <div class="sustain-item">
+                <div class="si-ic"><i class="fa-solid fa-apple-whole"></i></div>
+                <div><div class="si-num">2.4M servings</div><div class="si-lbl">Nutrition Impact Delivered</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row g-3 mt-1">
+          <div class="col-lg-6">
+            <div class="chart-card">
+              <div class="section-title mb-2">Recent Orders</div>
+              <div class="table-scroll">
+                <table class="table-modern" id="recentOrdersTable">
+                  <thead><tr><th>Order</th><th>Customer</th><th>Product</th><th>Amount</th><th>Status</th></tr></thead>
+                  <tbody></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="chart-card">
+              <div class="section-title mb-2">Top Performing Products</div>
+              <canvas id="chartTopProducts" height="205"></canvas>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ======================================================= CUSTOMERS ======================================================= -->
+      <section class="page" id="page-customers">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+          <div><div class="section-title">Customers</div><div class="section-sub">All retail &amp; wholesale customer accounts</div></div>
+          <button class="btn-dero" onclick="toast('Add Customer form would open here')"><i class="fa-solid fa-plus me-1"></i> Add Customer</button>
+        </div>
+        <div class="toolbar">
+          <div class="search-box"><i class="fa-solid fa-magnifying-glass"></i><input class="tbl-search" data-target="customersTable" placeholder="Search customers..."></div>
+          <select class="filter-select" id="custStatusFilter"><option value="">All Statuses</option><option>Active</option><option>Inactive</option><option>Prospect</option></select>
+          <select class="filter-select" id="custTypeFilter"><option value="">All Types</option><option>Retail</option><option>Wholesale</option><option>Export</option><option>Institutional</option></select>
+          <button class="btn-outline-dero ms-auto"><i class="fa-solid fa-file-export me-1"></i> Export</button>
+        </div>
+        <div class="table-scroll">
+          <table class="table-modern" id="customersTable">
+            <thead><tr><th>Customer</th><th>Country</th><th>City</th><th>Phone</th><th>Email</th><th>Type</th><th>Status</th><th>Orders</th><th>LTV</th><th>Last Purchase</th><th>Notes</th><th>Actions</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ======================================================= DISTRIBUTORS ======================================================= -->
+      <section class="page" id="page-distributors">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+          <div><div class="section-title">Distributors</div><div class="section-sub">Import partners and volume distributors</div></div>
+          <button class="btn-dero" onclick="toast('Add Distributor form would open here')"><i class="fa-solid fa-plus me-1"></i> Add Distributor</button>
+        </div>
+        <div class="toolbar">
+          <div class="search-box"><i class="fa-solid fa-magnifying-glass"></i><input class="tbl-search" data-target="distributorsTable" placeholder="Search distributors..."></div>
+          <select class="filter-select" id="distStatusFilter"><option value="">All Statuses</option><option>Active</option><option>Onboarding</option><option>Suspended</option></select>
+          <button class="btn-outline-dero ms-auto"><i class="fa-solid fa-file-export me-1"></i> Export</button>
+        </div>
+        <div class="table-scroll">
+          <table class="table-modern" id="distributorsTable">
+            <thead><tr><th>Distributor</th><th>Country</th><th>Import Status</th><th>Food License</th><th>Volume (kg)</th><th>Contact</th><th>Email</th><th>Phone</th><th>Last Contact</th><th>Potential Revenue</th><th>Status</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ======================================================= EXPORT LEADS (PIPELINE) ======================================================= -->
+      <section class="page" id="page-exportleads">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+          <div><div class="section-title">Export Leads Pipeline</div><div class="section-sub">Drag cards across stages · Salesforce-style opportunity board</div></div>
+          <button class="btn-dero" onclick="toast('New lead form would open here')"><i class="fa-solid fa-plus me-1"></i> New Lead</button>
+        </div>
+        <div class="kanban-scroll" id="leadsPipeline"><!-- injected --></div>
+      </section>
+
+      <!-- ======================================================= ORDERS ======================================================= -->
+      <section class="page" id="page-orders">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+          <div><div class="section-title">Orders</div><div class="section-sub">Domestic and export order tracking</div></div>
+          <button class="btn-dero" onclick="toast('New order form would open here')"><i class="fa-solid fa-plus me-1"></i> New Order</button>
+        </div>
+        <div class="toolbar">
+          <div class="search-box"><i class="fa-solid fa-magnifying-glass"></i><input class="tbl-search" data-target="ordersTable" placeholder="Search orders..."></div>
+          <select class="filter-select" id="orderStatusFilter"><option value="">All Statuses</option><option>Pending</option><option>Processing</option><option>Shipped</option><option>Delivered</option><option>Cancelled</option></select>
+          <button class="btn-outline-dero ms-auto"><i class="fa-solid fa-file-export me-1"></i> Export</button>
+        </div>
+        <div class="table-scroll">
+          <table class="table-modern" id="ordersTable">
+            <thead><tr><th>Order ID</th><th>Customer</th><th>Product</th><th>Qty (kg)</th><th>Order Date</th><th>Destination</th><th>Amount</th><th>Status</th><th>Actions</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ======================================================= INVENTORY ======================================================= -->
+      <section class="page" id="page-inventory">
+        <div class="section-title mb-1">Inventory &amp; Warehouse</div>
+        <div class="section-sub mb-3">Real-time stock across Nairobi &amp; Nakuru facilities</div>
+        <div class="row g-3 mb-3" id="inventoryStatsRow"></div>
+        <div class="toolbar">
+          <div class="search-box"><i class="fa-solid fa-magnifying-glass"></i><input class="tbl-search" data-target="inventoryTable" placeholder="Search inventory..."></div>
+          <select class="filter-select" id="invLocFilter"><option value="">All Locations</option><option>Nairobi Warehouse</option><option>Nakuru Cold Store</option><option>Mombasa Export Bay</option></select>
+          <button class="btn-outline-dero ms-auto"><i class="fa-solid fa-file-export me-1"></i> Export</button>
+        </div>
+        <div class="table-scroll">
+          <table class="table-modern" id="inventoryTable">
+            <thead><tr><th>Product</th><th>Batch #</th><th>Current Stock</th><th>Incoming</th><th>Reserved</th><th>Storage Location</th><th>Expiry Date</th><th>Alert</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ======================================================= FARMERS ======================================================= -->
+      <section class="page" id="page-farmers">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+          <div><div class="section-title">Farmers Network</div><div class="section-sub">Women-led smallholder farmer partners</div></div>
+          <button class="btn-dero" onclick="toast('Onboard Farmer form would open here')"><i class="fa-solid fa-plus me-1"></i> Onboard Farmer</button>
+        </div>
+        <div class="toolbar">
+          <div class="search-box"><i class="fa-solid fa-magnifying-glass"></i><input class="tbl-search" data-target="farmersTable" placeholder="Search farmers..."></div>
+          <select class="filter-select" id="farmCertFilter"><option value="">All Certifications</option><option>Organic Certified</option><option>In Transition</option><option>Conventional</option></select>
+          <button class="btn-outline-dero ms-auto"><i class="fa-solid fa-file-export me-1"></i> Export</button>
+        </div>
+        <div class="table-scroll">
+          <table class="table-modern" id="farmersTable">
+            <thead><tr><th>Farmer</th><th>County</th><th>Village</th><th>Phone</th><th>Farm Size (acres)</th><th>Products Grown</th><th>Certification</th><th>Organic Status</th><th>Harvest Forecast</th><th>Payments (KES)</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ======================================================= PRODUCTION ======================================================= -->
+      <section class="page" id="page-production">
+        <div class="section-title mb-1">Production Floor</div>
+        <div class="section-sub mb-3">Live processing pipeline — Nairobi Processing Plant</div>
+        <div class="row g-3 mb-3" id="productionStagesRow"></div>
+        <div class="chart-card">
+          <div class="section-title mb-2">Batch Records</div>
+          <div class="table-scroll">
+            <table class="table-modern" id="productionTable">
+              <thead><tr><th>Batch #</th><th>Product</th><th>Operator</th><th>Stage</th><th>Production Date</th><th>Expiry Date</th><th>Yield (kg)</th><th>Status</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ======================================================= PRODUCTS ======================================================= -->
+      <section class="page" id="page-products">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+          <div><div class="section-title">Products</div><div class="section-sub">Traditional African vegetables — processed &amp; export-ready</div></div>
+          <button class="btn-dero" onclick="toast('Add Product form would open here')"><i class="fa-solid fa-plus me-1"></i> Add Product</button>
+        </div>
+        <div class="row g-3" id="productsRow"></div>
+      </section>
+
+      <!-- ======================================================= SALES ======================================================= -->
+      <section class="page" id="page-sales">
+        <div class="section-title mb-1">Sales Performance</div>
+        <div class="section-sub mb-3">Cross-channel sales analytics</div>
+        <div class="row g-3">
+          <div class="col-xl-6">
+            <div class="chart-card">
+              <div class="section-title mb-2">Daily Sales — Last 14 Days</div>
+              <canvas id="chartDailySales" height="220"></canvas>
+            </div>
+          </div>
+          <div class="col-xl-6">
+            <div class="chart-card">
+              <div class="section-title mb-2">Monthly Sales — Last 12 Months</div>
+              <canvas id="chartMonthlySales" height="220"></canvas>
+            </div>
+          </div>
+          <div class="col-xl-6">
+            <div class="chart-card">
+              <div class="section-title mb-2">Product Performance</div>
+              <canvas id="chartProductPerf" height="230"></canvas>
+            </div>
+          </div>
+          <div class="col-xl-6">
+            <div class="chart-card">
+              <div class="section-title mb-2">Country Performance</div>
+              <canvas id="chartCountryPerf" height="230"></canvas>
+            </div>
+          </div>
+          <div class="col-xl-7">
+            <div class="chart-card">
+              <div class="section-title mb-2">Top Customers</div>
+              <div class="table-scroll">
+                <table class="table-modern" id="topCustomersTable">
+                  <thead><tr><th>Customer</th><th>Country</th><th>Orders</th><th>Lifetime Value</th></tr></thead>
+                  <tbody></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-5">
+            <div class="chart-card h-100">
+              <div class="section-title mb-2">Repeat vs New Customers</div>
+              <div class="d-flex align-items-center gap-4">
+                <canvas id="chartRepeat" width="170" height="170"></canvas>
+                <div id="repeatLegend" style="font-size:.8rem;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ======================================================= INVOICES ======================================================= -->
+      <section class="page" id="page-invoices">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+          <div><div class="section-title">Invoices</div><div class="section-sub">Billing &amp; accounts receivable</div></div>
+          <button class="btn-dero" onclick="toast('New Invoice form would open here')"><i class="fa-solid fa-plus me-1"></i> New Invoice</button>
+        </div>
+        <div class="toolbar">
+          <div class="search-box"><i class="fa-solid fa-magnifying-glass"></i><input class="tbl-search" data-target="invoicesTable" placeholder="Search invoices..."></div>
+          <select class="filter-select" id="invStatusFilter"><option value="">All Statuses</option><option>Paid</option><option>Pending</option><option>Overdue</option></select>
+          <button class="btn-outline-dero ms-auto"><i class="fa-solid fa-file-export me-1"></i> Export</button>
+        </div>
+        <div class="table-scroll">
+          <table class="table-modern" id="invoicesTable">
+            <thead><tr><th>Invoice #</th><th>Customer</th><th>Issue Date</th><th>Due Date</th><th>Amount</th><th>Status</th><th>Actions</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ======================================================= PAYMENTS ======================================================= -->
+      <section class="page" id="page-payments">
+        <div class="section-title mb-1">Payments</div>
+        <div class="section-sub mb-3">Payment history across all channels</div>
+        <div class="toolbar">
+          <div class="search-box"><i class="fa-solid fa-magnifying-glass"></i><input class="tbl-search" data-target="paymentsTable" placeholder="Search payments..."></div>
+          <select class="filter-select"><option value="">All Methods</option><option>Bank Transfer</option><option>Mobile Money</option><option>Letter of Credit</option><option>Card</option></select>
+          <button class="btn-outline-dero ms-auto"><i class="fa-solid fa-file-export me-1"></i> Export</button>
+        </div>
+        <div class="table-scroll">
+          <table class="table-modern" id="paymentsTable">
+            <thead><tr><th>Payment ID</th><th>Customer</th><th>Invoice #</th><th>Method</th><th>Date</th><th>Amount</th><th>Status</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ======================================================= DELIVERIES ======================================================= -->
+      <section class="page" id="page-deliveries">
+        <div class="section-title mb-1">Deliveries</div>
+        <div class="section-sub mb-3">Domestic &amp; export logistics tracking</div>
+        <div class="toolbar">
+          <div class="search-box"><i class="fa-solid fa-magnifying-glass"></i><input class="tbl-search" data-target="deliveriesTable" placeholder="Search deliveries..."></div>
+          <select class="filter-select"><option value="">All Statuses</option><option>Preparing</option><option>In Transit</option><option>Customs</option><option>Delivered</option></select>
+          <button class="btn-outline-dero ms-auto"><i class="fa-solid fa-file-export me-1"></i> Export</button>
+        </div>
+        <div class="table-scroll">
+          <table class="table-modern" id="deliveriesTable">
+            <thead><tr><th>Delivery ID</th><th>Order #</th><th>Destination</th><th>Carrier</th><th>Dispatch Date</th><th>ETA</th><th>Progress</th><th>Status</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ======================================================= EXPORT DOCUMENTATION ======================================================= -->
+      <section class="page" id="page-exportdocs">
+        <div class="section-title mb-1">Export Documentation</div>
+        <div class="section-sub mb-3">Compliance paperwork per shipment</div>
+        <div class="toolbar">
+          <div class="search-box"><i class="fa-solid fa-magnifying-glass"></i><input class="tbl-search" data-target="exportDocsTable" placeholder="Search shipments..."></div>
+          <select class="filter-select"><option value="">All Statuses</option><option>Approved</option><option>Pending</option><option>Expired</option></select>
+          <button class="btn-outline-dero ms-auto"><i class="fa-solid fa-file-export me-1"></i> Export</button>
+        </div>
+        <div class="table-scroll">
+          <table class="table-modern" id="exportDocsTable">
+            <thead><tr><th>Shipment</th><th>Phytosanitary Cert.</th><th>Certificate of Origin</th><th>Commercial Invoice</th><th>Packing List</th><th>Export Permit</th><th>Bill of Lading</th><th>HACCP</th><th>ISO</th><th>FDA</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ======================================================= QUALITY ASSURANCE ======================================================= -->
+      <section class="page" id="page-qa">
+        <div class="section-title mb-1">Quality Assurance</div>
+        <div class="section-sub mb-3">Batch inspection records</div>
+        <div class="toolbar">
+          <div class="search-box"><i class="fa-solid fa-magnifying-glass"></i><input class="tbl-search" data-target="qaTable" placeholder="Search inspections..."></div>
+          <select class="filter-select"><option value="">All Results</option><option>Pass</option><option>Fail</option></select>
+          <button class="btn-outline-dero ms-auto"><i class="fa-solid fa-file-export me-1"></i> Export</button>
+        </div>
+        <div class="table-scroll">
+          <table class="table-modern" id="qaTable">
+            <thead><tr><th>Inspection Date</th><th>Inspector</th><th>Batch #</th><th>Moisture %</th><th>Microbiology</th><th>Packaging</th><th>Traceability</th><th>Result</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ======================================================= COMPLIANCE ======================================================= -->
+      <section class="page" id="page-compliance">
+        <div class="section-title mb-1">Compliance &amp; Certifications</div>
+        <div class="section-sub mb-3">Standards adherence across the business</div>
+        <div class="row g-3" id="complianceRow"></div>
+      </section>
+
+      <!-- ======================================================= MARKETING ======================================================= -->
+      <section class="page" id="page-marketing">
+        <div class="section-title mb-1">Marketing</div>
+        <div class="section-sub mb-3">Channel performance overview</div>
+        <div class="row g-3" id="marketingRow"></div>
+        <div class="chart-card mt-3">
+          <div class="section-title mb-2">Leads Generated by Channel — Last 6 Months</div>
+          <canvas id="chartMarketing" height="220"></canvas>
+        </div>
+      </section>
+
+      <!-- ======================================================= TASKS (KANBAN) ======================================================= -->
+      <section class="page" id="page-tasks">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+          <div><div class="section-title">Tasks</div><div class="section-sub">Team workflow board · drag to update status</div></div>
+          <button class="btn-dero" onclick="toast('New task form would open here')"><i class="fa-solid fa-plus me-1"></i> New Task</button>
+        </div>
+        <div class="kanban-scroll" id="tasksBoard"><!-- injected --></div>
+      </section>
+
+      <!-- ======================================================= CALENDAR ======================================================= -->
+      <section class="page" id="page-calendar">
+        <div class="row g-3">
+          <div class="col-lg-8">
+            <div class="chart-card">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <div class="section-title" id="calMonthLabel">July 2026</div>
+                <div class="d-flex gap-2">
+                  <button class="btn-ghost-sm" id="calPrev"><i class="fa-solid fa-chevron-left"></i></button>
+                  <button class="btn-ghost-sm" id="calNext"><i class="fa-solid fa-chevron-right"></i></button>
+                </div>
+              </div>
+              <div class="cal-grid mb-1">
+                <div class="cal-dow">Sun</div><div class="cal-dow">Mon</div><div class="cal-dow">Tue</div><div class="cal-dow">Wed</div><div class="cal-dow">Thu</div><div class="cal-dow">Fri</div><div class="cal-dow">Sat</div>
+              </div>
+              <div class="cal-grid" id="calGrid"></div>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="chart-card">
+              <div class="section-title mb-2">Upcoming Events</div>
+              <div id="upcomingEvents"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ======================================================= REPORTS ======================================================= -->
+      <section class="page" id="page-reports">
+        <div class="section-title mb-1">Reports</div>
+        <div class="section-sub mb-3">Generate and download business reports</div>
+        <div class="row g-3" id="reportsRow"></div>
+      </section>
+
+      <!-- ======================================================= ANALYTICS ======================================================= -->
+      <section class="page" id="page-analytics">
+        <div class="section-title mb-1">Analytics</div>
+        <div class="section-sub mb-3">Deeper performance intelligence</div>
+        <div class="row g-3 mb-3" id="analyticsStatsRow"></div>
+        <div class="row g-3">
+          <div class="col-xl-6">
+            <div class="chart-card">
+              <div class="section-title mb-2">Customer Growth Trend</div>
+              <canvas id="chartGrowth" height="220"></canvas>
+            </div>
+          </div>
+          <div class="col-xl-6">
+            <div class="chart-card">
+              <div class="section-title mb-2">Export vs Domestic Split</div>
+              <div class="d-flex align-items-center gap-4">
+                <canvas id="chartExportSplit" width="180" height="180"></canvas>
+                <div id="exportSplitLegend" style="font-size:.8rem;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ======================================================= SETTINGS ======================================================= -->
+      <section class="page" id="page-settings">
+        <div class="section-title mb-1">Settings</div>
+        <div class="section-sub mb-3">Configure your DERO GREENS workspace</div>
+        <ul class="nav settings-tabs gap-2 mb-3" id="settingsTabs">
+          <li class="nav-item"><button class="nav-link active" data-tab="company">Company Profile</button></li>
+          <li class="nav-item"><button class="nav-link" data-tab="users">Users</button></li>
+          <li class="nav-item"><button class="nav-link" data-tab="permissions">Permissions</button></li>
+          <li class="nav-item"><button class="nav-link" data-tab="notifications">Notifications</button></li>
+          <li class="nav-item"><button class="nav-link" data-tab="theme">Theme</button></li>
+          <li class="nav-item"><button class="nav-link" data-tab="branding">Branding</button></li>
+        </ul>
+
+        <div class="chart-card">
+          <div class="settings-panel" id="settings-company">
+            <div class="row g-3">
+              <div class="col-md-6"><label class="form-label small fw-bold">Company Name</label><input class="form-control form-control-dero" value="DERO GREENS Ltd."></div>
+              <div class="col-md-6"><label class="form-label small fw-bold">Tagline</label><input class="form-control form-control-dero" value="A Taste of Home"></div>
+              <div class="col-md-6"><label class="form-label small fw-bold">Headquarters</label><input class="form-control form-control-dero" value="Nairobi, Kenya"></div>
+              <div class="col-md-6"><label class="form-label small fw-bold">Registration No.</label><input class="form-control form-control-dero" value="CPR/2019/KE-88231"></div>
+              <div class="col-md-12"><label class="form-label small fw-bold">Mission Statement</label><textarea class="form-control form-control-dero" rows="3">Reduce food loss, increase farmer incomes, and deliver convenient, nutritious traditional African vegetables through sustainable processing and market-driven innovation.</textarea></div>
+              <div class="col-12"><button class="btn-dero" onclick="toast('Company profile saved (demo)')">Save Changes</button></div>
+            </div>
+          </div>
+          <div class="settings-panel d-none" id="settings-users">
+            <div class="table-scroll">
+              <table class="table-modern">
+                <thead><tr><th>Name</th><th>Role</th><th>Department</th><th>Email</th><th>Status</th></tr></thead>
+                <tbody>
+                  <tr><td>Crystal Njoroge</td><td>Founder &amp; CEO</td><td>Executive</td><td>crystal@derogreens.co.ke</td><td><span class="badge-dero bd-green">Active</span></td></tr>
+                  <tr><td>Amina Yusuf</td><td>Head of Export</td><td>Sales</td><td>amina@derogreens.co.ke</td><td><span class="badge-dero bd-green">Active</span></td></tr>
+                  <tr><td>Grace Wanjiku</td><td>Production Manager</td><td>Operations</td><td>grace@derogreens.co.ke</td><td><span class="badge-dero bd-green">Active</span></td></tr>
+                  <tr><td>Faith Adhiambo</td><td>QA Lead</td><td>Quality</td><td>faith@derogreens.co.ke</td><td><span class="badge-dero bd-gold">Invited</span></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="settings-panel d-none" id="settings-permissions">
+            <p class="text-muted-soft small mb-3">Role-based access control determines what each team member can view or edit.</p>
+            <div class="table-scroll">
+              <table class="table-modern">
+                <thead><tr><th>Role</th><th>Dashboard</th><th>Finance</th><th>Export Docs</th><th>Settings</th></tr></thead>
+                <tbody>
+                  <tr><td>Admin</td><td><i class="fa-solid fa-check text-success"></i></td><td><i class="fa-solid fa-check text-success"></i></td><td><i class="fa-solid fa-check text-success"></i></td><td><i class="fa-solid fa-check text-success"></i></td></tr>
+                  <tr><td>Sales</td><td><i class="fa-solid fa-check text-success"></i></td><td><i class="fa-solid fa-xmark text-danger"></i></td><td><i class="fa-solid fa-check text-success"></i></td><td><i class="fa-solid fa-xmark text-danger"></i></td></tr>
+                  <tr><td>Operations</td><td><i class="fa-solid fa-check text-success"></i></td><td><i class="fa-solid fa-xmark text-danger"></i></td><td><i class="fa-solid fa-check text-success"></i></td><td><i class="fa-solid fa-xmark text-danger"></i></td></tr>
+                  <tr><td>Viewer</td><td><i class="fa-solid fa-check text-success"></i></td><td><i class="fa-solid fa-xmark text-danger"></i></td><td><i class="fa-solid fa-xmark text-danger"></i></td><td><i class="fa-solid fa-xmark text-danger"></i></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="settings-panel d-none" id="settings-notifications">
+            <div class="d-flex flex-column gap-3">
+              <div class="form-check form-switch"><input class="form-check-input" type="checkbox" checked><label class="form-check-label">Email me about overdue invoices</label></div>
+              <div class="form-check form-switch"><input class="form-check-input" type="checkbox" checked><label class="form-check-label">Alert me on low stock</label></div>
+              <div class="form-check form-switch"><input class="form-check-input" type="checkbox"><label class="form-check-label">Weekly performance digest</label></div>
+              <div class="form-check form-switch"><input class="form-check-input" type="checkbox" checked><label class="form-check-label">Export document expiry reminders</label></div>
+            </div>
+          </div>
+          <div class="settings-panel d-none" id="settings-theme">
+            <p class="small mb-3">Choose your preferred interface appearance.</p>
+            <div class="d-flex gap-3">
+              <button class="btn-outline-dero" onclick="setDark(false)"><i class="fa-solid fa-sun me-1"></i> Light Mode</button>
+              <button class="btn-outline-dero" onclick="setDark(true)"><i class="fa-solid fa-moon me-1"></i> Dark Mode</button>
+            </div>
+          </div>
+          <div class="settings-panel d-none" id="settings-branding">
+            <div class="row g-3">
+              <div class="col-md-6"><label class="form-label small fw-bold">Primary Color</label><input type="color" class="form-control form-control-color" value="#1b4332"></div>
+              <div class="col-md-6"><label class="form-label small fw-bold">Accent Color</label><input type="color" class="form-control form-control-color" value="#d4a373"></div>
+              <div class="col-12"><label class="form-label small fw-bold">Logo Upload</label><input type="file" class="form-control form-control-dero"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+</div>
+
+<div class="toast-dero" id="toastBox"><i class="fa-solid fa-circle-check"></i><span id="toastMsg"></span></div>
+
+<script>
+/* =========================================================================================
+   DERO GREENS CRM — APPLICATION SCRIPT (vanilla JS, dummy data only)
+   ========================================================================================= */
+
+/* ---------------------------------------------------------------------------------------
+   0. UTILITIES
+   --------------------------------------------------------------------------------------- */
+const fmtKES = n => 'KES ' + Number(n).toLocaleString('en-US');
+const fmtNum = n => Number(n).toLocaleString('en-US');
+function toast(msg){
+  const box = document.getElementById('toastBox');
+  document.getElementById('toastMsg').textContent = msg;
+  box.classList.add('show');
+  clearTimeout(window._toastTimer);
+  window._toastTimer = setTimeout(()=>box.classList.remove('show'), 2600);
+}
+function initials(name){ return name.split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase(); }
+const avatarPalette = ['#40916c','#a9744f','#d4a373','#2d6a4f','#8a5a34','#52b788'];
+function avatarColor(seed){ let h=0; for(const c of seed) h += c.charCodeAt(0); return avatarPalette[h % avatarPalette.length]; }
+
+/* ---------------------------------------------------------------------------------------
+   1. NAVIGATION / SIDEBAR / TOPBAR
+   --------------------------------------------------------------------------------------- */
+const navItems = document.querySelectorAll('.nav-item-btn');
+const pages = document.querySelectorAll('.page');
+const pageTitle = document.getElementById('pageTitle');
+const titleMap = {
+  dashboard:'Dashboard', customers:'Customers', distributors:'Distributors', exportleads:'Export Leads',
+  orders:'Orders', inventory:'Inventory', farmers:'Farmers', production:'Production', products:'Products',
+  sales:'Sales', invoices:'Invoices', payments:'Payments', deliveries:'Deliveries', exportdocs:'Export Documentation',
+  qa:'Quality Assurance', compliance:'Compliance', marketing:'Marketing', tasks:'Tasks', calendar:'Calendar',
+  reports:'Reports', analytics:'Analytics', settings:'Settings'
+};
+navItems.forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    navItems.forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    const key = btn.dataset.page;
+    pages.forEach(p=>p.classList.remove('active'));
+    document.getElementById('page-'+key).classList.add('active');
+    pageTitle.textContent = titleMap[key] || key;
+    document.getElementById('sidebar').classList.remove('mobile-open');
+    window.scrollTo({top:0,behavior:'smooth'});
+  });
+});
+
+// Sidebar collapse
+const sidebar = document.getElementById('sidebar');
+document.getElementById('collapseBtn').addEventListener('click', ()=>{
+  sidebar.classList.toggle('collapsed');
+  document.getElementById('collapseLbl').textContent = sidebar.classList.contains('collapsed') ? 'Expand' : 'Collapse';
+});
+document.getElementById('mobileToggle').addEventListener('click', ()=> sidebar.classList.toggle('mobile-open'));
+
+// Dark mode
+function setDark(on){
+  document.body.classList.toggle('dark', on);
+  document.getElementById('darkToggle').innerHTML = on ? '<i class="fa-solid fa-sun"></i>' : '<i class="fa-solid fa-moon"></i>';
+  localStorage.setItem('dero-dark', on ? '1':'0');
+  drawAllCharts(); // redraw charts with theme-aware colors
+}
+document.getElementById('darkToggle').addEventListener('click', ()=> setDark(!document.body.classList.contains('dark')));
+if(localStorage.getItem('dero-dark')==='1') setDark(true);
+
+// Notification / profile dropdowns
+function toggleFloat(btnId, panelId){
+  const btn = document.getElementById(btnId), panel = document.getElementById(panelId);
+  btn.addEventListener('click', (e)=>{ e.stopPropagation(); panel.classList.toggle('show'); });
+  document.addEventListener('click', (e)=>{ if(!panel.contains(e.target) && e.target!==btn) panel.classList.remove('show'); });
+}
+toggleFloat('notifBtn','notifPanel');
+toggleFloat('profileBtn','profilePanel');
+
+// Generic table search
+document.querySelectorAll('.tbl-search').forEach(inp=>{
+  inp.addEventListener('input', ()=>{
+    const table = document.getElementById(inp.dataset.target);
+    const q = inp.value.toLowerCase();
+    table.querySelectorAll('tbody tr').forEach(tr=>{
+      tr.style.display = tr.textContent.toLowerCase().includes(q) ? '' : 'none';
+    });
+  });
+});
+
+// Global search — jumps to a relevant module (simple demo behaviour)
+document.getElementById('globalSearch').addEventListener('keydown', (e)=>{
+  if(e.key === 'Enter'){ toast('Searching "'+e.target.value+'" across customers, orders & farmers...'); }
+});
+
+/* ---------------------------------------------------------------------------------------
+   2. DUMMY DATA
+   --------------------------------------------------------------------------------------- */
+const countries = [
+  {name:'Kenya', flag:'🇰🇪'}, {name:'United Kingdom', flag:'🇬🇧'}, {name:'United States', flag:'🇺🇸'},
+  {name:'Netherlands', flag:'🇳🇱'}, {name:'UAE', flag:'🇦🇪'}, {name:'Germany', flag:'🇩🇪'},
+  {name:'Canada', flag:'🇨🇦'}, {name:'South Africa', flag:'🇿🇦'}, {name:'Uganda', flag:'🇺🇬'}, {name:'Rwanda', flag:'🇷🇼'}
+];
+
+const customers = [
+  {name:'Amina Foods Ltd', country:'Kenya', city:'Nairobi', phone:'+254 722 145 883', email:'amina@aminafoods.co.ke', type:'Wholesale', status:'Active', orders:48, ltv:1420000, last:'2026-06-28', notes:'Prefers frozen packs'},
+  {name:'Fresh Earth Distributors', country:'United Kingdom', city:'London', phone:'+44 20 7946 0958', email:'orders@freshearth.co.uk', type:'Export', status:'Active', orders:31, ltv:3860000, last:'2026-06-30', notes:'Monthly container orders'},
+  {name:'Diaspora Delights', country:'United States', city:'Houston', phone:'+1 713 555 0142', email:'hello@diasporadelights.com', type:'Export', status:'Active', orders:22, ltv:2210000, last:'2026-06-25', notes:'Requests halal cert'},
+  {name:'Naivasha Retail Mart', country:'Kenya', city:'Naivasha', phone:'+254 700 233 411', email:'info@naivasharetail.co.ke', type:'Retail', status:'Active', orders:64, ltv:980000, last:'2026-07-01', notes:''},
+  {name:'Kampala Green Grocers', country:'Uganda', city:'Kampala', phone:'+256 772 556 210', email:'sales@kampalagreens.ug', type:'Wholesale', status:'Prospect', orders:3, ltv:120000, last:'2026-05-12', notes:'Awaiting first order'},
+  {name:'Rotterdam Organics BV', country:'Netherlands', city:'Rotterdam', phone:'+31 10 217 4488', email:'procurement@rotterdamorganics.nl', type:'Export', status:'Active', orders:19, ltv:4120000, last:'2026-06-29', notes:'EU organic certified buyer'},
+  {name:'Gulf Fresh Trading', country:'UAE', city:'Dubai', phone:'+971 4 887 2201', email:'trade@gulffresh.ae', type:'Export', status:'Active', orders:14, ltv:2760000, last:'2026-06-18', notes:'Ramadan bulk orders'},
+  {name:'Kigali Home Foods', country:'Rwanda', city:'Kigali', phone:'+250 788 302 119', email:'contact@kigalihome.rw', type:'Retail', status:'Inactive', orders:8, ltv:210000, last:'2026-03-02', notes:'Payment delays'},
+  {name:'Berlin African Market', country:'Germany', city:'Berlin', phone:'+49 30 5557 2290', email:'info@berlinafrican.de', type:'Wholesale', status:'Active', orders:26, ltv:1980000, last:'2026-06-22', notes:''},
+  {name:'Toronto Taste of Africa', country:'Canada', city:'Toronto', phone:'+1 416 555 8890', email:'hello@torontotoa.ca', type:'Export', status:'Active', orders:17, ltv:2340000, last:'2026-06-15', notes:'Growing fast, review credit terms'},
+  {name:'Cape Town Pantry Co.', country:'South Africa', city:'Cape Town', phone:'+27 21 555 6712', email:'orders@ctpantry.co.za', type:'Wholesale', status:'Active', orders:39, ltv:1650000, last:'2026-06-27', notes:''},
+  {name:'Mombasa Institutional Supply', country:'Kenya', city:'Mombasa', phone:'+254 733 900 214', email:'procurement@mis.co.ke', type:'Institutional', status:'Active', orders:52, ltv:2980000, last:'2026-07-02', notes:'Supplies hospitals & schools'},
+];
+
+const distributors = [
+  {name:'Fresh Earth Distributors', country:'United Kingdom', importStatus:'Cleared', license:'FL-UK-22194', volume:18400, contact:'James Whitfield', email:'james@freshearth.co.uk', phone:'+44 20 7946 0958', last:'2026-06-30', potential:5200000, status:'Active'},
+  {name:'Rotterdam Organics BV', country:'Netherlands', importStatus:'Cleared', license:'FL-NL-88720', volume:24100, contact:'Sanne de Boer', email:'sanne@rotterdamorganics.nl', phone:'+31 10 217 4488', last:'2026-06-29', potential:6800000, status:'Active'},
+  {name:'Gulf Fresh Trading', country:'UAE', importStatus:'Pending', license:'FL-AE-30012', volume:9200, contact:'Fatima Al Suwaidi', email:'fatima@gulffresh.ae', phone:'+971 4 887 2201', last:'2026-06-18', potential:3100000, status:'Onboarding'},
+  {name:'Diaspora Delights', country:'United States', importStatus:'Cleared', license:'FL-US-55810', volume:14700, contact:'Marcus Johnson', email:'marcus@diasporadelights.com', phone:'+1 713 555 0142', last:'2026-06-25', potential:4400000, status:'Active'},
+  {name:'Toronto Taste of Africa', country:'Canada', importStatus:'Cleared', license:'FL-CA-77341', volume:8100, contact:'Adaeze Obi', email:'adaeze@torontotoa.ca', phone:'+1 416 555 8890', last:'2026-06-15', potential:2600000, status:'Active'},
+  {name:'Berlin African Market', country:'Germany', importStatus:'Under Review', license:'FL-DE-40982', volume:6200, contact:'Klaus Fischer', email:'klaus@berlinafrican.de', phone:'+49 30 5557 2290', last:'2026-06-22', potential:1900000, status:'Suspended'},
+];
+
+const leadStages = ['New Inquiry','Contacted','Samples Sent','Negotiating','Documentation','Payment Pending','Ready to Ship','Active Distributor','Lost'];
+const exportLeads = [
+  {company:'Nordic Roots AB', country:'Sweden', flag:'🇸🇪', contact:'Elin Karlsson', revenue:2100000, prob:20, followup:'2026-07-08', stage:'New Inquiry'},
+  {company:'Auckland Afro Mart', country:'New Zealand', flag:'🇳🇿', contact:'Tama Ngata', revenue:1450000, prob:15, followup:'2026-07-10', stage:'New Inquiry'},
+  {company:'Paris Terroir Africain', country:'France', flag:'🇫🇷', contact:'Claire Dubois', revenue:2600000, prob:35, followup:'2026-07-06', stage:'Contacted'},
+  {company:'Milan Gusto Globale', country:'Italy', flag:'🇮🇹', contact:'Marco Rossi', revenue:1980000, prob:30, followup:'2026-07-09', stage:'Contacted'},
+  {company:'Doha Heritage Foods', country:'Qatar', flag:'🇶🇦', contact:'Yousef Al-Emadi', revenue:3400000, prob:50, followup:'2026-07-05', stage:'Samples Sent'},
+  {company:'Boston Roots Grocery', country:'United States', flag:'🇺🇸', contact:'Angela Price', revenue:2750000, prob:55, followup:'2026-07-07', stage:'Samples Sent'},
+  {company:'Sydney Savannah Foods', country:'Australia', flag:'🇦🇺', contact:'Liam O\'Connor', revenue:3100000, prob:65, followup:'2026-07-11', stage:'Negotiating'},
+  {company:'Gulf Fresh Trading', country:'UAE', flag:'🇦🇪', contact:'Fatima Al Suwaidi', revenue:3100000, prob:70, followup:'2026-07-04', stage:'Documentation'},
+  {company:'Rotterdam Organics BV', country:'Netherlands', flag:'🇳🇱', contact:'Sanne de Boer', revenue:6800000, prob:85, followup:'2026-07-04', stage:'Payment Pending'},
+  {company:'Diaspora Delights', country:'United States', flag:'🇺🇸', contact:'Marcus Johnson', revenue:4400000, prob:90, followup:'2026-07-05', stage:'Ready to Ship'},
+  {company:'Fresh Earth Distributors', country:'United Kingdom', flag:'🇬🇧', contact:'James Whitfield', revenue:5200000, prob:100, followup:'2026-07-15', stage:'Active Distributor'},
+  {company:'Toronto Taste of Africa', country:'Canada', flag:'🇨🇦', contact:'Adaeze Obi', revenue:2600000, prob:100, followup:'2026-07-20', stage:'Active Distributor'},
+  {company:'Oslo Nordisk Import', country:'Norway', flag:'🇳🇴', contact:'Ingrid Solberg', revenue:1200000, prob:0, followup:'—', stage:'Lost'},
+];
+
+const productList = [
+  {name:'African Nightshade', local:'Managu', icon:'🌿', stock:2840, price:180, shelf:'12 months (frozen)', sizes:'250g, 500g, 1kg', exportReady:true},
+  {name:'Amaranth', local:'Terere', icon:'🥬', stock:1960, price:170, shelf:'12 months (frozen)', sizes:'250g, 500g, 1kg', exportReady:true},
+  {name:'Cowpea Leaves', local:'Kunde', icon:'🍃', stock:1420, price:190, shelf:'12 months (frozen)', sizes:'250g, 500g', exportReady:true},
+  {name:'Jute Mallow', local:'Mrenda', icon:'🌱', stock:980, price:200, shelf:'10 months (frozen)', sizes:'250g, 500g', exportReady:false},
+  {name:'Ethiopian Kale', local:'Kanzira', icon:'🥦', stock:1310, price:175, shelf:'12 months (frozen)', sizes:'250g, 500g, 1kg', exportReady:true},
+  {name:'Spider Plant', local:'Sagaa', icon:'🌾', stock:760, price:210, shelf:'9 months (frozen)', sizes:'250g, 500g', exportReady:false},
+  {name:'Pumpkin Leaves', local:'Squash Tips', icon:'🎃', stock:1580, price:165, shelf:'12 months (frozen)', sizes:'250g, 500g, 1kg', exportReady:true},
+  {name:'Slenderleaf', local:'Osuga', icon:'🌿', stock:640, price:220, shelf:'9 months (frozen)', sizes:'250g, 500g', exportReady:false},
+  {name:'Special Mixes', local:'Heritage Blend', icon:'🥗', stock:2100, price:230, shelf:'12 months (frozen)', sizes:'500g, 1kg, 2kg', exportReady:true},
+];
+
+const farmers = [
+  {name:'Wanjiru Kamau', county:'Kiambu', village:'Ndumberi', phone:'+254 711 220 340', size:2.5, grown:'Managu, Terere', cert:'Organic Certified', organic:true, forecast:'820 kg (Aug)', payments:184000},
+  {name:'Achieng Odhiambo', county:'Kisumu', village:'Nyalenda', phone:'+254 722 810 552', size:1.8, grown:'Mrenda, Kunde', cert:'In Transition', organic:false, forecast:'540 kg (Aug)', payments:126000},
+  {name:'Chebet Kiprotich', county:'Nakuru', village:'Njoro', phone:'+254 733 402 118', size:3.2, grown:'Kanzira, Squash Tips', cert:'Organic Certified', organic:true, forecast:'960 kg (Aug)', payments:212000},
+  {name:'Nafula Wekesa', county:'Bungoma', village:'Kimilili', phone:'+254 700 552 903', size:1.2, grown:'Osuga, Sagaa', cert:'Conventional', organic:false, forecast:'310 kg (Aug)', payments:78000},
+  {name:'Mumbi Njeri', county:'Murang\'a', village:'Kandara', phone:'+254 745 118 620', size:2.0, grown:'Terere, Kunde', cert:'Organic Certified', organic:true, forecast:'690 kg (Aug)', payments:156000},
+  {name:'Adhiambo Otieno', county:'Siaya', village:'Ugunja', phone:'+254 719 340 771', size:1.5, grown:'Mrenda, Managu', cert:'In Transition', organic:false, forecast:'420 kg (Aug)', payments:98000},
+  {name:'Jerop Chepkemoi', county:'Uasin Gishu', village:'Turbo', phone:'+254 701 662 044', size:2.8, grown:'Kanzira, Terere', cert:'Organic Certified', organic:true, forecast:'880 kg (Aug)', payments:198000},
+  {name:'Wangui Muthoni', county:'Nyeri', village:'Karatina', phone:'+254 712 900 335', size:1.9, grown:'Squash Tips, Managu', cert:'Conventional', organic:false, forecast:'460 kg (Aug)', payments:104000},
+];
+
+const productionStages = [
+  {name:'Raw Vegetables Received', icon:'fa-truck-ramp-box', value:6200, unit:'kg today', color:'#40916c'},
+  {name:'Processing', icon:'fa-gears', value:3400, unit:'kg in progress', color:'#2d6a4f'},
+  {name:'Drying', icon:'fa-sun', value:2100, unit:'kg drying', color:'#d4a373'},
+  {name:'Packaging', icon:'fa-box', value:1850, unit:'kg packaged', color:'#8a5a34'},
+  {name:'Frozen Stock', icon:'fa-snowflake', value:9600, unit:'kg in cold store', color:'#3f8fd1'},
+  {name:'Finished Goods', icon:'fa-boxes-stacked', value:11200, unit:'kg ready', color:'#1b4332'},
+  {name:'Rejected Batch', icon:'fa-triangle-exclamation', value:112, unit:'kg rejected', color:'#d9534f'},
+];
+
+const productionBatches = [
+  {batch:'DG-2201', product:'African Nightshade', operator:'Grace Wanjiku', stage:'Finished Goods', prod:'2026-06-20', exp:'2027-06-20', yield:820, status:'Passed'},
+  {batch:'DG-2202', product:'Amaranth', operator:'Susan Achieng', stage:'Packaging', prod:'2026-06-25', exp:'2027-06-25', yield:640, status:'In Progress'},
+  {batch:'DG-2203', product:'Cowpea Leaves', operator:'Grace Wanjiku', stage:'Drying', prod:'2026-06-29', exp:'2027-06-29', yield:410, status:'In Progress'},
+  {batch:'DG-2204', product:'Ethiopian Kale', operator:'Peter Mwangi', stage:'Frozen Stock', prod:'2026-06-18', exp:'2027-06-18', yield:730, status:'Passed'},
+  {batch:'DG-2205', product:'Pumpkin Leaves', operator:'Susan Achieng', stage:'Processing', prod:'2026-07-01', exp:'2027-07-01', yield:280, status:'In Progress'},
+  {batch:'DG-2206', product:'Special Mixes', operator:'Grace Wanjiku', stage:'Rejected Batch', prod:'2026-06-27', exp:'2027-06-27', yield:38, status:'Rejected'},
+  {batch:'DG-2207', product:'Jute Mallow', operator:'Peter Mwangi', stage:'Finished Goods', prod:'2026-06-15', exp:'2027-06-15', yield:390, status:'Passed'},
+];
+
+const orders = [
+  {id:'DG-3021', customer:'Rotterdam Organics BV', product:'Special Mixes', qty:1200, date:'2026-07-01', dest:'Rotterdam, NL', amount:276000, status:'Shipped'},
+  {id:'DG-3022', customer:'Naivasha Retail Mart', product:'African Nightshade', qty:180, date:'2026-07-02', dest:'Naivasha, KE', amount:32400, status:'Delivered'},
+  {id:'DG-3023', customer:'Fresh Earth Distributors', product:'Amaranth', qty:2200, date:'2026-06-30', dest:'London, UK', amount:374000, status:'Processing'},
+  {id:'DG-3024', customer:'Gulf Fresh Trading', product:'Ethiopian Kale', qty:900, date:'2026-06-29', dest:'Dubai, UAE', amount:157500, status:'Pending'},
+  {id:'DG-3025', customer:'Diaspora Delights', product:'Cowpea Leaves', qty:1500, date:'2026-06-28', dest:'Houston, US', amount:285000, status:'Shipped'},
+  {id:'DG-3026', customer:'Mombasa Institutional Supply', product:'Pumpkin Leaves', qty:640, date:'2026-07-02', dest:'Mombasa, KE', amount:105600, status:'Processing'},
+  {id:'DG-3027', customer:'Kigali Home Foods', product:'Slenderleaf', qty:120, date:'2026-06-20', dest:'Kigali, RW', amount:26400, status:'Cancelled'},
+  {id:'DG-3028', customer:'Berlin African Market', product:'Jute Mallow', qty:760, date:'2026-06-27', dest:'Berlin, DE', amount:152000, status:'Delivered'},
+];
+
+const inventoryRows = [
+  {product:'African Nightshade (Managu)', batch:'DG-2201', stock:2840, incoming:600, reserved:420, loc:'Nairobi Warehouse', expiry:'2027-06-20', alert:'OK'},
+  {product:'Amaranth (Terere)', batch:'DG-2202', stock:340, incoming:200, reserved:280, loc:'Nairobi Warehouse', expiry:'2027-06-25', alert:'Low Stock'},
+  {product:'Cowpea Leaves (Kunde)', batch:'DG-2203', stock:1420, incoming:0, reserved:310, loc:'Nakuru Cold Store', expiry:'2027-06-29', alert:'OK'},
+  {product:'Jute Mallow (Mrenda)', batch:'DG-2207', stock:980, incoming:150, reserved:200, loc:'Mombasa Export Bay', expiry:'2027-06-15', alert:'OK'},
+  {product:'Ethiopian Kale (Kanzira)', batch:'DG-2204', stock:1310, incoming:400, reserved:500, loc:'Nairobi Warehouse', expiry:'2027-06-18', alert:'OK'},
+  {product:'Spider Plant (Sagaa)', batch:'DG-2110', stock:95, incoming:0, reserved:80, loc:'Nakuru Cold Store', expiry:'2026-08-02', alert:'Expiring Soon'},
+  {product:'Pumpkin Leaves', batch:'DG-2205', stock:1580, incoming:300, reserved:640, loc:'Nairobi Warehouse', expiry:'2027-07-01', alert:'OK'},
+  {product:'Slenderleaf (Osuga)', batch:'DG-2118', stock:60, incoming:0, reserved:120, loc:'Mombasa Export Bay', expiry:'2026-07-20', alert:'Low Stock'},
+];
+
+const invoices = [
+  {id:'INV-1041', customer:'Rotterdam Organics BV', issue:'2026-06-20', due:'2026-07-20', amount:276000, status:'Pending'},
+  {id:'INV-1042', customer:'Fresh Earth Distributors', issue:'2026-06-01', due:'2026-06-25', amount:374000, status:'Overdue'},
+  {id:'INV-1043', customer:'Naivasha Retail Mart', issue:'2026-07-02', due:'2026-07-16', amount:32400, status:'Paid'},
+  {id:'INV-1044', customer:'Gulf Fresh Trading', issue:'2026-06-29', due:'2026-07-29', amount:157500, status:'Pending'},
+  {id:'INV-1045', customer:'Diaspora Delights', issue:'2026-06-28', due:'2026-07-12', amount:285000, status:'Paid'},
+  {id:'INV-1046', customer:'Kigali Home Foods', issue:'2026-06-05', due:'2026-06-19', amount:26400, status:'Overdue'},
+];
+
+const payments = [
+  {id:'PMT-9001', customer:'Naivasha Retail Mart', invoice:'INV-1043', method:'Mobile Money', date:'2026-07-03', amount:32400, status:'Completed'},
+  {id:'PMT-9002', customer:'Diaspora Delights', invoice:'INV-1045', method:'Letter of Credit', date:'2026-07-01', amount:285000, status:'Completed'},
+  {id:'PMT-9003', customer:'Rotterdam Organics BV', invoice:'INV-1041', method:'Bank Transfer', date:'2026-06-25', amount:150000, status:'Partial'},
+  {id:'PMT-9004', customer:'Fresh Earth Distributors', invoice:'INV-1042', method:'Bank Transfer', date:'2026-06-10', amount:0, status:'Failed'},
+  {id:'PMT-9005', customer:'Gulf Fresh Trading', invoice:'INV-1044', method:'Card', date:'2026-06-30', amount:157500, status:'Completed'},
+];
+
+const deliveries = [
+  {id:'DEL-701', order:'DG-3021', dest:'Rotterdam, Netherlands', carrier:'Maersk Line', dispatch:'2026-07-01', eta:'2026-07-18', progress:35, status:'In Transit'},
+  {id:'DEL-702', order:'DG-3023', dest:'London, United Kingdom', carrier:'DHL Global Forwarding', dispatch:'2026-06-30', eta:'2026-07-14', progress:20, status:'Customs'},
+  {id:'DEL-703', order:'DG-3025', dest:'Houston, United States', carrier:'Kuehne + Nagel', dispatch:'2026-06-28', eta:'2026-07-20', progress:55, status:'In Transit'},
+  {id:'DEL-704', order:'DG-3022', dest:'Naivasha, Kenya', carrier:'DERO Fleet', dispatch:'2026-07-02', eta:'2026-07-03', progress:90, status:'In Transit'},
+  {id:'DEL-705', order:'DG-3028', dest:'Berlin, Germany', carrier:'DHL Global Forwarding', dispatch:'2026-06-27', eta:'2026-07-10', progress:100, status:'Delivered'},
+];
+
+const exportDocs = [
+  {shipment:'SHP-5501 · Rotterdam NL', phyto:'Approved', origin:'Approved', invoice:'Approved', packing:'Approved', permit:'Approved', bol:'Pending', haccp:'Approved', iso:'Approved', fda:'N/A'},
+  {shipment:'SHP-5502 · London UK', phyto:'Approved', origin:'Approved', invoice:'Pending', packing:'Approved', permit:'Approved', bol:'Approved', haccp:'Approved', iso:'Approved', fda:'N/A'},
+  {shipment:'SHP-5503 · Houston US', phyto:'Approved', origin:'Approved', invoice:'Approved', packing:'Approved', permit:'Approved', bol:'Approved', haccp:'Approved', iso:'Approved', fda:'Approved'},
+  {shipment:'SHP-5504 · Dubai UAE', phyto:'Pending', origin:'Approved', invoice:'Approved', packing:'Pending', permit:'Pending', bol:'Pending', haccp:'Approved', iso:'Approved', fda:'N/A'},
+  {shipment:'SHP-5498 · Berlin DE', phyto:'Expired', origin:'Approved', invoice:'Approved', packing:'Approved', permit:'Expired', bol:'Approved', haccp:'Approved', iso:'Approved', fda:'N/A'},
+];
+
+const qaRecords = [
+  {date:'2026-07-01', inspector:'Faith Adhiambo', batch:'DG-2201', moisture:'6.2%', micro:'Pass', packaging:'Pass', trace:'Full', result:'Pass'},
+  {date:'2026-06-29', inspector:'Faith Adhiambo', batch:'DG-2203', moisture:'7.8%', micro:'Pass', packaging:'Pass', trace:'Full', result:'Pass'},
+  {date:'2026-06-27', inspector:'Peter Mwangi', batch:'DG-2206', moisture:'11.4%', micro:'Fail', packaging:'Pass', trace:'Partial', result:'Fail'},
+  {date:'2026-06-25', inspector:'Faith Adhiambo', batch:'DG-2202', moisture:'6.9%', micro:'Pass', packaging:'Pass', trace:'Full', result:'Pass'},
+  {date:'2026-06-20', inspector:'Peter Mwangi', batch:'DG-2204', moisture:'6.5%', micro:'Pass', packaging:'Pass', trace:'Full', result:'Pass'},
+];
+
+const complianceItems = [
+  {name:'HACCP Certification', authority:'Kenya Bureau of Standards', status:'Approved', expiry:'2027-02-14', icon:'fa-shield-halved'},
+  {name:'ISO 22000:2018', authority:'SGS Kenya', status:'Approved', expiry:'2026-11-30', icon:'fa-certificate'},
+  {name:'Organic Certification', authority:'EcoCert Africa', status:'Approved', expiry:'2026-09-01', icon:'fa-leaf'},
+  {name:'Fair Trade Labor Standard', authority:'Fairtrade Africa', status:'Pending Renewal', expiry:'2026-07-20', icon:'fa-people-group'},
+  {name:'FDA Facility Registration', authority:'U.S. FDA', status:'Approved', expiry:'2026-12-31', icon:'fa-flag-usa'},
+  {name:'KEBS Export Standardization Mark', authority:'Kenya Bureau of Standards', status:'Expired', expiry:'2026-05-10', icon:'fa-stamp'},
+];
+
+const marketingChannels = [
+  {name:'Instagram', icon:'fa-instagram', brand:'fab', followers:48200, leads:320, orders:96, roi:4.2},
+  {name:'TikTok', icon:'fa-tiktok', brand:'fab', followers:61500, leads:410, orders:88, roi:3.6},
+  {name:'Facebook', icon:'fa-facebook', brand:'fab', followers:32100, leads:190, orders:52, roi:2.8},
+  {name:'LinkedIn', icon:'fa-linkedin', brand:'fab', followers:9800, leads:145, orders:34, roi:5.1},
+  {name:'Website', icon:'fa-globe', brand:'fas', followers:0, leads:270, orders:118, roi:6.4},
+  {name:'Email Campaigns', icon:'fa-envelope', brand:'fas', followers:14200, leads:205, orders:74, roi:7.2},
+];
+
+const tasksSeed = [
+  {title:'Confirm phytosanitary docs for SHP-5504', assignee:'Faith A.', due:'Jul 06', col:'todo'},
+  {title:'Follow up with Nordic Roots AB', assignee:'Amina Y.', due:'Jul 08', col:'todo'},
+  {title:'Schedule farmer training — Kiambu', assignee:'Grace W.', due:'Jul 10', col:'todo'},
+  {title:'Prep Q3 export forecast', assignee:'Crystal N.', due:'Jul 09', col:'inprogress'},
+  {title:'Resolve invoice INV-1042 dispute', assignee:'Amina Y.', due:'Jul 05', col:'inprogress'},
+  {title:'Await KEBS mark renewal approval', assignee:'Faith A.', due:'Jul 12', col:'waiting'},
+  {title:'Vendor packaging supplier response', assignee:'Grace W.', due:'Jul 07', col:'waiting'},
+  {title:'Onboard farmer Wanjiru Kamau', assignee:'Grace W.', due:'Jul 02', col:'done'},
+  {title:'Renew HACCP certificate', assignee:'Faith A.', due:'Jun 28', col:'done'},
+];
+
+const calendarEvents = {
+  '2026-07-04':['Independence Day — office closed'],
+  '2026-07-06':['Phytosanitary doc deadline'],
+  '2026-07-08':['Call: Nordic Roots AB'],
+  '2026-07-09':['Q3 forecast review'],
+  '2026-07-12':['Farmer training — Kiambu'],
+  '2026-07-15':['Rotterdam Organics contract renewal'],
+  '2026-07-20':['Rotterdam Organics BV shipment ETA'],
+};
+
+/* ---------------------------------------------------------------------------------------
+   3. DASHBOARD — STAT CARDS + ANIMATED COUNTERS
+   --------------------------------------------------------------------------------------- */
+const dashboardStats = [
+  {label:'Total Customers', val:1284, icon:'fa-users', color:'#40916c', trend:'+8.2%', up:true, prefix:''},
+  {label:'Active Distributors', val:36, icon:'fa-truck-field', color:'#2d6a4f', trend:'+3', up:true, prefix:''},
+  {label:'Monthly Sales', val:8420000, icon:'fa-chart-line', color:'#d4a373', trend:'+12.4%', up:true, prefix:'KES '},
+  {label:'Export Orders', val:214, icon:'fa-earth-africa', color:'#3f8fd1', trend:'+15%', up:true, prefix:''},
+  {label:'Pending Orders', val:27, icon:'fa-hourglass-half', color:'#e0a339', trend:'-4%', up:false, prefix:''},
+  {label:'Inventory Value', val:5230000, icon:'fa-warehouse', color:'#8a5a34', trend:'+2.1%', up:true, prefix:'KES '},
+  {label:'Farmers', val:1540, icon:'fa-tractor', color:'#1b4332', trend:'+64', up:true, prefix:''},
+  {label:'Products', val:9, icon:'fa-leaf', color:'#52b788', trend:'0', up:true, prefix:''},
+  {label:'Revenue (YTD)', val:64300000, icon:'fa-sack-dollar', color:'#245a41', trend:'+18.6%', up:true, prefix:'KES '},
+  {label:'Food Saved (kg)', val:184200, icon:'fa-recycle', color:'#74c69d', trend:'+9.4%', up:true, prefix:''},
+  {label:'Women Supported', val:312, icon:'fa-venus', color:'#d9a06b', trend:'+22', up:true, prefix:''},
+  {label:'Countries Served', val:10, icon:'fa-globe', color:'#3f8fd1', trend:'+1', up:true, prefix:''},
+];
+
+function renderStatCards(){
+  const row = document.getElementById('statCardsRow');
+  row.innerHTML = dashboardStats.map((s,i)=>`
+    <div class="col-xl-3 col-lg-4 col-sm-6">
+      <div class="stat-card">
+        <div class="si-glow" style="background:${s.color};"></div>
+        <div class="si-icon" style="background:${s.color};"><i class="fa-solid ${s.icon}"></i></div>
+        <div class="si-val" data-count="${s.val}" data-prefix="${s.prefix}">${s.prefix}0</div>
+        <div class="si-label">${s.label}</div>
+        <div class="si-trend ${s.up?'up':'down'}"><i class="fa-solid fa-arrow-${s.up?'up':'down'}"></i> ${s.trend}</div>
+      </div>
+    </div>`).join('');
+  animateCounters();
+}
+function animateCounters(){
+  document.querySelectorAll('[data-count]').forEach(el=>{
+    const target = Number(el.dataset.count);
+    const prefix = el.dataset.prefix || '';
+    const dur = 1200; const start = performance.now();
+    function step(now){
+      const p = Math.min((now-start)/dur, 1);
+      const eased = 1 - Math.pow(1-p, 3);
+      el.textContent = prefix + Math.round(target*eased).toLocaleString('en-US');
+      if(p<1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  });
+}
+
+/* ---------------------------------------------------------------------------------------
+   4. GENERIC TABLE BUILDERS
+   --------------------------------------------------------------------------------------- */
+function statusBadge(status){
+  const map = {
+    Active:'bd-green', Inactive:'bd-gray', Prospect:'bd-gold', Onboarding:'bd-gold', Suspended:'bd-red',
+    Pending:'bd-gold', Processing:'bd-blue', Shipped:'bd-blue', Delivered:'bd-green', Cancelled:'bd-red',
+    Paid:'bd-green', Overdue:'bd-red', Completed:'bd-green', Partial:'bd-gold', Failed:'bd-red',
+    'In Transit':'bd-blue', Customs:'bd-gold', Approved:'bd-green', Expired:'bd-red', Pass:'bd-green', Fail:'bd-red',
+    'Passed':'bd-green', 'In Progress':'bd-blue', 'Rejected':'bd-red', 'N/A':'bd-gray', 'Pending Renewal':'bd-gold',
+    'Cleared':'bd-green', 'Under Review':'bd-gold', 'Low Stock':'bd-red', 'Expiring Soon':'bd-gold', 'OK':'bd-green'
+  };
+  return `<span class="badge-dero ${map[status]||'bd-gray'}">${status}</span>`;
+}
+
+function renderCustomers(){
+  const tbody = document.querySelector('#customersTable tbody');
+  tbody.innerHTML = customers.map(c=>`
+    <tr>
+      <td><div class="d-flex align-items-center gap-2"><div class="row-avatar" style="background:${avatarColor(c.name)}">${initials(c.name)}</div><span class="fw-semibold">${c.name}</span></div></td>
+      <td>${c.country}</td><td>${c.city}</td><td>${c.phone}</td><td>${c.email}</td>
+      <td>${c.type}</td><td>${statusBadge(c.status)}</td><td>${c.orders}</td>
+      <td>${fmtKES(c.ltv)}</td><td>${c.last}</td>
+      <td class="text-muted-soft" style="max-width:140px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" title="${c.notes}">${c.notes||'—'}</td>
+      <td>
+        <button class="btn-ghost-sm" onclick="toast('Viewing ${c.name}')"><i class="fa-solid fa-eye"></i></button>
+        <button class="btn-ghost-sm" onclick="toast('Editing ${c.name}')"><i class="fa-solid fa-pen"></i></button>
+        <button class="btn-ghost-sm" onclick="toast('Deleted ${c.name} (demo)')"><i class="fa-solid fa-trash"></i></button>
+      </td>
+    </tr>`).join('');
+}
+
+function renderDistributors(){
+  const tbody = document.querySelector('#distributorsTable tbody');
+  tbody.innerHTML = distributors.map(d=>`
+    <tr>
+      <td class="fw-semibold">${d.name}</td><td>${d.country}</td><td>${statusBadge(d.importStatus)}</td>
+      <td>${d.license}</td><td>${fmtNum(d.volume)}</td><td>${d.contact}</td><td>${d.email}</td><td>${d.phone}</td>
+      <td>${d.last}</td><td>${fmtKES(d.potential)}</td><td>${statusBadge(d.status)}</td>
+    </tr>`).join('');
+}
+
+function renderOrders(){
+  const tbody = document.querySelector('#ordersTable tbody');
+  tbody.innerHTML = orders.map(o=>`
+    <tr>
+      <td class="fw-semibold">${o.id}</td><td>${o.customer}</td><td>${o.product}</td><td>${fmtNum(o.qty)}</td>
+      <td>${o.date}</td><td>${o.dest}</td><td>${fmtKES(o.amount)}</td><td>${statusBadge(o.status)}</td>
+      <td><button class="btn-ghost-sm" onclick="toast('Viewing order ${o.id}')"><i class="fa-solid fa-eye"></i></button></td>
+    </tr>`).join('');
+
+  // recent orders (dashboard) - top 5
+  const rtbody = document.querySelector('#recentOrdersTable tbody');
+  rtbody.innerHTML = orders.slice(0,5).map(o=>`
+    <tr><td class="fw-semibold">${o.id}</td><td>${o.customer}</td><td>${o.product}</td><td>${fmtKES(o.amount)}</td><td>${statusBadge(o.status)}</td></tr>
+  `).join('');
+}
+
+function renderInventory(){
+  const tbody = document.querySelector('#inventoryTable tbody');
+  tbody.innerHTML = inventoryRows.map(r=>`
+    <tr>
+      <td class="fw-semibold">${r.product}</td><td>${r.batch}</td><td>${fmtNum(r.stock)} kg</td>
+      <td>${fmtNum(r.incoming)} kg</td><td>${fmtNum(r.reserved)} kg</td><td>${r.loc}</td><td>${r.expiry}</td>
+      <td>${statusBadge(r.alert)}</td>
+    </tr>`).join('');
+
+  const totalVal = inventoryRows.reduce((a,r)=>a+r.stock,0);
+  const lowStock = inventoryRows.filter(r=>r.alert==='Low Stock').length;
+  const expiring = inventoryRows.filter(r=>r.alert==='Expiring Soon').length;
+  const stats = [
+    {label:'Current Stock (kg)', val:totalVal, icon:'fa-boxes-stacked', color:'#40916c'},
+    {label:'Incoming Stock (kg)', val:inventoryRows.reduce((a,r)=>a+r.incoming,0), icon:'fa-truck-ramp-box', color:'#3f8fd1'},
+    {label:'Reserved Stock (kg)', val:inventoryRows.reduce((a,r)=>a+r.reserved,0), icon:'fa-lock', color:'#8a5a34'},
+    {label:'Low Stock Alerts', val:lowStock, icon:'fa-triangle-exclamation', color:'#d9534f'},
+  ];
+  document.getElementById('inventoryStatsRow').innerHTML = stats.map(s=>`
+    <div class="col-lg-3 col-sm-6">
+      <div class="stat-card">
+        <div class="si-icon" style="background:${s.color};"><i class="fa-solid ${s.icon}"></i></div>
+        <div class="si-val">${fmtNum(s.val)}</div>
+        <div class="si-label">${s.label}</div>
+      </div>
+    </div>`).join('');
+}
+
+function renderFarmers(){
+  const tbody = document.querySelector('#farmersTable tbody');
+  tbody.innerHTML = farmers.map(f=>`
+    <tr>
+      <td><div class="d-flex align-items-center gap-2"><div class="row-avatar" style="background:${avatarColor(f.name)}">${initials(f.name)}</div><span class="fw-semibold">${f.name}</span></div></td>
+      <td>${f.county}</td><td>${f.village}</td><td>${f.phone}</td><td>${f.size}</td><td>${f.grown}</td>
+      <td>${f.cert}</td><td>${f.organic?'<span class=\"badge-dero bd-green\">Organic</span>':'<span class=\"badge-dero bd-gray\">Non-Organic</span>'}</td>
+      <td>${f.forecast}</td><td>${fmtKES(f.payments)}</td>
+    </tr>`).join('');
+}
+
+function renderProduction(){
+  document.getElementById('productionStagesRow').innerHTML = productionStages.map(s=>`
+    <div class="col-lg-3 col-md-4 col-sm-6">
+      <div class="stat-card">
+        <div class="si-icon" style="background:${s.color};"><i class="fa-solid ${s.icon}"></i></div>
+        <div class="si-val">${fmtNum(s.value)}</div>
+        <div class="si-label">${s.name}</div>
+        <div class="section-sub mt-1">${s.unit}</div>
+      </div>
+    </div>`).join('');
+
+  const tbody = document.querySelector('#productionTable tbody');
+  tbody.innerHTML = productionBatches.map(b=>`
+    <tr>
+      <td class="fw-semibold">${b.batch}</td><td>${b.product}</td><td>${b.operator}</td><td>${b.stage}</td>
+      <td>${b.prod}</td><td>${b.exp}</td><td>${fmtNum(b.yield)} kg</td><td>${statusBadge(b.status)}</td>
+    </tr>`).join('');
+}
+
+function renderProducts(){
+  document.getElementById('productsRow').innerHTML = productList.map(p=>`
+    <div class="col-xl-4 col-md-6">
+      <div class="product-card">
+        <div class="product-photo">
+          ${p.icon}
+          ${p.exportReady ? '<span class="export-badge badge-dero bd-forest"><i class="fa-solid fa-plane-departure"></i> Export Ready</span>' : '<span class="export-badge badge-dero bd-gray">Local Market</span>'}
+        </div>
+        <div class="product-body">
+          <h6>${p.name}</h6>
+          <div class="scientific">${p.local}</div>
+          <div class="pspecs">
+            <div><span>Stock</span><b>${fmtNum(p.stock)} kg</b></div>
+            <div><span>Price / kg</span><b>${fmtKES(p.price)}</b></div>
+            <div><span>Shelf Life</span><b>${p.shelf}</b></div>
+            <div><span>Sizes</span><b>${p.sizes}</b></div>
+          </div>
+          <button class="btn-outline-dero w-100" onclick="toast('Viewing ${p.name} details')">View Details</button>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+function renderInvoices(){
+  const tbody = document.querySelector('#invoicesTable tbody');
+  tbody.innerHTML = invoices.map(i=>`
+    <tr>
+      <td class="fw-semibold">${i.id}</td><td>${i.customer}</td><td>${i.issue}</td><td>${i.due}</td>
+      <td>${fmtKES(i.amount)}</td><td>${statusBadge(i.status)}</td>
+      <td><button class="btn-ghost-sm" onclick="toast('Downloading ${i.id}')"><i class="fa-solid fa-download"></i></button></td>
+    </tr>`).join('');
+}
+
+function renderPayments(){
+  const tbody = document.querySelector('#paymentsTable tbody');
+  tbody.innerHTML = payments.map(p=>`
+    <tr>
+      <td class="fw-semibold">${p.id}</td><td>${p.customer}</td><td>${p.invoice}</td><td>${p.method}</td>
+      <td>${p.date}</td><td>${fmtKES(p.amount)}</td><td>${statusBadge(p.status)}</td>
+    </tr>`).join('');
+}
+
+function renderDeliveries(){
+  const tbody = document.querySelector('#deliveriesTable tbody');
+  tbody.innerHTML = deliveries.map(d=>`
+    <tr>
+      <td class="fw-semibold">${d.id}</td><td>${d.order}</td><td>${d.dest}</td><td>${d.carrier}</td>
+      <td>${d.dispatch}</td><td>${d.eta}</td>
+      <td style="min-width:120px;"><div class="progress-dero"><div class="bar" style="width:${d.progress}%;"></div></div></td>
+      <td>${statusBadge(d.status)}</td>
+    </tr>`).join('');
+}
+
+function renderExportDocs(){
+  const tbody = document.querySelector('#exportDocsTable tbody');
+  const cols = ['phyto','origin','invoice','packing','permit','bol','haccp','iso','fda'];
+  tbody.innerHTML = exportDocs.map(d=>`
+    <tr><td class="fw-semibold">${d.shipment}</td>${cols.map(c=>`<td>${statusBadge(d[c])}</td>`).join('')}</tr>
+  `).join('');
+}
+
+function renderQA(){
+  const tbody = document.querySelector('#qaTable tbody');
+  tbody.innerHTML = qaRecords.map(q=>`
+    <tr>
+      <td>${q.date}</td><td>${q.inspector}</td><td class="fw-semibold">${q.batch}</td><td>${q.moisture}</td>
+      <td>${statusBadge(q.micro)}</td><td>${statusBadge(q.packaging)}</td><td>${q.trace}</td><td>${statusBadge(q.result)}</td>
+    </tr>`).join('');
+}
+
+function renderCompliance(){
+  document.getElementById('complianceRow').innerHTML = complianceItems.map(c=>`
+    <div class="col-lg-4 col-md-6">
+      <div class="stat-card">
+        <div class="si-icon" style="background:var(--forest-800);"><i class="fa-solid ${c.icon}"></i></div>
+        <div class="fw-bold" style="font-size:.95rem;">${c.name}</div>
+        <div class="section-sub mb-2">${c.authority}</div>
+        <div class="d-flex justify-content-between align-items-center">
+          ${statusBadge(c.status)}
+          <span class="section-sub">Exp: ${c.expiry}</span>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+function renderMarketing(){
+  document.getElementById('marketingRow').innerHTML = marketingChannels.map(m=>`
+    <div class="col-xl-4 col-md-6">
+      <div class="stat-card">
+        <div class="si-icon" style="background:var(--forest-800);"><i class="${m.brand} ${m.icon}"></i></div>
+        <div class="fw-bold mb-2" style="font-size:.95rem;">${m.name}</div>
+        <div class="d-flex justify-content-between section-sub"><span>Followers</span><b class="text-dark">${m.followers?fmtNum(m.followers):'—'}</b></div>
+        <div class="d-flex justify-content-between section-sub"><span>Leads Generated</span><b class="text-dark">${fmtNum(m.leads)}</b></div>
+        <div class="d-flex justify-content-between section-sub"><span>Orders</span><b class="text-dark">${fmtNum(m.orders)}</b></div>
+        <div class="d-flex justify-content-between section-sub"><span>ROI</span><b class="text-dark">${m.roi}x</b></div>
+      </div>
+    </div>`).join('');
+}
+
+function renderTopCustomers(){
+  const sorted = [...customers].sort((a,b)=>b.ltv-a.ltv).slice(0,7);
+  document.querySelector('#topCustomersTable tbody').innerHTML = sorted.map(c=>`
+    <tr><td class="fw-semibold">${c.name}</td><td>${c.country}</td><td>${c.orders}</td><td>${fmtKES(c.ltv)}</td></tr>
+  `).join('');
+}
+
+/* ---------------------------------------------------------------------------------------
+   5. EXPORT LEADS PIPELINE (drag & drop)
+   --------------------------------------------------------------------------------------- */
+function renderPipeline(){
+  const wrap = document.getElementById('leadsPipeline');
+  wrap.innerHTML = leadStages.map(stage=>{
+    const items = exportLeads.filter(l=>l.stage===stage);
+    return `
+    <div class="kanban-col" data-stage="${stage}">
+      <div class="kanban-col-head"><span class="kt">${stage}</span><span class="kanban-count">${items.length}</span></div>
+      <div class="kanban-drop" data-stage="${stage}">
+        ${items.map(l=>`
+          <div class="lead-card" draggable="true" data-company="${l.company}">
+            <div class="d-flex justify-content-between align-items-start">
+              <div><span class="flag">${l.flag}</span><span class="company">${l.company}</span></div>
+            </div>
+            <div class="contact"><i class="fa-solid fa-user me-1"></i>${l.contact}</div>
+            <div class="d-flex justify-content-between align-items-center">
+              <span class="rev">${fmtKES(l.revenue)}</span>
+              <span class="section-sub">Prob: ${l.prob}%</span>
+            </div>
+            <div class="prob-wrap"><div class="progress-dero"><div class="bar" style="width:${l.prob}%;"></div></div></div>
+            <div class="kc-meta"><i class="fa-regular fa-calendar"></i> Follow-up: ${l.followup}</div>
+          </div>`).join('')}
+      </div>
+    </div>`;
+  }).join('');
+  enableDragDrop('.kanban-drop', '.lead-card', exportLeads, 'company', 'stage', renderPipeline);
+}
+
+/* ---------------------------------------------------------------------------------------
+   6. TASKS KANBAN (drag & drop)
+   --------------------------------------------------------------------------------------- */
+const taskCols = [{key:'todo',label:'To Do'},{key:'inprogress',label:'In Progress'},{key:'waiting',label:'Waiting'},{key:'done',label:'Completed'}];
+function renderTasks(){
+  const wrap = document.getElementById('tasksBoard');
+  wrap.innerHTML = taskCols.map(col=>{
+    const items = tasksSeed.filter(t=>t.col===col.key);
+    return `
+    <div class="kanban-col" data-stage="${col.key}">
+      <div class="kanban-col-head"><span class="kt">${col.label}</span><span class="kanban-count">${items.length}</span></div>
+      <div class="kanban-drop" data-stage="${col.key}">
+        ${items.map(t=>`
+          <div class="kanban-card" draggable="true" data-title="${t.title}">
+            <div class="kc-title">${t.title}</div>
+            <div class="kc-meta"><div class="row-avatar" style="width:22px;height:22px;font-size:.6rem;background:${avatarColor(t.assignee)}">${initials(t.assignee)}</div> ${t.assignee}</div>
+            <div class="kc-meta"><i class="fa-regular fa-calendar"></i> Due ${t.due}</div>
+          </div>`).join('')}
+      </div>
+    </div>`;
+  }).join('');
+  enableDragDrop('.kanban-drop', '.kanban-card', tasksSeed, 'title', 'col', renderTasks);
+}
+
+// Generic drag-drop enabler used by both Kanban boards
+function enableDragDrop(dropSelector, cardSelector, dataArr, keyField, stageField, rerenderFn){
+  let dragEl = null;
+  document.querySelectorAll(cardSelector).forEach(card=>{
+    card.addEventListener('dragstart', ()=>{ dragEl = card; card.classList.add('dragging'); });
+    card.addEventListener('dragend', ()=>{ card.classList.remove('dragging'); });
+  });
+  document.querySelectorAll(dropSelector).forEach(zone=>{
+    zone.addEventListener('dragover', e=>{ e.preventDefault(); zone.closest('.kanban-col').classList.add('drag-over'); });
+    zone.addEventListener('dragleave', ()=>{ zone.closest('.kanban-col').classList.remove('drag-over'); });
+    zone.addEventListener('drop', e=>{
+      e.preventDefault();
+      zone.closest('.kanban-col').classList.remove('drag-over');
+      if(!dragEl) return;
+      const keyVal = dragEl.dataset[keyField === 'company' ? 'company' : 'title'];
+      const item = dataArr.find(d => d[keyField] === keyVal);
+      if(item){ item[stageField] = zone.dataset.stage; rerenderFn(); toast('Moved "'+keyVal+'" to '+zone.dataset.stage); }
+    });
+  });
+}
+
+/* ---------------------------------------------------------------------------------------
+   7. WORLD / EXPORT DESTINATIONS RADIAL MAP
+   --------------------------------------------------------------------------------------- */
+function renderWorldHub(){
+  const hub = document.getElementById('worldHub');
+  const dests = [
+    {label:'🇬🇧 United Kingdom', angle:-70, dist:135},
+    {label:'🇳🇱 Netherlands', angle:-25, dist:150},
+    {label:'🇩🇪 Germany', angle:15, dist:140},
+    {label:'🇦🇪 UAE', angle:55, dist:130},
+    {label:'🇺🇸 United States', angle:-115, dist:150},
+    {label:'🇨🇦 Canada', angle:-150, dist:135},
+    {label:'🇿🇦 South Africa', angle:135, dist:120},
+    {label:'🇷🇼 Rwanda', angle:170, dist:110},
+  ];
+  const cx = 50, cy = 50; // percentages
+  let svgLines = '';
+  let nodesHtml = '';
+  dests.forEach(d=>{
+    const rad = d.angle * Math.PI/180;
+    const x = cx + Math.cos(rad) * (d.dist/3.4);
+    const y = cy + Math.sin(rad) * (d.dist/4.6);
+    svgLines += `<line x1="${cx}%" y1="${cy}%" x2="${x}%" y2="${y}%"></line>`;
+    nodesHtml += `<div class="dest-node" style="left:${x}%;top:${y}%;transform:translate(-50%,-50%);">${d.label}</div>`;
+  });
+  hub.innerHTML = `<svg class="world-svg">${svgLines}</svg>
+    <div class="world-center"><i class="fa-solid fa-seedling"></i><span>NAIROBI HQ</span></div>
+    ${nodesHtml}`;
+}
+
+/* ---------------------------------------------------------------------------------------
+   8. REPORTS
+   --------------------------------------------------------------------------------------- */
+const reportDefs = [
+  {name:'Sales Report', desc:'Revenue, orders, and channel breakdown', icon:'fa-chart-line', color:'#40916c'},
+  {name:'Inventory Report', desc:'Stock levels, batches, and expiry tracking', icon:'fa-warehouse', color:'#8a5a34'},
+  {name:'Farmer Report', desc:'Harvest forecasts and farmer payments', icon:'fa-tractor', color:'#2d6a4f'},
+  {name:'Export Report', desc:'Shipment status and destination performance', icon:'fa-earth-africa', color:'#3f8fd1'},
+  {name:'Production Report', desc:'Batch yields, rejection rates, throughput', icon:'fa-industry', color:'#1b4332'},
+  {name:'Financial Report', desc:'Invoices, payments, and receivables aging', icon:'fa-sack-dollar', color:'#d4a373'},
+];
+function renderReports(){
+  document.getElementById('reportsRow').innerHTML = reportDefs.map(r=>`
+    <div class="col-lg-4 col-md-6">
+      <div class="report-card">
+        <div class="report-icon" style="background:${r.color};"><i class="fa-solid ${r.icon}"></i></div>
+        <h6 class="fw-bold">${r.name}</h6>
+        <p class="section-sub">${r.desc}</p>
+        <button class="btn-outline-dero" onclick="toast('${r.name} generated (demo export)')"><i class="fa-solid fa-download me-1"></i> Generate</button>
+      </div>
+    </div>`).join('');
+}
+
+/* ---------------------------------------------------------------------------------------
+   9. ANALYTICS STATS
+   --------------------------------------------------------------------------------------- */
+function renderAnalyticsStats(){
+  const stats = [
+    {label:'Customer Retention Rate', val:'78%', icon:'fa-heart', color:'#40916c'},
+    {label:'Avg. Order Value', val:'KES 42,600', icon:'fa-receipt', color:'#d4a373'},
+    {label:'Export Growth (YoY)', val:'+34%', icon:'fa-arrow-trend-up', color:'#3f8fd1'},
+    {label:'On-Time Delivery Rate', val:'91%', icon:'fa-truck', color:'#2d6a4f'},
+  ];
+  document.getElementById('analyticsStatsRow').innerHTML = stats.map(s=>`
+    <div class="col-lg-3 col-sm-6">
+      <div class="stat-card">
+        <div class="si-icon" style="background:${s.color};"><i class="fa-solid ${s.icon}"></i></div>
+        <div class="si-val">${s.val}</div>
+        <div class="si-label">${s.label}</div>
+      </div>
+    </div>`).join('');
+}
+
+/* ---------------------------------------------------------------------------------------
+   10. CALENDAR
+   --------------------------------------------------------------------------------------- */
+let calDate = new Date(2026,6,4); // July 4, 2026
+const monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+function pad(n){ return String(n).padStart(2,'0'); }
+function renderCalendar(){
+  const y = calDate.getFullYear(), m = calDate.getMonth();
+  document.getElementById('calMonthLabel').textContent = monthNames[m] + ' ' + y;
+  const firstDay = new Date(y,m,1).getDay();
+  const daysInMonth = new Date(y,m+1,0).getDate();
+  const daysInPrevMonth = new Date(y,m,0).getDate();
+  const today = new Date(2026,6,4);
+  let cells = '';
+  for(let i=firstDay-1;i>=0;i--){ cells += `<div class="cal-cell muted">${daysInPrevMonth-i}</div>`; }
+  for(let d=1; d<=daysInMonth; d++){
+    const key = `${y}-${pad(m+1)}-${pad(d)}`;
+    const isToday = (y===today.getFullYear() && m===today.getMonth() && d===today.getDate());
+    const evs = calendarEvents[key] || [];
+    cells += `<div class="cal-cell ${isToday?'today':''}"><b>${d}</b>${evs.map(e=>`<span class="ev">${e}</span>`).join('')}</div>`;
+  }
+  const totalCells = firstDay + daysInMonth;
+  const remain = (7 - (totalCells % 7)) % 7;
+  for(let i=1;i<=remain;i++){ cells += `<div class="cal-cell muted">${i}</div>`; }
+  document.getElementById('calGrid').innerHTML = cells;
+
+  // Upcoming events list (from today forward)
+  const upcoming = Object.entries(calendarEvents)
+    .filter(([k])=> new Date(k) >= today)
+    .sort((a,b)=> new Date(a[0]) - new Date(b[0]));
+  document.getElementById('upcomingEvents').innerHTML = upcoming.map(([k,evs])=>`
+    <div class="notif-item">
+      <div class="ni-icon bd-green"><i class="fa-regular fa-calendar"></i></div>
+      <div class="ni-body"><div class="t">${evs[0]}</div><div class="d">${k}</div></div>
+    </div>`).join('') || '<p class="section-sub">No upcoming events.</p>';
+}
+document.getElementById('calPrev').addEventListener('click', ()=>{ calDate.setMonth(calDate.getMonth()-1); renderCalendar(); });
+document.getElementById('calNext').addEventListener('click', ()=>{ calDate.setMonth(calDate.getMonth()+1); renderCalendar(); });
+
+/* ---------------------------------------------------------------------------------------
+   11. SETTINGS TABS
+   --------------------------------------------------------------------------------------- */
+document.querySelectorAll('#settingsTabs .nav-link').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('#settingsTabs .nav-link').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.settings-panel').forEach(p=>p.classList.add('d-none'));
+    document.getElementById('settings-'+btn.dataset.tab).classList.remove('d-none');
+  });
+});
+
+/* ---------------------------------------------------------------------------------------
+   12. CANVAS CHARTS (vanilla — no chart libraries)
+   --------------------------------------------------------------------------------------- */
+function themeColor(varName){
+  return getComputedStyle(document.body).getPropertyValue(varName).trim();
+}
+function setupCanvas(id){
+  const canvas = document.getElementById(id);
+  if(!canvas) return null;
+  const ctx = canvas.getContext('2d');
+  const ratio = window.devicePixelRatio || 1;
+  const w = canvas.clientWidth || canvas.width;
+  const h = canvas.clientHeight || canvas.height;
+  canvas.width = w * ratio; canvas.height = h * ratio;
+  ctx.scale(ratio, ratio);
+  return {ctx, w, h};
+}
+
+function drawLineChart(id, series, labels, colors){
+  const setup = setupCanvas(id); if(!setup) return;
+  const {ctx,w,h} = setup;
+  ctx.clearRect(0,0,w,h);
+  const pad = {l:36,r:14,t:14,b:26};
+  const maxV = Math.max(...series.flat()) * 1.15;
+  const stepX = (w-pad.l-pad.r)/(labels.length-1);
+  // gridlines
+  ctx.strokeStyle = themeColor('--line'); ctx.lineWidth=1;
+  for(let i=0;i<=4;i++){
+    const y = pad.t + (h-pad.t-pad.b)*i/4;
+    ctx.beginPath(); ctx.moveTo(pad.l,y); ctx.lineTo(w-pad.r,y); ctx.stroke();
+    ctx.fillStyle = themeColor('--muted'); ctx.font='10px Inter';
+    ctx.fillText(Math.round(maxV*(1-i/4)/1000)+'k', 2, y+3);
+  }
+  series.forEach((s,si)=>{
+    ctx.beginPath();
+    s.forEach((v,i)=>{
+      const x = pad.l + i*stepX;
+      const y = pad.t + (h-pad.t-pad.b)*(1 - v/maxV);
+      if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+    });
+    ctx.strokeStyle = colors[si]; ctx.lineWidth = 2.6; ctx.lineJoin='round'; ctx.stroke();
+    // fill gradient under first series
+    if(si===0){
+      const grad = ctx.createLinearGradient(0,pad.t,0,h-pad.b);
+      grad.addColorStop(0, colors[si]+'33'); grad.addColorStop(1, colors[si]+'00');
+      ctx.lineTo(pad.l+(labels.length-1)*stepX, h-pad.b); ctx.lineTo(pad.l, h-pad.b); ctx.closePath();
+      ctx.fillStyle = grad; ctx.fill();
+    }
+    // points
+    s.forEach((v,i)=>{
+      const x = pad.l + i*stepX; const y = pad.t + (h-pad.t-pad.b)*(1 - v/maxV);
+      ctx.beginPath(); ctx.arc(x,y,3,0,Math.PI*2); ctx.fillStyle=colors[si]; ctx.fill();
+    });
+  });
+  // x labels (sparse)
+  ctx.fillStyle = themeColor('--muted'); ctx.font='10px Inter'; ctx.textAlign='center';
+  labels.forEach((l,i)=>{
+    if(labels.length>10 && i%2!==0) return;
+    ctx.fillText(l, pad.l+i*stepX, h-6);
+  });
+  ctx.textAlign='left';
+}
+
+function drawBarChart(id, data, labels, color, horizontal=false){
+  const setup = setupCanvas(id); if(!setup) return;
+  const {ctx,w,h} = setup;
+  ctx.clearRect(0,0,w,h);
+  const maxV = Math.max(...data) * 1.15;
+  if(!horizontal){
+    const pad = {l:36,r:14,t:14,b:34};
+    const bw = (w-pad.l-pad.r)/data.length*0.6;
+    const gap = (w-pad.l-pad.r)/data.length;
+    ctx.strokeStyle = themeColor('--line');
+    for(let i=0;i<=3;i++){
+      const y = pad.t + (h-pad.t-pad.b)*i/3;
+      ctx.beginPath(); ctx.moveTo(pad.l,y); ctx.lineTo(w-pad.r,y); ctx.stroke();
+    }
+    data.forEach((v,i)=>{
+      const x = pad.l + i*gap + (gap-bw)/2;
+      const bh = (h-pad.t-pad.b) * (v/maxV);
+      const y = h-pad.b-bh;
+      const grad = ctx.createLinearGradient(0,y,0,h-pad.b);
+      grad.addColorStop(0,color); grad.addColorStop(1, color+'88');
+      ctx.fillStyle = grad;
+      roundRect(ctx, x, y, bw, bh, 6); ctx.fill();
+      ctx.fillStyle = themeColor('--muted'); ctx.font='10px Inter'; ctx.textAlign='center';
+      ctx.fillText(labels[i], x+bw/2, h-14);
+    });
+    ctx.textAlign='left';
+  } else {
+    const pad = {l:120,r:40,t:10,b:10};
+    const bh = (h-pad.t-pad.b)/data.length*0.55;
+    const gap = (h-pad.t-pad.b)/data.length;
+    data.forEach((v,i)=>{
+      const y = pad.t + i*gap + (gap-bh)/2;
+      const bw = (w-pad.l-pad.r) * (v/maxV);
+      const grad = ctx.createLinearGradient(pad.l,0,pad.l+bw,0);
+      grad.addColorStop(0,color); grad.addColorStop(1, color+'aa');
+      ctx.fillStyle = grad;
+      roundRect(ctx, pad.l, y, bw, bh, 6); ctx.fill();
+      ctx.fillStyle = themeColor('--ink'); ctx.font='11px Inter'; ctx.textAlign='right';
+      ctx.fillText(labels[i], pad.l-8, y+bh/2+4);
+      ctx.textAlign='left'; ctx.fillStyle = themeColor('--muted');
+      ctx.fillText(fmtNum(v), pad.l+bw+8, y+bh/2+4);
+    });
+  }
+}
+function roundRect(ctx,x,y,w,h,r){
+  if(w<=0||h<=0) return;
+  ctx.beginPath();
+  ctx.moveTo(x+r,y);
+  ctx.arcTo(x+w,y,x+w,y+h,r);
+  ctx.arcTo(x+w,y+h,x,y+h,r);
+  ctx.arcTo(x,y+h,x,y,r);
+  ctx.arcTo(x,y,x+w,y,r);
+  ctx.closePath();
+}
+
+function drawDonutChart(id, data, colors){
+  const setup = setupCanvas(id); if(!setup) return;
+  const {ctx,w,h} = setup;
+  ctx.clearRect(0,0,w,h);
+  const total = data.reduce((a,b)=>a+b,0);
+  const cx=w/2, cy=h/2, rOuter=Math.min(w,h)/2-6, rInner=rOuter*0.6;
+  let start = -Math.PI/2;
+  data.forEach((v,i)=>{
+    const angle = (v/total)*Math.PI*2;
+    ctx.beginPath();
+    ctx.arc(cx,cy,rOuter,start,start+angle);
+    ctx.arc(cx,cy,rInner,start+angle,start,true);
+    ctx.closePath();
+    ctx.fillStyle = colors[i];
+    ctx.fill();
+    start += angle;
+  });
+  ctx.fillStyle = themeColor('--ink'); ctx.font='bold 15px Poppins'; ctx.textAlign='center'; ctx.textBaseline='middle';
+  ctx.fillText(fmtNum(total), cx, cy-6);
+  ctx.font='10px Inter'; ctx.fillStyle = themeColor('--muted');
+  ctx.fillText('Total', cx, cy+12);
+  ctx.textAlign='left'; ctx.textBaseline='alphabetic';
+}
+function buildLegend(elId, labels, values, colors){
+  document.getElementById(elId).innerHTML = labels.map((l,i)=>`
+    <div class="d-flex justify-content-between mb-1" style="gap:14px;">
+      <span><span class="legend-dot" style="background:${colors[i]}"></span>${l}</span>
+      <b>${values[i]}${typeof values[i]==='number' && values[i]<=100 ? '%':''}</b>
+    </div>`).join('');
+}
+
+/* --- Chart data definitions --- */
+const monthsShort = ['Aug','Sep','Oct','Nov','Dec','Jan','Feb','Mar','Apr','May','Jun','Jul'];
+const domesticRevenue = [3.1,3.4,3.0,3.8,4.2,3.9,4.5,4.8,5.1,5.4,5.9,6.2];
+const exportRevenue   = [1.2,1.5,1.8,2.0,2.4,2.6,2.9,3.2,3.6,3.9,4.3,4.8];
+const dailySalesLabels = Array.from({length:14},(_,i)=>{ const d=new Date(2026,5,21+i); return d.getDate()+'/'+(d.getMonth()+1); });
+const dailySalesData = [210000,238000,195000,260000,301000,280000,265000,310000,298000,340000,322000,355000,368000,392000];
+const productPerfLabels = productList.map(p=>p.name.split(' ')[0]);
+const productPerfData = productList.map(p=>p.stock);
+const countryPerfLabels = ['Kenya','UK','Netherlands','USA','UAE','Germany','Canada'];
+const countryPerfData = [18200000,8400000,6800000,5600000,4100000,2600000,2200000];
+
+function drawAllCharts(){
+  drawLineChart('chartRevenue', [domesticRevenue, exportRevenue], monthsShort, [themeColor('--green-500')||'#40916c', themeColor('--gold')||'#d4a373']);
+  drawDonutChart('chartMix', productPerfData, ['#1b4332','#2d6a4f','#40916c','#52b788','#74c69d','#a9744f','#c08552','#d4a373','#8a5a34']);
+  buildLegend('mixLegend', productPerfLabels, productPerfData, ['#1b4332','#2d6a4f','#40916c','#52b788','#74c69d','#a9744f','#c08552','#d4a373','#8a5a34']);
+
+  drawBarChart('chartTopProducts', productList.map(p=>p.price*40), productList.map(p=>p.name.split(' ')[0]), '#40916c');
+
+  drawLineChart('chartDailySales', [dailySalesData], dailySalesLabels, ['#40916c']);
+  drawLineChart('chartMonthlySales', [domesticRevenue.map(v=>v*1e6), exportRevenue.map(v=>v*1e6)], monthsShort, ['#245a41','#d4a373']);
+  drawBarChart('chartProductPerf', productPerfData, productPerfLabels, '#2d6a4f');
+  drawBarChart('chartCountryPerf', countryPerfData, countryPerfLabels, '#d4a373', true);
+
+  const repeatData = [64,36];
+  drawDonutChart('chartRepeat', repeatData, ['#40916c','#e0a339']);
+  buildLegend('repeatLegend', ['Repeat Customers','New Customers'], repeatData, ['#40916c','#e0a339']);
+
+  drawBarChart('chartMarketing', marketingChannels.map(m=>m.leads), marketingChannels.map(m=>m.name), '#3f8fd1');
+
+  drawLineChart('chartGrowth', [[820,910,980,1050,1120,1180,1240,1284].map(v=>v)], ['Jan','Feb','Mar','Apr','May','Jun','Jul',''].slice(0,8), ['#2d6a4f']);
+  const splitData=[68,32];
+  drawDonutChart('chartExportSplit', splitData, ['#d4a373','#1b4332']);
+  buildLegend('exportSplitLegend', ['Domestic Sales','Export Sales'], splitData, ['#d4a373','#1b4332']);
+}
+
+/* ---------------------------------------------------------------------------------------
+   13. INIT
+   --------------------------------------------------------------------------------------- */
+function initApp(){
+  renderStatCards();
+  renderCustomers();
+  renderDistributors();
+  renderOrders();
+  renderInventory();
+  renderFarmers();
+  renderProduction();
+  renderProducts();
+  renderInvoices();
+  renderPayments();
+  renderDeliveries();
+  renderExportDocs();
+  renderQA();
+  renderCompliance();
+  renderMarketing();
+  renderTopCustomers();
+  renderPipeline();
+  renderTasks();
+  renderWorldHub();
+  renderReports();
+  renderAnalyticsStats();
+  renderCalendar();
+  drawAllCharts();
+
+  // re-attach table search listeners for dynamically-created rows (delegated, so re-run filter)
+  document.querySelectorAll('.tbl-search').forEach(inp=>{
+    inp.addEventListener('input', ()=>{
+      const table = document.getElementById(inp.dataset.target);
+      const q = inp.value.toLowerCase();
+      table.querySelectorAll('tbody tr').forEach(tr=>{
+        tr.style.display = tr.textContent.toLowerCase().includes(q) ? '' : 'none';
+      });
+    });
+  });
+}
+document.addEventListener('DOMContentLoaded', initApp);
+window.addEventListener('resize', ()=>{ clearTimeout(window._rt); window._rt = setTimeout(drawAllCharts, 200); });
+</script>
+</body>
+</html>
