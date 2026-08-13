@@ -48,7 +48,7 @@
       </div>
     </div>
     <div class="plate" style="aspect-ratio:4/3">
-      <image-slot id="home-hero" placeholder="Hero photo — dried greens &amp; finished dish" style="width:100%;height:100%"></image-slot>
+      <image-slot id="home-hero" src="assets/catalogue/managu-dish.jpg" placeholder="Hero photo — dried greens &amp; finished dish" style="width:100%;height:100%"></image-slot>
     </div>
   </section>
 
@@ -78,7 +78,7 @@
       <sc-for list="{{ vegetables }}" as="veg" hint-placeholder-count="8">
         <div class="card">
           <div class="plate" style="aspect-ratio:1;margin-bottom:var(--space-2)">
-            <image-slot id="{{ veg.slotId }}" placeholder="{{ veg.local }} — product shot" style="width:100%;height:100%"></image-slot>
+            <image-slot id="{{ veg.slotId }}" src="{{ veg.photo }}" placeholder="{{ veg.local }} — product shot" style="width:100%;height:100%"></image-slot>
           </div>
           <span class="card-kicker">{{ veg.local }}</span>
           <h4 class="card-title" style="font-size:16px">{{ veg.english }}</h4>
@@ -108,7 +108,7 @@
       <sc-for list="{{ platedDishes }}" as="dish" hint-placeholder-count="4">
         <div>
           <div class="plate" style="aspect-ratio:1;margin-bottom:var(--space-2)">
-            <image-slot id="{{ dish.slotId }}" placeholder="{{ dish.caption }}" style="width:100%;height:100%"></image-slot>
+            <image-slot id="{{ dish.slotId }}" src="{{ dish.photo }}" placeholder="{{ dish.caption }}" style="width:100%;height:100%"></image-slot>
           </div>
           <p style="font-size:13px;opacity:0.75;margin:0">{{ dish.caption }}</p>
         </div>
@@ -197,20 +197,20 @@
 class Component extends DCLogic {
   renderVals() {
     const vegetables = [
-      { local: "Managu", english: "African Nightshade", slotId: "veg-managu" },
-      { local: "Terere", english: "Amaranth Leaves", slotId: "veg-terere" },
-      { local: "Saga", english: "Spider Plant", slotId: "veg-saga" },
-      { local: "Mrenda", english: "Jute Mallow", slotId: "veg-mrenda" },
-      { local: "Kunde", english: "Cowpea Leaves", slotId: "veg-kunde" },
-      { local: "Malenge", english: "Pumpkin Leaves", slotId: "veg-malenge" },
-      { local: "Kanzira", english: "Ethiopian Kale", slotId: "veg-kanzira" },
-      { local: "Mitoo", english: "Slenderleaf", slotId: "veg-mitoo" }
+      { local: "Managu", english: "African Nightshade", slotId: "veg-managu", photo: "assets/catalogue/managu-packet.jpg" },
+      { local: "Terere", english: "Amaranth Leaves", slotId: "veg-terere", photo: "assets/catalogue/terere-packet.jpg" },
+      { local: "Saga", english: "Spider Plant", slotId: "veg-saga", photo: "assets/catalogue/saga-packet.jpg" },
+      { local: "Mrenda", english: "Jute Mallow", slotId: "veg-mrenda", photo: "assets/catalogue/mrenda-packet.jpg" },
+      { local: "Kunde", english: "Cowpea Leaves", slotId: "veg-kunde", photo: "assets/catalogue/kunde-packet.jpg" },
+      { local: "Malenge", english: "Pumpkin Leaves", slotId: "veg-malenge", photo: "assets/catalogue/malenge-packet.jpg" },
+      { local: "Kanzira", english: "Ethiopian Kale", slotId: "veg-kanzira", photo: "assets/catalogue/kanzira-packet.jpg" },
+      { local: "Mitoo", english: "Slenderleaf", slotId: "veg-mitoo", photo: "assets/catalogue/mitoo-packet.jpg" }
     ];
     const platedDishes = [
-      { caption: "Managu, plated as a sautéed side", slotId: "plate-managu" },
-      { caption: "Terere with ugali", slotId: "plate-terere" },
-      { caption: "Mixed Kienyeji stir-fry bowl", slotId: "plate-kienyeji" },
-      { caption: "Malenge Spinach blend, plant-based plate", slotId: "plate-blend" }
+      { caption: "Managu, plated as a sautéed side", slotId: "plate-managu", photo: "assets/catalogue/managu-dish.jpg" },
+      { caption: "Terere with ugali", slotId: "plate-terere", photo: "assets/catalogue/terere-dish.jpg" },
+      { caption: "Mixed Kienyeji stir-fry bowl", slotId: "plate-kienyeji", photo: "" },
+      { caption: "Malenge Spinach blend, plant-based plate", slotId: "plate-blend", photo: "" }
     ];
     return { vegetables, platedDishes };
   }

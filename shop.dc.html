@@ -54,7 +54,7 @@
       <sc-for list="{{ visibleProducts }}" as="p" hint-placeholder-count="8">
         <div class="card elev-sm">
           <div class="plate" style="aspect-ratio:1;margin-bottom:var(--space-2)">
-            <image-slot id="{{ p.slotId }}" placeholder="{{ p.name }} — product shot" style="width:100%;height:100%"></image-slot>
+            <image-slot id="{{ p.slotId }}" src="{{ p.photo }}" placeholder="{{ p.name }} — product shot" style="width:100%;height:100%"></image-slot>
           </div>
           <span class="card-kicker">{{ p.kicker }}</span>
           <h4 class="card-title" style="font-size:16px">{{ p.name }}</h4>
@@ -148,19 +148,19 @@ class Component extends DCLogic {
   state = { filter: "all", cart: {}, cartOpen: false };
 
   allProducts = [
-    { id: "managu", name: "Managu", kicker: "African Nightshade", hook: "Earthy, slightly bittersweet — rich in iron, vitamin A & C", type: "single", sizes: "60g · 100g · 250g · 500g · 1kg", slotId: "shop-managu" },
-    { id: "terere", name: "Terere", kicker: "Amaranth Leaves", hook: "Africa's answer to spinach — high in vitamin A & iron", type: "single", sizes: "60g · 100g · 250g · 500g · 1kg", slotId: "shop-terere" },
-    { id: "saga", name: "Saga", kicker: "Spider Plant", hook: "Slightly peppery and elegant — rich in calcium & iron", type: "single", sizes: "60g · 100g · 250g · 500g · 1kg", slotId: "shop-saga" },
-    { id: "mrenda", name: "Mrenda", kicker: "Jute Mallow", hook: "Silky texture, high in fibre and antioxidants", type: "single", sizes: "60g · 100g · 250g · 500g · 1kg", slotId: "shop-mrenda" },
-    { id: "kunde", name: "Kunde", kicker: "Cowpea Leaves", hook: "Gentle flavour, rich in folate and plant protein", type: "single", sizes: "60g · 100g · 250g · 500g · 1kg", slotId: "shop-kunde" },
-    { id: "malenge", name: "Malenge", kicker: "Pumpkin Leaves", hook: "Soft and elegant — rich in beta-carotene & potassium", type: "single", sizes: "60g · 100g · 250g · 500g · 1kg", slotId: "shop-malenge" },
-    { id: "kanzira", name: "Kanzira", kicker: "Ethiopian Kale", hook: "Closest to kale — rich in vitamins A, C and K", type: "single", sizes: "60g · 100g · 250g · 500g · 1kg", slotId: "shop-kanzira" },
-    { id: "mitoo", name: "Mitoo", kicker: "Slenderleaf", hook: "Slightly nutty and refined — rich in vitamins A and C", type: "single", sizes: "60g · 100g · 250g · 500g · 1kg", slotId: "shop-mitoo" },
-    { id: "blend-malenge-spinach", name: "Malenge Spinach", kicker: "Signature blend", hook: "Pumpkin leaves + spinach", type: "blend", sizes: "100g · 250g · 500g", slotId: "shop-blend-1" },
-    { id: "blend-mitoo-mrenda", name: "Mitoo Mrenda", kicker: "Signature blend", hook: "Slenderleaf + jute mallow", type: "blend", sizes: "100g · 250g · 500g", slotId: "shop-blend-2" },
-    { id: "blend-malenge-mitoo", name: "Malenge Mitoo", kicker: "Signature blend", hook: "Pumpkin leaves + slenderleaf", type: "blend", sizes: "100g · 250g · 500g", slotId: "shop-blend-3" },
-    { id: "blend-kunde-mrenda", name: "Kunde Mrenda", kicker: "Signature blend", hook: "Cowpea leaves + jute mallow", type: "blend", sizes: "100g · 250g · 500g", slotId: "shop-blend-4" },
-    { id: "blend-mixed-kienyeji", name: "Mixed Kienyeji", kicker: "Managu, Terere, Kanzira, Spinach", hook: "Managu, terere, kanzira + spinach", type: "blend", sizes: "100g · 250g · 500g", slotId: "shop-blend-5" }
+    { id: "managu", name: "Managu", kicker: "African Nightshade", hook: "Earthy, slightly bittersweet — rich in iron, vitamin A & C", type: "single", sizes: "60g · 100g · 250g · 500g · 1kg", slotId: "shop-managu", photo: "assets/catalogue/managu-packet.jpg" },
+    { id: "terere", name: "Terere", kicker: "Amaranth Leaves", hook: "Africa's answer to spinach — high in vitamin A & iron", type: "single", sizes: "60g · 100g · 250g · 500g · 1kg", slotId: "shop-terere", photo: "assets/catalogue/terere-packet.jpg" },
+    { id: "saga", name: "Saga", kicker: "Spider Plant", hook: "Slightly peppery and elegant — rich in calcium & iron", type: "single", sizes: "60g · 100g · 250g · 500g · 1kg", slotId: "shop-saga", photo: "assets/catalogue/saga-packet.jpg" },
+    { id: "mrenda", name: "Mrenda", kicker: "Jute Mallow", hook: "Silky texture, high in fibre and antioxidants", type: "single", sizes: "60g · 100g · 250g · 500g · 1kg", slotId: "shop-mrenda", photo: "assets/catalogue/mrenda-packet.jpg" },
+    { id: "kunde", name: "Kunde", kicker: "Cowpea Leaves", hook: "Gentle flavour, rich in folate and plant protein", type: "single", sizes: "60g · 100g · 250g · 500g · 1kg", slotId: "shop-kunde", photo: "assets/catalogue/kunde-packet.jpg" },
+    { id: "malenge", name: "Malenge", kicker: "Pumpkin Leaves", hook: "Soft and elegant — rich in beta-carotene & potassium", type: "single", sizes: "60g · 100g · 250g · 500g · 1kg", slotId: "shop-malenge", photo: "assets/catalogue/malenge-packet.jpg" },
+    { id: "kanzira", name: "Kanzira", kicker: "Ethiopian Kale", hook: "Closest to kale — rich in vitamins A, C and K", type: "single", sizes: "60g · 100g · 250g · 500g · 1kg", slotId: "shop-kanzira", photo: "assets/catalogue/kanzira-packet.jpg" },
+    { id: "mitoo", name: "Mitoo", kicker: "Slenderleaf", hook: "Slightly nutty and refined — rich in vitamins A and C", type: "single", sizes: "60g · 100g · 250g · 500g · 1kg", slotId: "shop-mitoo", photo: "assets/catalogue/mitoo-packet.jpg" },
+    { id: "blend-malenge-spinach", name: "Malenge Spinach", kicker: "Signature blend", hook: "Pumpkin leaves + spinach", type: "blend", sizes: "100g · 250g · 500g", slotId: "shop-blend-1", photo: "" },
+    { id: "blend-mitoo-mrenda", name: "Mitoo Mrenda", kicker: "Signature blend", hook: "Slenderleaf + jute mallow", type: "blend", sizes: "100g · 250g · 500g", slotId: "shop-blend-2", photo: "" },
+    { id: "blend-malenge-mitoo", name: "Malenge Mitoo", kicker: "Signature blend", hook: "Pumpkin leaves + slenderleaf", type: "blend", sizes: "100g · 250g · 500g", slotId: "shop-blend-3", photo: "" },
+    { id: "blend-kunde-mrenda", name: "Kunde Mrenda", kicker: "Signature blend", hook: "Cowpea leaves + jute mallow", type: "blend", sizes: "100g · 250g · 500g", slotId: "shop-blend-4", photo: "" },
+    { id: "blend-mixed-kienyeji", name: "Mixed Kienyeji", kicker: "Managu, Terere, Kanzira, Spinach", hook: "Managu, terere, kanzira + spinach", type: "blend", sizes: "100g · 250g · 500g", slotId: "shop-blend-5", photo: "" }
   ];
 
   setFilter(v) { this.setState({ filter: v }); }

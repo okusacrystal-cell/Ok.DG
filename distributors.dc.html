@@ -40,7 +40,7 @@
       <a href="#inquiry" class="btn btn-primary" style="margin-top:var(--space-4);font-size:16px;padding:var(--space-3) var(--space-6);display:inline-flex">Request a quote</a>
     </div>
     <div class="plate" style="aspect-ratio:4/3">
-      <image-slot id="dist-hero" placeholder="Bulk / warehouse or export photo" style="width:100%;height:100%"></image-slot>
+      <image-slot id="dist-hero" src="assets/catalogue/farm-field-2.jpg" placeholder="Bulk / warehouse or export photo" style="width:100%;height:100%"></image-slot>
     </div>
   </section>
 
@@ -109,7 +109,7 @@
       <sc-for list="{{ platedDishes }}" as="dish" hint-placeholder-count="4">
         <div>
           <div class="plate" style="aspect-ratio:1;margin-bottom:var(--space-2)">
-            <image-slot id="{{ dish.slotId }}" placeholder="{{ dish.caption }}" style="width:100%;height:100%"></image-slot>
+            <image-slot id="{{ dish.slotId }}" src="{{ dish.photo }}" placeholder="{{ dish.caption }}" style="width:100%;height:100%"></image-slot>
           </div>
           <p style="font-size:13px;opacity:0.75;margin:0">{{ dish.caption }}</p>
         </div>
@@ -177,10 +177,10 @@ class Component extends DCLogic {
   }
   renderVals() {
     const platedDishes = [
-      { caption: "Managu, plated as a sautéed side", slotId: "dist-plate-managu" },
-      { caption: "Mixed Kienyeji stir-fry bowl", slotId: "dist-plate-kienyeji" },
-      { caption: "Malenge Spinach blend, wellness plate", slotId: "dist-plate-blend" },
-      { caption: "Kunde Mrenda, plant-based bowl", slotId: "dist-plate-kunde" }
+      { caption: "Managu, plated as a sautéed side", slotId: "dist-plate-managu", photo: "assets/catalogue/managu-dish.jpg" },
+      { caption: "Mixed Kienyeji stir-fry bowl", slotId: "dist-plate-kienyeji", photo: "" },
+      { caption: "Malenge Spinach blend, wellness plate", slotId: "dist-plate-blend", photo: "" },
+      { caption: "Kunde Mrenda, plant-based bowl", slotId: "dist-plate-kunde", photo: "" }
     ];
     return {
       submitted: this.state.submitted,
