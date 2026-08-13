@@ -41,14 +41,30 @@
   <hr class="hr" style="max-width:1180px;margin:0 auto">
 
   <section style="max-width:1180px;margin:0 auto;padding:var(--space-8) var(--space-6)">
+    <span class="tag tag-outline">How to prepare</span>
+    <h2 style="margin-top:var(--space-2)">Three steps, every vegetable</h2>
+    <ol style="max-width:60ch;opacity:0.85;font-size:15px;padding-left:1.2em;line-height:1.9">
+      <li>Soak in hot water for 10 minutes</li>
+      <li>Fry with onions &amp; tomatoes for 3–5 minutes</li>
+      <li>Serve with ugali, rice, or chapati — or see the ideas below for something different</li>
+    </ol>
+    <p style="font-size:12px;opacity:0.6">Storage: keep tightly sealed in an airtight container. Shelf life up to 24 months.</p>
+  </section>
+
+  <section style="max-width:1180px;margin:0 auto;padding:var(--space-8) var(--space-6)">
     <span class="tag tag-outline">The eight singles</span>
-    <h2 style="margin-top:var(--space-2)">One method, eight vegetables</h2>
-    <p style="max-width:60ch;opacity:0.85;font-size:15px">Managu, terere, saga, mrenda, kunde, malenge, kanzira and mitoo are each dried the same pre-cooked way, so they all prepare the same way too — no need for a different method for each.</p>
+    <h2 style="margin-top:var(--space-2)">One dish idea each</h2>
+    <p style="max-width:60ch;opacity:0.85;font-size:15px">Managu, terere, saga, mrenda, kunde, malenge, kanzira and mitoo are each dried the same pre-cooked way — here's how each one shows up on a plate.</p>
     <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:var(--space-4);margin-top:var(--space-4)">
       <sc-for list="{{ vegetables }}" as="veg" hint-placeholder-count="8">
         <div class="card">
+          <div class="plate" style="aspect-ratio:1;margin-bottom:var(--space-2)">
+            <image-slot id="{{ veg.slotId }}" placeholder="{{ veg.dish }}" style="width:100%;height:100%"></image-slot>
+          </div>
           <span class="card-kicker">{{ veg.local }}</span>
           <h4 class="card-title" style="font-size:16px">{{ veg.english }}</h4>
+          <p class="card-body" style="font-size:13px">{{ veg.note }}</p>
+          <p style="font-size:12px;opacity:0.65;margin:var(--space-1) 0 0"><strong>Try it with:</strong> {{ veg.pairings }}</p>
         </div>
       </sc-for>
     </div>
@@ -122,14 +138,14 @@
 class Component extends DCLogic {
   renderVals() {
     const vegetables = [
-      { local: "Managu", english: "African Nightshade" },
-      { local: "Terere", english: "Amaranth Leaves" },
-      { local: "Saga", english: "Spider Plant" },
-      { local: "Mrenda", english: "Jute Mallow" },
-      { local: "Kunde", english: "Cowpea Leaves" },
-      { local: "Malenge", english: "Pumpkin Leaves" },
-      { local: "Kanzira", english: "Ethiopian Kale" },
-      { local: "Mitoo", english: "Slenderleaf" }
+      { local: "Managu", english: "African Nightshade", slotId: "recipe-managu", dish: "Managu with roasted salmon & potatoes", note: "Earthy, slightly bittersweet, similar to spinach with more depth.", pairings: "grilled salmon, roast chicken, wholegrain pasta" },
+      { local: "Terere", english: "Amaranth Leaves", slotId: "recipe-terere", dish: "Terere with eggs & toast", note: "Think of it as Africa's answer to spinach — easily becomes a breakfast vegetable.", pairings: "omelettes, creamy pasta, stir-fries" },
+      { local: "Saga", english: "Spider Plant", slotId: "recipe-saga", dish: "Saga with grilled steak & potatoes", note: "Slightly peppery, elegant.", pairings: "grilled steak, roast lamb, garlic potatoes" },
+      { local: "Mrenda", english: "Jute Mallow", slotId: "recipe-mrenda", dish: "Mrenda with sesame chicken", note: "Creates a luxurious silky texture in soups and sauces — the texture is a feature, not a flaw.", pairings: "creamy mushroom soup, garlic prawns, rice pilaf" },
+      { local: "Kunde", english: "Cowpea Leaves", slotId: "recipe-kunde", dish: "Kunde with grilled fish & rice", note: "Gentle flavour that doesn't overpower proteins — surprisingly versatile.", pairings: "lemon herb chicken, grilled fish, quinoa salad" },
+      { local: "Malenge", english: "Pumpkin Leaves", slotId: "recipe-malenge", dish: "Malenge with spaghetti & meatballs", note: "Probably the prettiest vegetable — soft and elegant.", pairings: "spaghetti, roast chicken, coconut rice" },
+      { local: "Kanzira", english: "Ethiopian Kale", slotId: "recipe-kanzira", dish: "Kanzira chicken wrap", note: "Closest in taste to kale.", pairings: "wraps, pesto pasta, smoothies" },
+      { local: "Mitoo", english: "Slenderleaf", slotId: "recipe-mitoo", dish: "Mitoo with roast chicken & rice", note: "Slightly nutty, very refined.", pairings: "roast turkey, grilled chicken, rice bowls" }
     ];
     const platedDishes = [
       { caption: "Managu, plated as a sautéed side", slotId: "recipe-plate-managu" },
