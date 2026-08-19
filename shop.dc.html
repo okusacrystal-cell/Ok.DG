@@ -8,7 +8,7 @@
 <body>
 <x-dc>
 <helmet>
-<title>Shop — Dero Greens | Dried Kenyan Leafy Vegetables</title>
+<title>Shop, Dero Greens | Dried Kenyan Leafy Vegetables</title>
 <meta name="description" content="Shop dried, pre-cooked kienyeji vegetables and signature blends from Dero Greens. Managu, terere, saga, mrenda and more, packed 60g to 5kg and shipped worldwide via DHL Express.">
 <link rel="stylesheet" href="_ds/classical-949ca446-5998-4163-a741-b6718b8fa03e/styles.css">
 <script src="_ds/classical-949ca446-5998-4163-a741-b6718b8fa03e/_ds_bundle.js"></script>
@@ -35,7 +35,7 @@
   <section style="max-width:1180px;margin:0 auto;padding:var(--space-8) var(--space-6) var(--space-4)">
     <span class="tag tag-outline">Shop</span>
     <h1 style="margin-top:var(--space-2)">Order a taste of home</h1>
-    <p style="max-width:60ch;opacity:0.85;font-size:15px">Pre-cooked, dried traditional Kenyan leafy vegetables — single varieties or signature blends — packed retail-size and shipped internationally via DHL Express. Shipping cost and timing are calculated at checkout.</p>
+    <p style="max-width:60ch;opacity:0.85;font-size:15px">Pre-cooked, dried traditional Kenyan leafy vegetables, single varieties or signature blends, packed retail-size and shipped internationally via DHL Express. Shipping cost and timing are calculated at checkout.</p>
   </section>
 
   <section style="max-width:1180px;margin:0 auto;padding:0 var(--space-6)">
@@ -54,7 +54,7 @@
       <sc-for list="{{ visibleProducts }}" as="p" hint-placeholder-count="8">
         <div class="card elev-sm">
           <div class="plate" style="aspect-ratio:1;margin-bottom:var(--space-2)">
-            <image-slot id="{{ p.slotId }}" src="{{ p.photo }}" placeholder="{{ p.name }} — product shot" style="width:100%;height:100%"></image-slot>
+            <image-slot id="{{ p.slotId }}" src="{{ p.photo }}" placeholder="{{ p.name }}, product shot" style="width:100%;height:100%"></image-slot>
           </div>
           <span class="card-kicker">{{ p.kicker }}</span>
           <h4 class="card-title" style="font-size:16px">{{ p.name }}</h4>
@@ -76,7 +76,7 @@
           <span class="tag tag-neutral">{{ s }}</span>
         </sc-for>
       </div>
-      <p style="font-size:13px;opacity:0.7;margin-top:var(--space-3)">Bulk packs, vacuum packs, private labeling and custom packaging are available for larger orders — see <a href="distributors.dc.html">Distributors</a>.</p>
+      <p style="font-size:13px;opacity:0.7;margin-top:var(--space-3)">Bulk packs, vacuum packs, private labeling and custom packaging are available for larger orders, see <a href="distributors.dc.html">Distributors</a>.</p>
     </div>
     <div>
       <h2 style="font-size:26px">Shipping &amp; delivery</h2>
@@ -89,10 +89,10 @@
       <div>
         <span class="tag tag-outline">Local delivery only</span>
         <h2 style="margin-top:var(--space-2)">Frozen blocks</h2>
-        <p style="font-size:14px;opacity:0.85;max-width:48ch">Every vegetable and blend is also available as a 500g frozen block. These are for local Nairobi delivery or personal carry only — for example, travelers taking them home in their luggage. Frozen blocks are not part of international DHL shipping.</p>
+        <p style="font-size:14px;opacity:0.85;max-width:48ch">Every vegetable and blend is also available as a 500g frozen block. These are for local Nairobi delivery or personal carry only, for example, travelers taking them home in their luggage. Frozen blocks are not part of international DHL shipping.</p>
       </div>
       <div class="plate" style="aspect-ratio:4/3">
-        <image-slot id="shop-frozen" src="assets/catalogue/frozen-pack.jpg" placeholder="500g frozen block — product shot" style="width:100%;height:100%"></image-slot>
+        <image-slot id="shop-frozen" src="assets/catalogue/frozen-pack.jpg" placeholder="500g frozen block, product shot" style="width:100%;height:100%"></image-slot>
       </div>
     </div>
   </section>
@@ -100,7 +100,7 @@
   <section style="max-width:1180px;margin:0 auto;padding:var(--space-8) var(--space-6)">
     <span class="tag tag-outline">New to kienyeji vegetables?</span>
     <h2 style="margin-top:var(--space-2)">See how they're served</h2>
-    <p style="max-width:60ch;opacity:0.85;font-size:15px">Pre-cooked and dried, ready in minutes — see the full recipes &amp; usage guide for how each vegetable and blend comes together on a plate.</p>
+    <p style="max-width:60ch;opacity:0.85;font-size:15px">Pre-cooked and dried, ready in minutes, see the full recipes &amp; usage guide for how each vegetable and blend comes together on a plate.</p>
     <a href="recipes-usage.dc.html" class="btn btn-ghost" style="margin-top:var(--space-2)">Recipes &amp; usage guide →</a>
   </section>
 
@@ -121,7 +121,7 @@
             </sc-for>
           </div>
           <p style="font-size:12px;opacity:0.7;margin-top:var(--space-4)">Shipping cost is calculated at checkout based on destination and weight.</p>
-          <button class="btn btn-primary btn-block" disabled>Checkout — coming soon</button>
+          <button class="btn btn-primary btn-block" disabled>Checkout, coming soon</button>
         </sc-if>
         <sc-if value="{{ hasNoItems }}" hint-placeholder-val="{{ true }}">
           <p style="font-size:14px;opacity:0.7;margin-top:var(--space-4)">Your cart is empty. Add a vegetable or blend to get started.</p>
@@ -132,7 +132,7 @@
 
   <footer style="border-top:1px solid var(--color-divider);margin-top:var(--space-8)">
     <div style="max-width:1180px;margin:0 auto;padding:var(--space-6) var(--space-6);display:flex;justify-content:space-between;flex-wrap:wrap;gap:var(--space-4);font-size:13px;opacity:0.7">
-      <span>© Dero Greens — Kito Kubuni, trading as Dero Greens. First food brand</span>
+      <span>© Dero Greens, Kito Kubuni, trading as Dero Greens. First food brand</span>
       <div style="display:flex;gap:var(--space-4)">
         <a href="mailto:kitokubuniltd@gmail.com">kitokubuniltd@gmail.com</a>
         <a href="tel:+254704767017">+254 704 767 017</a>
@@ -148,14 +148,14 @@ class Component extends DCLogic {
   state = { filter: "all", cart: {}, cartOpen: false };
 
   allProducts = [
-    { id: "managu", name: "Managu", kicker: "African Nightshade", hook: "Earthy, slightly bittersweet — rich in iron, vitamin A & C", type: "single", sizes: "60g · 100g · 250g · 500g · 1kg", slotId: "shop-managu", photo: "assets/catalogue/managu-packet.jpg" },
-    { id: "terere", name: "Terere", kicker: "Amaranth Leaves", hook: "Africa's answer to spinach — high in vitamin A & iron", type: "single", sizes: "60g · 100g · 250g · 500g · 1kg", slotId: "shop-terere", photo: "assets/catalogue/terere-packet.jpg" },
-    { id: "saga", name: "Saga", kicker: "Spider Plant", hook: "Slightly peppery and elegant — rich in calcium & iron", type: "single", sizes: "60g · 100g · 250g · 500g · 1kg", slotId: "shop-saga", photo: "assets/catalogue/saga-packet.jpg" },
+    { id: "managu", name: "Managu", kicker: "African Nightshade", hook: "Earthy, slightly bittersweet, rich in iron, vitamin A & C", type: "single", sizes: "60g · 100g · 250g · 500g · 1kg", slotId: "shop-managu", photo: "assets/catalogue/managu-packet.jpg" },
+    { id: "terere", name: "Terere", kicker: "Amaranth Leaves", hook: "Africa's answer to spinach, high in vitamin A & iron", type: "single", sizes: "60g · 100g · 250g · 500g · 1kg", slotId: "shop-terere", photo: "assets/catalogue/terere-packet.jpg" },
+    { id: "saga", name: "Saga", kicker: "Spider Plant", hook: "Slightly peppery and elegant, rich in calcium & iron", type: "single", sizes: "60g · 100g · 250g · 500g · 1kg", slotId: "shop-saga", photo: "assets/catalogue/saga-packet.jpg" },
     { id: "mrenda", name: "Mrenda", kicker: "Jute Mallow", hook: "Silky texture, high in fibre and antioxidants", type: "single", sizes: "60g · 100g · 250g · 500g · 1kg", slotId: "shop-mrenda", photo: "assets/catalogue/mrenda-packet.jpg" },
     { id: "kunde", name: "Kunde", kicker: "Cowpea Leaves", hook: "Gentle flavour, rich in folate and plant protein", type: "single", sizes: "60g · 100g · 250g · 500g · 1kg", slotId: "shop-kunde", photo: "assets/catalogue/kunde-packet.jpg" },
-    { id: "malenge", name: "Malenge", kicker: "Pumpkin Leaves", hook: "Soft and elegant — rich in beta-carotene & potassium", type: "single", sizes: "60g · 100g · 250g · 500g · 1kg", slotId: "shop-malenge", photo: "assets/catalogue/malenge-packet.jpg" },
-    { id: "kanzira", name: "Kanzira", kicker: "Ethiopian Kale", hook: "Closest to kale — rich in vitamins A, C and K", type: "single", sizes: "60g · 100g · 250g · 500g · 1kg", slotId: "shop-kanzira", photo: "assets/catalogue/kanzira-packet.jpg" },
-    { id: "mitoo", name: "Mitoo", kicker: "Slenderleaf", hook: "Slightly nutty and refined — rich in vitamins A and C", type: "single", sizes: "60g · 100g · 250g · 500g · 1kg", slotId: "shop-mitoo", photo: "assets/catalogue/mitoo-packet.jpg" },
+    { id: "malenge", name: "Malenge", kicker: "Pumpkin Leaves", hook: "Soft and elegant, rich in beta-carotene & potassium", type: "single", sizes: "60g · 100g · 250g · 500g · 1kg", slotId: "shop-malenge", photo: "assets/catalogue/malenge-packet.jpg" },
+    { id: "kanzira", name: "Kanzira", kicker: "Ethiopian Kale", hook: "Closest to kale, rich in vitamins A, C and K", type: "single", sizes: "60g · 100g · 250g · 500g · 1kg", slotId: "shop-kanzira", photo: "assets/catalogue/kanzira-packet.jpg" },
+    { id: "mitoo", name: "Mitoo", kicker: "Slenderleaf", hook: "Slightly nutty and refined, rich in vitamins A and C", type: "single", sizes: "60g · 100g · 250g · 500g · 1kg", slotId: "shop-mitoo", photo: "assets/catalogue/mitoo-packet.jpg" },
     { id: "blend-malenge-spinach", name: "Malenge Spinach", kicker: "Signature blend", hook: "Pumpkin leaves + spinach", type: "blend", sizes: "100g · 250g · 500g", slotId: "shop-blend-1", photo: "assets/catalogue/blend-malenge-spinach.jpg" },
     { id: "blend-mitoo-mrenda", name: "Mitoo Mrenda", kicker: "Signature blend", hook: "Slenderleaf + jute mallow", type: "blend", sizes: "100g · 250g · 500g", slotId: "shop-blend-2", photo: "" },
     { id: "blend-malenge-mitoo", name: "Malenge Mitoo", kicker: "Signature blend", hook: "Pumpkin leaves + slenderleaf", type: "blend", sizes: "100g · 250g · 500g", slotId: "shop-blend-3", photo: "" },
