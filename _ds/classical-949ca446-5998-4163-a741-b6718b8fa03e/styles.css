@@ -5,12 +5,14 @@
   --color-bg: #f3f2f2;
   --color-surface: #eae9e9;
   --color-text: #201f1d;
-  --color-accent: #2f7d4c;
-  --color-accent-2: #b8611a;
+  --color-accent: #096534;
+  --color-accent-2: #e67308;
   --color-divider: color-mix(in srgb, #201f1d 16%, transparent);
 
-  /* Tonal ramps — generated in OKLCH on one shared lightness scale, so the
-     same step of any role matches the others in visual value. */
+  /* Tonal ramps — sampled directly from the Dero Greens logo (green #096534,
+     orange #e67308) and mixed toward white/black on the same curve the
+     previous ramps used, so brand color is what shows up everywhere the
+     design system draws an accent, not a muted approximation of it. */
   --color-neutral-100: #f8f4f4;
   --color-neutral-200: #eae7e7;
   --color-neutral-300: #d7d3d3;
@@ -21,25 +23,25 @@
   --color-neutral-800: #444141;
   --color-neutral-900: #2d2b2b;
 
-  --color-accent-100: #eaf5ee;
-  --color-accent-200: #cde9d7;
-  --color-accent-300: #a3d6b6;
-  --color-accent-400: #74bd8f;
-  --color-accent-500: #4c9e6b;
-  --color-accent-600: #2f7d4c;
-  --color-accent-700: #1c5f37;
-  --color-accent-800: #0f4526;
-  --color-accent-900: #082b18;
+  --color-accent-100: #e6f0eb;
+  --color-accent-200: #c4dace;
+  --color-accent-300: #93bba6;
+  --color-accent-400: #5a9877;
+  --color-accent-500: #2b7b50;
+  --color-accent-600: #096534;
+  --color-accent-700: #053d1f;
+  --color-accent-800: #032011;
+  --color-accent-900: #021109;
 
-  --color-accent-2-100: #fdf1e2;
-  --color-accent-2-200: #fbdcb2;
-  --color-accent-2-300: #f6bd77;
-  --color-accent-2-400: #ee9a45;
-  --color-accent-2-500: #e07d24;
-  --color-accent-2-600: #b8611a;
-  --color-accent-2-700: #8f4a14;
-  --color-accent-2-800: #66330d;
-  --color-accent-2-900: #3f1f08;
+  --color-accent-2-100: #fcf1e6;
+  --color-accent-2-200: #f9ddc4;
+  --color-accent-2-300: #f4c192;
+  --color-accent-2-400: #eea15a;
+  --color-accent-2-500: #ea872b;
+  --color-accent-2-600: #e67308;
+  --color-accent-2-700: #8a4505;
+  --color-accent-2-800: #4a2503;
+  --color-accent-2-900: #271401;
 
   --font-heading: "Cormorant Garamond", system-ui, sans-serif;
   --font-heading-weight: 600; /* review round 3: bold retired — semibold is the
