@@ -61,10 +61,16 @@
           <span class="card-kicker">{{ p.kicker }}</span>
           <h4 class="card-title" style="font-size:16px">{{ p.name }}</h4>
           <p class="card-body" style="font-size:12px;opacity:0.75">{{ p.hook }}</p>
-          <p class="card-body" style="font-size:12px">{{ p.sizes }}</p>
+          <p class="card-body" style="font-size:14px;font-weight:600;color:var(--color-accent-2-600)">{{ p.priceLabel }}</p>
+          <p class="card-body" style="font-size:12px;opacity:0.7">{{ p.sizes }}</p>
           <button class="btn btn-primary btn-block" onclick="{{ p.addToCart }}" style="cursor:pointer">Add to cart</button>
         </div>
       </sc-for>
+      <div class="card elev-sm" style="justify-content:center;text-align:center;background:var(--color-surface)">
+        <h4 class="card-title" style="font-size:16px">Need a bigger size?</h4>
+        <p class="card-body" style="font-size:12px;opacity:0.8">100g, 250g, 500g and 1kg are available for any vegetable or blend above, priced per quantity. Tell us what you need and we'll sort out the details.</p>
+        <a href="about.dc.html#contact" class="btn btn-ghost" style="margin-top:auto">Let's talk quantity →</a>
+      </div>
     </div>
   </section>
 
@@ -78,7 +84,7 @@
           <span class="tag tag-neutral">{{ s }}</span>
         </sc-for>
       </div>
-      <p style="font-size:13px;opacity:0.7;margin-top:var(--space-3)">Bulk packs, vacuum packs, private labeling and custom packaging are available for larger orders, see <a href="distributors.dc.html">Distributors</a>.</p>
+      <p style="font-size:13px;opacity:0.7;margin-top:var(--space-3)">Singles ship as 60g packs above. Need 100g, 250g, 500g or 1kg? Just reach out with the quantity you need. Bulk packs, vacuum packs, private labeling and custom packaging are available for larger orders, see <a href="distributors.dc.html">Distributors</a>.</p>
     </div>
     <div>
       <h2 style="font-size:26px">Shipping &amp; delivery</h2>
@@ -117,12 +123,16 @@
           <div style="display:flex;flex-direction:column;gap:var(--space-2);margin-top:var(--space-4)">
             <sc-for list="{{ cartLines }}" as="line" hint-placeholder-count="2">
               <div style="display:flex;justify-content:space-between;font-size:14px;border-bottom:1px solid var(--color-divider);padding-bottom:var(--space-1)">
-                <span>{{ line.name }}</span>
-                <span>× {{ line.qty }}</span>
+                <span>{{ line.name }} × {{ line.qty }}</span>
+                <span>{{ line.lineLabel }}</span>
               </div>
             </sc-for>
+            <div style="display:flex;justify-content:space-between;font-size:15px;font-weight:600;margin-top:var(--space-2)">
+              <span>Subtotal</span>
+              <span>{{ cartSubtotalLabel }}</span>
+            </div>
           </div>
-          <p style="font-size:12px;opacity:0.7;margin-top:var(--space-4)">Shipping cost is calculated at checkout based on destination and weight.</p>
+          <p style="font-size:12px;opacity:0.7;margin-top:var(--space-4)">Prices shown are per 60g pack. Shipping cost is calculated at checkout based on destination and weight.</p>
           <button class="btn btn-primary btn-block" disabled>Checkout, coming soon</button>
         </sc-if>
         <sc-if value="{{ hasNoItems }}" hint-placeholder-val="{{ true }}">
@@ -150,14 +160,14 @@ class Component extends DCLogic {
   state = { filter: "all", cart: {}, cartOpen: false };
 
   allProducts = [
-    { id: "managu", name: "Managu", kicker: "African Nightshade", hook: "Earthy, slightly bittersweet, rich in iron, vitamin A & C", type: "single", sizes: "60g · 100g · 250g · 500g · 1kg", slotId: "shop-managu", photo: "assets/catalogue/managu-packet.jpg" },
-    { id: "terere", name: "Terere", kicker: "Amaranth Leaves", hook: "Africa's answer to spinach, high in vitamin A & iron", type: "single", sizes: "60g · 100g · 250g · 500g · 1kg", slotId: "shop-terere", photo: "assets/catalogue/terere-packet.jpg" },
-    { id: "saga", name: "Saga", kicker: "Spider Plant", hook: "Slightly peppery and elegant, rich in calcium & iron", type: "single", sizes: "60g · 100g · 250g · 500g · 1kg", slotId: "shop-saga", photo: "assets/catalogue/saga-packet.jpg" },
-    { id: "mrenda", name: "Mrenda", kicker: "Jute Mallow", hook: "Silky texture, high in fibre and antioxidants", type: "single", sizes: "60g · 100g · 250g · 500g · 1kg", slotId: "shop-mrenda", photo: "assets/catalogue/mrenda-packet.jpg" },
-    { id: "kunde", name: "Kunde", kicker: "Cowpea Leaves", hook: "Gentle flavour, rich in folate and plant protein", type: "single", sizes: "60g · 100g · 250g · 500g · 1kg", slotId: "shop-kunde", photo: "assets/catalogue/kunde-packet.jpg" },
-    { id: "malenge", name: "Malenge", kicker: "Pumpkin Leaves", hook: "Soft and elegant, rich in beta-carotene & potassium", type: "single", sizes: "60g · 100g · 250g · 500g · 1kg", slotId: "shop-malenge", photo: "assets/catalogue/malenge-packet.jpg" },
-    { id: "kanzira", name: "Kanzira", kicker: "Ethiopian Kale", hook: "Closest to kale, rich in vitamins A, C and K", type: "single", sizes: "60g · 100g · 250g · 500g · 1kg", slotId: "shop-kanzira", photo: "assets/catalogue/kanzira-packet.jpg" },
-    { id: "mitoo", name: "Mitoo", kicker: "Slenderleaf", hook: "Slightly nutty and refined, rich in vitamins A and C", type: "single", sizes: "60g · 100g · 250g · 500g · 1kg", slotId: "shop-mitoo", photo: "assets/catalogue/mitoo-packet.jpg" },
+    { id: "managu", name: "Managu", kicker: "African Nightshade", hook: "Earthy, slightly bittersweet, rich in iron, vitamin A & C", type: "single", sizes: "60g", priceKES: 750, priceUSD: 10, slotId: "shop-managu", photo: "assets/catalogue/managu-packet.jpg" },
+    { id: "terere", name: "Terere", kicker: "Amaranth Leaves", hook: "Africa's answer to spinach, high in vitamin A & iron", type: "single", sizes: "60g", priceKES: 750, priceUSD: 10, slotId: "shop-terere", photo: "assets/catalogue/terere-packet.jpg" },
+    { id: "saga", name: "Saga", kicker: "Spider Plant", hook: "Slightly peppery and elegant, rich in calcium & iron", type: "single", sizes: "60g", priceKES: 810, priceUSD: 10.60, slotId: "shop-saga", photo: "assets/catalogue/saga-packet.jpg" },
+    { id: "mrenda", name: "Mrenda", kicker: "Jute Mallow", hook: "Silky texture, high in fibre and antioxidants", type: "single", sizes: "60g", priceKES: 810, priceUSD: 10.60, slotId: "shop-mrenda", photo: "assets/catalogue/mrenda-packet.jpg" },
+    { id: "kunde", name: "Kunde", kicker: "Cowpea Leaves", hook: "Gentle flavour, rich in folate and plant protein", type: "single", sizes: "60g", priceKES: 750, priceUSD: 10, slotId: "shop-kunde", photo: "assets/catalogue/kunde-packet.jpg" },
+    { id: "malenge", name: "Malenge", kicker: "Pumpkin Leaves", hook: "Soft and elegant, rich in beta-carotene & potassium", type: "single", sizes: "60g", priceKES: 810, priceUSD: 10.60, slotId: "shop-malenge", photo: "assets/catalogue/malenge-packet.jpg" },
+    { id: "kanzira", name: "Kanzira", kicker: "Ethiopian Kale", hook: "Closest to kale, rich in vitamins A, C and K", type: "single", sizes: "60g", priceKES: 750, priceUSD: 10, slotId: "shop-kanzira", photo: "assets/catalogue/kanzira-packet.jpg" },
+    { id: "mitoo", name: "Mitoo", kicker: "Slenderleaf", hook: "Slightly nutty and refined, rich in vitamins A and C", type: "single", sizes: "60g", priceKES: 810, priceUSD: 10.60, slotId: "shop-mitoo", photo: "assets/catalogue/mitoo-packet.jpg" },
     { id: "blend-malenge-spinach", name: "Malenge Spinach", kicker: "Signature blend", hook: "Pumpkin leaves + spinach", type: "blend", sizes: "100g · 250g · 500g", slotId: "shop-blend-1", photo: "assets/catalogue/blend-malenge-spinach.jpg" },
     { id: "blend-mitoo-mrenda", name: "Mitoo Mrenda", kicker: "Signature blend", hook: "Slenderleaf + jute mallow", type: "blend", sizes: "100g · 250g · 500g", slotId: "shop-blend-2", photo: "" },
     { id: "blend-malenge-mitoo", name: "Malenge Mitoo", kicker: "Signature blend", hook: "Pumpkin leaves + slenderleaf", type: "blend", sizes: "100g · 250g · 500g", slotId: "shop-blend-3", photo: "" },
@@ -185,16 +195,29 @@ class Component extends DCLogic {
     }));
     const visibleProducts = this.allProducts
       .filter(p => filter === "all" || p.type === filter)
-      .map(p => ({ ...p, addToCart: () => this.addToCart(p.id) }));
+      .map(p => ({
+        ...p,
+        priceLabel: p.priceKES ? `KES ${p.priceKES} · $${p.priceUSD}` : "Price on request",
+        addToCart: () => this.addToCart(p.id)
+      }));
     const cartCount = Object.values(cart).reduce((a, b) => a + b, 0);
     const cartLines = Object.entries(cart).map(([id, qty]) => {
       const prod = this.allProducts.find(p => p.id === id);
-      return { name: prod ? prod.name : id, qty };
+      const lineTotal = prod && prod.priceKES ? prod.priceKES * qty : 0;
+      return {
+        name: prod ? prod.name : id,
+        qty,
+        lineLabel: prod && prod.priceKES ? `KES ${lineTotal}` : "Price on request",
+        lineTotal
+      };
     });
+    const cartSubtotalKES = cartLines.reduce((sum, l) => sum + l.lineTotal, 0);
+    const cartSubtotalLabel = `KES ${cartSubtotalKES}`;
     return {
       filters, visibleProducts, cartCount, cartOpen,
       toggleCart: () => this.toggleCart(),
       cartLines, hasItems: cartLines.length > 0, hasNoItems: cartLines.length === 0,
+      cartSubtotalLabel,
       sizes: ["60g", "100g", "250g", "500g", "1kg", "5kg", "Bulk packs", "Vacuum packs"]
     };
   }
