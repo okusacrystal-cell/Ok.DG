@@ -153,13 +153,16 @@
 
     <sc-if value="{{ notSubmitted }}" hint-placeholder-val="{{ true }}">
       <form style="max-width:520px;margin-top:var(--space-4);display:flex;flex-direction:column;gap:var(--space-3)" onSubmit="{{ handleSubmit }}">
-        <div class="field"><label for="company">Company name</label><input class="input" id="company" required></div>
-        <div class="field"><label for="country">Country</label><input class="input" id="country" required></div>
-        <div class="field"><label for="email">Email</label><input class="input" id="email" type="email" required></div>
-        <div class="field"><label for="volume">Estimated monthly volume</label><input class="input" id="volume" placeholder="e.g. 500kg, 2 tons"></div>
-        <div class="field"><label for="products">Products of interest</label><input class="input" id="products" placeholder="e.g. Managu, Mixed Kienyeji, private label"></div>
-        <div class="field"><label for="message">Message</label><textarea class="input" id="message" rows="4"></textarea></div>
-        <button type="submit" class="btn btn-primary btn-block">Send inquiry</button>
+        <div class="field"><label for="company">Company name</label><input class="input" id="company" name="company" required></div>
+        <div class="field"><label for="country">Country</label><input class="input" id="country" name="country" required></div>
+        <div class="field"><label for="email">Email</label><input class="input" id="email" name="email" type="email" required></div>
+        <div class="field"><label for="volume">Estimated monthly volume</label><input class="input" id="volume" name="volume" placeholder="e.g. 500kg, 2 tons"></div>
+        <div class="field"><label for="products">Products of interest</label><input class="input" id="products" name="products" placeholder="e.g. Managu, Mixed Kienyeji, private label"></div>
+        <div class="field"><label for="message">Message</label><textarea class="input" id="message" name="message" rows="4"></textarea></div>
+        <button type="submit" class="btn btn-primary btn-block" disabled="{{ sending }}">{{ sendLabel }}</button>
+        <sc-if value="{{ sendError }}" hint-placeholder-val="{{ false }}">
+          <p style="font-size:13px;color:#b3261e">Something went wrong sending your inquiry. Please try again, or email us directly at kitokubuniltd@gmail.com.</p>
+        </sc-if>
       </form>
     </sc-if>
   </section>
@@ -179,10 +182,31 @@
 </x-dc>
 <script type="text/x-dc" data-dc-script>
 class Component extends DCLogic {
-  state = { submitted: false };
-  handleSubmit(e) {
+  state = { submitted: false, sending: false, sendError: false };
+  async handleSubmit(e) {
     e.preventDefault();
-    this.setState({ submitted: true });
+    const form = e.target;
+    this.setState({ sending: true, sendError: false });
+    const data = Object.fromEntries(new FormData(form).entries());
+    data.access_key = "0facb2c0-f9e9-4fed-b0ce-fa08b3386674";
+    data.subject = "New distributor inquiry, Dero Greens website";
+    data.from_name = "Dero Greens website";
+    data.replyto = data.email;
+    try {
+      const res = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify(data)
+      });
+      const result = await res.json();
+      if (result.success) {
+        this.setState({ submitted: true, sending: false });
+      } else {
+        this.setState({ sending: false, sendError: true });
+      }
+    } catch (err) {
+      this.setState({ sending: false, sendError: true });
+    }
   }
   renderVals() {
     const platedDishes = [
@@ -194,6 +218,9 @@ class Component extends DCLogic {
     return {
       submitted: this.state.submitted,
       notSubmitted: !this.state.submitted,
+      sending: this.state.sending,
+      sendError: this.state.sendError,
+      sendLabel: this.state.sending ? "Sending…" : "Send inquiry",
       handleSubmit: (e) => this.handleSubmit(e),
       platedDishes
     };
