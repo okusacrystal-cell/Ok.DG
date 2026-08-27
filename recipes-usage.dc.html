@@ -92,10 +92,10 @@
 
   <section style="max-width:1180px;margin:0 auto;padding:var(--space-8) var(--space-6)">
     <span class="tag tag-outline">Signature blends</span>
-    <h2 style="margin-top:var(--space-2)">Five ways to mix it up</h2>
-    <p style="max-width:60ch;opacity:0.85;font-size:15px">Beyond the eight singles, Dero Greens packs five signature blends, pre-mixed for variety and balance in every pack.</p>
+    <h2 style="margin-top:var(--space-2)">Six ways to mix it up</h2>
+    <p style="max-width:60ch;opacity:0.85;font-size:15px">Beyond the eight singles, Dero Greens packs six signature blends, pre-mixed for variety and balance in every pack.</p>
     <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:var(--space-4);margin-top:var(--space-4)">
-      <sc-for list="{{ blends }}" as="b" hint-placeholder-count="5">
+      <sc-for list="{{ blends }}" as="b" hint-placeholder-count="6">
         <div class="card">
           <span class="card-kicker">Signature blend</span>
           <h4 class="card-title" style="font-size:16px">{{ b.name }}</h4>
@@ -170,7 +170,8 @@ class Component extends DCLogic {
       { name: "Mitoo Mrenda", composition: "Slenderleaf blended with jute mallow." },
       { name: "Malenge Mitoo", composition: "Pumpkin leaves blended with slenderleaf." },
       { name: "Kunde Mrenda", composition: "Cowpea leaves blended with jute mallow." },
-      { name: "Mixed Kienyeji", composition: "Managu, terere, kanzira and spinach." }
+      { name: "Mixed Kienyeji", composition: "Managu, terere, kanzira and spinach." },
+      { name: "Malenge Mrenda", composition: "Pumpkin leaves blended with jute mallow." }
     ];
     return { vegetables, platedDishes, blends };
   }
