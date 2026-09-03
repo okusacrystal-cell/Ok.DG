@@ -77,6 +77,13 @@ h1, h2, h3, h4 { font-family: var(--font-heading); font-weight: var(--font-headi
 .plate{box-sizing:border-box;
   border:6px solid var(--color-surface);outline:1px solid var(--color-divider)}
 
+/* — hero grid — stacks to one column on narrow screens so the photo gets
+   full width instead of being squeezed into a half-width box. */
+.hero-grid{grid-template-columns:1.1fr 1fr}
+@media (max-width:700px){
+  .hero-grid{grid-template-columns:1fr}
+}
+
 /* ══════════════════════════════════════════════════════════════════════════
    Components — built with the tokens above. Plain CSS
    on plain HTML: no JavaScript, no build step. Each class is documented in
