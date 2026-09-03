@@ -80,8 +80,19 @@ h1, h2, h3, h4 { font-family: var(--font-heading); font-weight: var(--font-headi
 /* — hero grid — stacks to one column on narrow screens so the photo gets
    full width instead of being squeezed into a half-width box. */
 .hero-grid{grid-template-columns:1.1fr 1fr}
+
+/* — responsive grids — none of this site's inline grid-template-columns
+   collapse on their own on narrow screens (confirmed site-wide, not just
+   the hero), so every text+image split and product/photo grid squeezes
+   into unreadably narrow columns on phones. .g2 = 2-column split sections
+   (text+image etc), .g4 = 3/4-column product/photo/footer grids. Uses
+   !important deliberately: this is a mobile breakpoint override of an
+   inline desktop value, the same justified case as .hero-grid. */
 @media (max-width:700px){
-  .hero-grid{grid-template-columns:1fr}
+  .hero-grid, .g2{ grid-template-columns:1fr !important }
+  .g4{ grid-template-columns:repeat(2,1fr) !important }
+  .cols2{ columns:1 !important }
+  .nav{ flex-wrap:wrap; row-gap:var(--space-2); column-gap:var(--space-3) }
 }
 
 /* ══════════════════════════════════════════════════════════════════════════
